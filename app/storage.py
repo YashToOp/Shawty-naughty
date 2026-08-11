@@ -109,6 +109,15 @@ def job_upload_paths(job: Job) -> list[Path]:
     return [uploads / name for name in job.uploaded_files]
 
 
+def annotated_dir(job_id: str) -> Path:
+    return _job_dir(job_id) / "annotated"
+
+
+def annotated_path(job_id: str, filename: str) -> Optional[Path]:
+    path = annotated_dir(job_id) / Path(filename).name
+    return path if path.exists() else None
+
+
 # ---------------------------------------------------------------------------
 # Pipeline artifacts
 # ---------------------------------------------------------------------------

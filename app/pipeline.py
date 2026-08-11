@@ -4,7 +4,7 @@ import logging
 
 import anthropic
 
-from . import evaluator, ocr, storage
+from . import annotator, evaluator, ocr, storage
 from .models import Job, SubmissionReport
 
 logger = logging.getLogger(__name__)
@@ -39,4 +39,16 @@ def _run(job: Job) -> None:
 
     report = SubmissionReport.build(rubric, transcript, results)
     storage.save_report(job.id, report)
+
+    # Annotation is an overlay on top of a finished evaluation — a drawing
+    # failure must not fail the job.
+    try:
+        annotated = annotator.annotate_submission(
+            job, rubric, transcript, report,
+            storage.job_upload_paths(job), storage.annotated_dir(job.id),
+        )
+        job.annotated_files = annotated
+    except Exception:
+        logger.exception("Job %s: annotation failed", job.id)
+
     storage.update_job(job, status="completed")

@@ -270,6 +270,17 @@ function renderResult(data) {
     </details>`;
   }
 
+  if (job.annotated_files && job.annotated_files.length) {
+    html += `<details open><summary>Annotated sheet (student view)</summary>
+      <p class="muted">Boxes mark each answer: green = full marks, amber = partial, red = none.
+      Tags name the rubric criteria that cost marks; the closing card explains each tag.</p>`;
+    for (const f of job.annotated_files) {
+      html += `<img src="/api/submissions/${esc(job.id)}/annotated/${esc(f)}?t=${Date.now()}"
+        alt="${esc(f)}" style="max-width:100%;border:1px solid var(--line);border-radius:8px;margin:8px 0">`;
+    }
+    html += `</details>`;
+  }
+
   if (transcript) {
     html += `<details><summary>OCR transcript (audit)</summary>`;
     for (const a of transcript.answers) {

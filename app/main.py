@@ -9,7 +9,7 @@ from fastapi import BackgroundTasks, FastAPI, File, Form, HTTPException, UploadF
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, ValidationError
 
-from . import pipeline, storage
+from . import annotator, pipeline, storage
 from .config import MAX_UPLOAD_BYTES, SUPPORTED_MEDIA_TYPES
 from .models import HumanOverride, Rubric
 
@@ -95,6 +95,16 @@ def get_submission(job_id: str):
     }
 
 
+@app.get("/api/submissions/{job_id}/annotated/{filename}")
+def get_annotated_file(job_id: str, filename: str):
+    if storage.get_job(job_id) is None:
+        raise HTTPException(404, "Submission not found")
+    path = storage.annotated_path(job_id, filename)
+    if path is None:
+        raise HTTPException(404, "Annotated file not found")
+    return FileResponse(path)
+
+
 # ---------------------------------------------------------------------------
 # Human review / overrides
 # ---------------------------------------------------------------------------
@@ -129,9 +139,30 @@ def override_marks(job_id: str, question_id: str, body: OverrideRequest):
                 if r.evaluation.needs_human_review and r.override is None
             )
             storage.save_report(job_id, report)
+            _refresh_annotations(job_id, report)
             return report
 
     raise HTTPException(404, f"Question {question_id} not found in report")
+
+
+def _refresh_annotations(job_id: str, report) -> None:
+    """Redraw annotated sheets so grade stamps reflect reviewed marks."""
+    job = storage.get_job(job_id)
+    rubric = storage.get_rubric(job.rubric_id) if job else None
+    transcript = storage.get_transcript(job_id)
+    if not (job and rubric and transcript):
+        return
+    try:
+        job.annotated_files = annotator.annotate_submission(
+            job, rubric, transcript, report,
+            storage.job_upload_paths(job), storage.annotated_dir(job_id),
+        )
+        storage.update_job(job)
+    except Exception:  # annotation is an overlay; never fail the override
+        import logging
+        logging.getLogger(__name__).exception(
+            "Job %s: annotation refresh failed", job_id
+        )
 
 
 # ---------------------------------------------------------------------------

@@ -28,17 +28,23 @@ Rules:
 - If work is crossed out, exclude it from answer_text and mention it in transcription_notes.
 - Describe diagrams, graphs, or tables briefly in answer_text (e.g. "[diagram: force arrows acting on a block, labeled F and mg]").
 - Put any writing you cannot attribute to a question into unmatched_content.
-- Never invent content that is not on the page."""
+- Never invent content that is not on the page.
+- For image pages, report bounding-box regions for each answer: pixel coordinates on that page image, covering all of the student's writing for the answer (including working and diagrams). Use one region per contiguous block; an answer continued elsewhere gets an additional region. Boxes must not include other questions' answers. For PDF pages, leave regions empty."""
 
 
 def build_page_blocks(paths: list[Path]) -> list[dict]:
-    """Convert uploaded files into image/document content blocks."""
+    """Convert uploaded files into labeled image/document content blocks.
+
+    Each page is preceded by a text block naming its 0-based index so the
+    model can anchor answer regions to the right page.
+    """
     blocks: list[dict] = []
-    for path in paths:
+    for index, path in enumerate(paths):
         media_type = SUPPORTED_MEDIA_TYPES.get(path.suffix.lower())
         if media_type is None:
             raise ValueError(f"Unsupported file type: {path.name}")
         data = base64.standard_b64encode(path.read_bytes()).decode("utf-8")
+        blocks.append({"type": "text", "text": f"Page index {index}:"})
         if media_type == "application/pdf":
             blocks.append({
                 "type": "document",

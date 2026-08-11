@@ -55,6 +55,18 @@ class Rubric(BaseModel):
 # Transcript (structured output of the OCR stage)
 # ---------------------------------------------------------------------------
 
+class AnswerRegion(BaseModel):
+    """Pixel-space bounding box of an answer on an uploaded page image."""
+
+    page_index: int = Field(
+        description="0-based index of the uploaded page this region appears on."
+    )
+    x1: int = Field(description="Left edge in pixels of the page image.")
+    y1: int = Field(description="Top edge in pixels of the page image.")
+    x2: int = Field(description="Right edge in pixels; must be greater than x1.")
+    y2: int = Field(description="Bottom edge in pixels; must be greater than y1.")
+
+
 class TranscribedAnswer(BaseModel):
     question_id: str = Field(
         description="The rubric question id this answer belongs to."
@@ -76,6 +88,14 @@ class TranscribedAnswer(BaseModel):
         description=(
             "Anything a human re-checker should know: crossed-out work, arrows "
             "reordering paragraphs, diagrams that could not be transcribed, etc."
+        ),
+    )
+    regions: list[AnswerRegion] = Field(
+        default_factory=list,
+        description=(
+            "Bounding boxes covering everything the student wrote for this "
+            "answer, one per contiguous block. Coordinates are pixels of the "
+            "uploaded page images. Leave empty for PDF uploads."
         ),
     )
 
@@ -202,3 +222,4 @@ class Job(BaseModel):
         default_factory=lambda: datetime.now(timezone.utc).isoformat()
     )
     uploaded_files: list[str] = Field(default_factory=list)
+    annotated_files: list[str] = Field(default_factory=list)
