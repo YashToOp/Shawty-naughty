@@ -4,9 +4,10 @@ Upload scanned answer sheets → OCR them into a faithful transcript → evaluat
 
 The goal is grading that is **cheaper** than fully manual marking, **more consistent** than rushed human marking, and **fully transparent** — every mark can be traced to a rubric criterion and a quote from the student's own answer.
 
-Two front doors share one grading pipeline:
+Three doors share one registry and grading pipeline:
 
-- **Student self-service** (`/`) — a Class 12 student uploads their own sheet and gets a graded, annotated result. The system reads the front page for exam metadata, finds the question paper in a shared registry, and writes the marking scheme itself when no institutional guidelines exist. Ships pre-seeded with a **CBSE Class 12 English Core 2026** paper.
+- **Public paper contribution** (`/`) — the front door during the coverage phase. Anyone uploads a question paper with its board/class/subject/year; the platform extracts every question, dedupes against the subject-year bank, writes marking schemes only for genuinely new questions (on the server's own provider keys — contributors need no account), and registers the set. The page shows the extracted questions + schemes and live coverage.
+- **Student self-service** (`/grade`) — a student uploads their own sheet and gets a graded, annotated result. The system reads the front page for exam metadata, finds the question paper in the registry, and writes the marking scheme itself when no institutional guidelines exist. Ships pre-seeded with a **CBSE Class 12 English Core 2026** paper.
 - **Examiner tools** (`/examiner`) — an examiner picks a rubric, uploads sheets, reviews flagged questions, and applies audited overrides.
 
 ## Student self-service flow
@@ -129,6 +130,15 @@ pytest
 ```
 
 ## API
+
+**Public contribution flow**
+
+| Method | Path | Purpose |
+|---|---|---|
+| `POST` | `/api/contribute` | Upload a question paper (`multipart`: `board`, `class_level`, `subject`, `exam_year`, optional `paper_code`, `files[]`) — extraction + bank dedupe + scheme generation run in the background |
+| `GET` | `/api/contribute/{id}` | Status, outcome note (new vs reused questions), and the registered paper with its scheme |
+
+Ingest job statuses: `queued → reading_paper → [generating_rubric] → completed` (or `failed`; already-registered sets complete straight after `reading_paper`).
 
 **Student flow**
 

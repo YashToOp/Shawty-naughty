@@ -13,9 +13,9 @@ from fastapi import BackgroundTasks, FastAPI, File, Form, HTTPException, UploadF
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, ValidationError
 
-from . import annotator, pipeline, storage, student_pipeline
+from . import annotator, ingest_pipeline, pipeline, storage, student_pipeline
 from .config import MAX_UPLOAD_BYTES, SUPPORTED_MEDIA_TYPES
-from .models import HumanOverride, Paper, QuestionBank, Rubric
+from .models import HumanOverride, Paper, QuestionBank, Rubric, SheetMetadata
 
 logger = logging.getLogger(__name__)
 
@@ -107,6 +107,46 @@ async def _read_uploads(files: list[UploadFile]) -> list[tuple[str, bytes]]:
             raise HTTPException(413, f"{upload.filename} exceeds the upload size limit")
         contents.append((upload.filename or f"page{len(contents)}{suffix}", data))
     return contents
+
+
+# ---------------------------------------------------------------------------
+# Public paper contribution (the coverage-phase front door)
+# ---------------------------------------------------------------------------
+
+@app.post("/api/contribute", status_code=202)
+async def contribute_paper(
+    background: BackgroundTasks,
+    board: str = Form(...),
+    class_level: str = Form(...),
+    subject: str = Form(...),
+    exam_year: int = Form(...),
+    paper_code: Optional[str] = Form(None),
+    files: list[UploadFile] = File(...),
+):
+    """Upload a question paper; the platform extracts the questions, dedupes
+    them against the subject-year bank, and writes marking schemes for the
+    new ones. Model calls run on the server's own provider keys."""
+    if not (1990 <= exam_year <= 2100):
+        raise HTTPException(400, "exam_year looks wrong")
+    contents = await _read_uploads(files)
+    job = storage.create_job(None, contents, kind="ingest")
+    job.metadata = SheetMetadata(
+        board=board.strip(), class_level=class_level.strip(),
+        subject=subject.strip(), exam_year=exam_year,
+        paper_code=paper_code.strip() if paper_code else None,
+    )
+    storage.update_job(job)
+    background.add_task(ingest_pipeline.run_ingest_pipeline, job.id)
+    return {"job_id": job.id, "status": job.status}
+
+
+@app.get("/api/contribute/{job_id}")
+def get_contribution(job_id: str):
+    job = storage.get_job(job_id)
+    if job is None or job.kind != "ingest":
+        raise HTTPException(404, "Contribution not found")
+    paper = storage.get_paper(job.paper_id) if job.paper_id else None
+    return {"job": job, "paper": paper}
 
 
 # ---------------------------------------------------------------------------
@@ -385,6 +425,12 @@ def _refresh_annotations(job_id: str, report) -> None:
 # ---------------------------------------------------------------------------
 
 @app.get("/", include_in_schema=False)
+def contribute_page():
+    """Public front door during the coverage phase: contribute papers."""
+    return FileResponse(STATIC_DIR / "contribute.html")
+
+
+@app.get("/grade", include_in_schema=False)
 def student_page():
     return FileResponse(STATIC_DIR / "student.html")
 

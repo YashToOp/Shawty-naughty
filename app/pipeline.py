@@ -9,7 +9,7 @@ import logging
 
 import anthropic
 
-from . import annotator, config, evaluator, ocr, storage, vision_ocr
+from . import annotator, config, evaluator, ocr, paper_ingest, storage, vision_ocr
 from .models import Job, Rubric, SubmissionReport
 
 logger = logging.getLogger(__name__)
@@ -29,6 +29,12 @@ def get_client():
 def transcriber():
     """The OCR module for the configured OCR_PROVIDER."""
     return vision_ocr if config.OCR_PROVIDER == "google-vision" else ocr
+
+
+def paper_reader():
+    """Question-paper extraction module for the configured OCR_PROVIDER
+    (both expose extract_questions with the same signature)."""
+    return vision_ocr if config.OCR_PROVIDER == "google-vision" else paper_ingest
 
 
 def run_pipeline(job_id: str) -> None:

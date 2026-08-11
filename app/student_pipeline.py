@@ -30,9 +30,7 @@ def _extract_metadata(client, first_page):
 
 
 def _extract_questions(client, paper_files):
-    if config.OCR_PROVIDER == "google-vision":
-        return vision_ocr.extract_questions(client, paper_files)
-    return paper_ingest.extract_questions(client, paper_files)
+    return pipeline.paper_reader().extract_questions(client, paper_files)
 
 
 def run_student_pipeline(job_id: str) -> None:

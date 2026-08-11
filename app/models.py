@@ -365,9 +365,10 @@ JobStatus = Literal[
 class Job(BaseModel):
     id: str
     rubric_id: Optional[str] = None       # examiner flow
-    kind: Literal["examiner", "student"] = "examiner"
-    metadata: Optional[SheetMetadata] = None  # student flow
-    paper_id: Optional[str] = None            # student flow
+    kind: Literal["examiner", "student", "ingest"] = "examiner"
+    metadata: Optional[SheetMetadata] = None  # student + ingest flows
+    paper_id: Optional[str] = None            # student + ingest flows
+    note: Optional[str] = None                # human-readable outcome summary
     strictness: int = 0                        # 0 lenient · 1 balanced · 2 strict
     status: JobStatus = "queued"
     error: Optional[str] = None
