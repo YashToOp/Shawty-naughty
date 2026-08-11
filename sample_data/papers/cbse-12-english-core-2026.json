@@ -1,0 +1,153 @@
+{
+  "id": null,
+  "board": "CBSE",
+  "class_level": "12",
+  "subject": "English Core",
+  "year": 2026,
+  "paper_code": "1/1/1",
+  "title": "English Core (058) — Class 12, CBSE 2026 [sample paper following the official 2026 pattern]",
+  "rubric_status": "verified",
+  "questions": [
+    { "id": "1", "section": "A", "max_marks": 12, "question_text": "Read the unseen passage on 'The Discipline of Deep Work' (about focused effort in an age of distraction) and answer the 10 questions that follow: 8 objective/very-short-answer items (1 mark each) and 2 short-answer items in about 40 words (2 marks each)." },
+    { "id": "2", "section": "A", "max_marks": 10, "question_text": "Read the case-based factual passage with a data table on changing reading habits among Indian teenagers and answer the questions that follow: 6 objective items (1 mark each) and 2 inferential short-answer items (2 marks each)." },
+    { "id": "3", "section": "B", "max_marks": 4, "question_text": "You are the Head Girl/Head Boy of Sunrise Public School. Draft a NOTICE in not more than 50 words informing students of Classes XI-XII about a charity book fair being organised in the school grounds. OR Draft a notice about the postponement of the inter-house debate competition." },
+    { "id": "4", "section": "B", "max_marks": 4, "question_text": "You are Asha/Arjun Mehra. Respond to the formal invitation from the Rotary Club to preside over their annual prize distribution: write a formal reply accepting OR declining the invitation, in not more than 50 words." },
+    { "id": "5", "section": "B", "max_marks": 5, "question_text": "Write a letter of application (120-150 words) with bio-data, in response to an advertisement for the post of librarian at a reputed school. OR Write a letter to the editor of a national daily on the shrinking of public playgrounds in your city." },
+    { "id": "6", "section": "B", "max_marks": 5, "question_text": "Write an article in 120-150 words on 'The Cost of Convenience: single-use plastics in daily life'. OR Write a report in 120-150 words on the 'Van Mahotsav' tree-plantation drive organised by your school's Eco Club." },
+    { "id": "7", "section": "C", "max_marks": 6, "question_text": "Read the given extract from 'My Mother at Sixty-Six' (Kamala Das) and answer the questions that follow: 4 objective/very-short items on comprehension and poetic devices, and 1 short interpretive item (2 marks)." },
+    { "id": "8", "section": "C", "max_marks": 6, "question_text": "Read the given extract from 'The Last Lesson' (Alphonse Daudet) and answer the questions that follow: 4 objective/very-short comprehension items and 1 inferential item (2 marks)." },
+    { "id": "9", "section": "C", "max_marks": 10, "question_text": "Answer ANY FIVE of the following six questions in 40-50 words each (2 marks each), based on Flamingo: (i) Why did Franz dread going to school that day? ('The Last Lesson') (ii) What does garbage mean to the children of Seemapuri? ('Lost Spring') (iii) Why did Douglas's fear of water return at the YMCA pool? ('Deep Water') (iv) How does the peddler's attitude change at Ramsjo ironworks? ('The Rattrap') (v) Why did Gandhi choose Champaran? ('Indigo') (vi) What made the office boy hate Subbu? ('Poets and Pancakes')" },
+    { "id": "10", "section": "C", "max_marks": 6, "question_text": "Answer ANY THREE of the following four questions in 40-50 words each (2 marks each), based on Vistas: (i) Why did Charley want to escape to Galesburg? ('The Third Level') (ii) What conflict did Dr Sadao face when he found the wounded soldier? ('The Enemy') (iii) Why does Derry enter Mr Lamb's garden? ('On the Face of It') (iv) What did Zitkala-Sa do to resist the cutting of her hair? ('Memories of Childhood')" },
+    { "id": "11", "section": "C", "max_marks": 6, "question_text": "Answer in 120-150 words: 'Lost Spring' exposes how poverty and tradition trap children in cycles of exploitation. Discuss with reference to both Saheb and Mukesh. OR 'The Rattrap' suggests that most people, if given the chance, will respond to kindness. Examine this idea with textual evidence." },
+    { "id": "12", "section": "C", "max_marks": 6, "question_text": "Answer in 120-150 words: 'The Enemy' shows that a doctor's duty can transcend the hatreds of war. Justify with reference to Dr Sadao's actions and dilemmas. OR How does 'On the Face of It' challenge our attitudes towards physical disability? Discuss with reference to Derry and Mr Lamb." }
+  ],
+  "rubric": {
+    "id": "1-1-1_2026",
+    "title": "English Core (058) — Class 12, CBSE 2026 — Marking Scheme",
+    "instructions": "Marking scheme following CBSE conventions: writing tasks are marked on Format / Content / Organisation / Accuracy; literature answers on Content & understanding / Textual evidence / Organisation / Expression. No penalty for exceeding word limits unless content suffers. Accept any valid interpretation supported by the text.",
+    "questions": [
+      {
+        "id": "1",
+        "question_text": "Unseen passage — 'The Discipline of Deep Work' (8 objective + 2 short-answer).",
+        "max_marks": 12,
+        "criteria": [
+          { "id": "1-a", "description": "Objective and very-short-answer items correct (8 x 1 mark; accept exact or clearly equivalent responses)", "marks": 8 },
+          { "id": "1-b", "description": "Short-answer responses show accurate comprehension and inference from the passage (2 x 1.5 marks)", "marks": 3 },
+          { "id": "1-c", "description": "Short answers are in the student's own words and within the word limit", "marks": 1 }
+        ]
+      },
+      {
+        "id": "2",
+        "question_text": "Case-based factual passage with data table (6 objective + 2 inferential).",
+        "max_marks": 10,
+        "criteria": [
+          { "id": "2-a", "description": "Objective items correct (6 x 1 mark)", "marks": 6 },
+          { "id": "2-b", "description": "Data from the table read and interpreted accurately in the inferential answers", "marks": 2 },
+          { "id": "2-c", "description": "Inferential answers justified from the passage, not from outside knowledge", "marks": 2 }
+        ]
+      },
+      {
+        "id": "3",
+        "question_text": "Notice — charity book fair OR debate postponement (max 50 words).",
+        "max_marks": 4,
+        "criteria": [
+          { "id": "3-a", "description": "Format: NOTICE heading, issuing body, date, title, writer's name and designation; enclosed in a box; within 50 words", "marks": 1 },
+          { "id": "3-b", "description": "Content: covers what, when, where, and for whom, with any essential instruction (e.g. contact person)", "marks": 2 },
+          { "id": "3-c", "description": "Accuracy of language: grammar, spelling, appropriate formal register", "marks": 1 }
+        ]
+      },
+      {
+        "id": "4",
+        "question_text": "Formal reply to an invitation — accept OR decline (max 50 words).",
+        "max_marks": 4,
+        "criteria": [
+          { "id": "4-a", "description": "Format: third-person formal reply convention, sender identification, date", "marks": 1 },
+          { "id": "4-b", "description": "Content: acknowledges the invitation, states clear acceptance or polite refusal with reason, references the occasion, date and time", "marks": 2 },
+          { "id": "4-c", "description": "Accuracy of language and consistent formal tone", "marks": 1 }
+        ]
+      },
+      {
+        "id": "5",
+        "question_text": "Letter of application with bio-data OR letter to the editor (120-150 words).",
+        "max_marks": 5,
+        "criteria": [
+          { "id": "5-a", "description": "Format: sender's and receiver's addresses, date, subject line, salutation, complimentary close", "marks": 1 },
+          { "id": "5-b", "description": "Content: application — reference to advertisement, suitability, complete bio-data; editor — issue stated, consequences, suggestions", "marks": 2 },
+          { "id": "5-c", "description": "Organisation: logical paragraphing and coherent progression", "marks": 1 },
+          { "id": "5-d", "description": "Accuracy of language: grammar, spelling, formal register", "marks": 1 }
+        ]
+      },
+      {
+        "id": "6",
+        "question_text": "Article on single-use plastics OR report on Van Mahotsav (120-150 words).",
+        "max_marks": 5,
+        "criteria": [
+          { "id": "6-a", "description": "Format: article — title and byline; report — title/headline, reporter's name, opening line with what/when/where", "marks": 1 },
+          { "id": "6-b", "description": "Content: relevant ideas developed with examples; report covers the event factually (participants, activities, outcome)", "marks": 2 },
+          { "id": "6-c", "description": "Organisation: clear introduction, body, and conclusion", "marks": 1 },
+          { "id": "6-d", "description": "Accuracy of language: grammar, spelling, appropriate register", "marks": 1 }
+        ]
+      },
+      {
+        "id": "7",
+        "question_text": "Poetry extract — 'My Mother at Sixty-Six'.",
+        "max_marks": 6,
+        "criteria": [
+          { "id": "7-a", "description": "Objective/very-short items on comprehension and poetic devices correct (4 x 1 mark; e.g. simile 'as a late winter's moon', imagery of ageing)", "marks": 4 },
+          { "id": "7-b", "description": "Interpretive item: explains the poet's fear of loss/separation and the significance of the parting smile, grounded in the extract", "marks": 2 }
+        ]
+      },
+      {
+        "id": "8",
+        "question_text": "Prose extract — 'The Last Lesson'.",
+        "max_marks": 6,
+        "criteria": [
+          { "id": "8-a", "description": "Objective/very-short comprehension items correct (4 x 1 mark)", "marks": 4 },
+          { "id": "8-b", "description": "Inferential item: links the extract to the theme of linguistic chauvinism / procrastination ('putting off lessons for tomorrow'), with evidence", "marks": 2 }
+        ]
+      },
+      {
+        "id": "9",
+        "question_text": "Short answers, any five (Flamingo), 40-50 words each.",
+        "max_marks": 10,
+        "criteria": [
+          { "id": "9-a", "description": "Accuracy of textual content in each attempted answer (5 x 1 mark; correct incident, character, and cause-effect)", "marks": 5 },
+          { "id": "9-b", "description": "Understanding and interpretation beyond retelling: answers address the 'why/how' asked", "marks": 3 },
+          { "id": "9-c", "description": "Expression: clear, within word limit, student's own words", "marks": 2 }
+        ]
+      },
+      {
+        "id": "10",
+        "question_text": "Short answers, any three (Vistas), 40-50 words each.",
+        "max_marks": 6,
+        "criteria": [
+          { "id": "10-a", "description": "Accuracy of textual content in each attempted answer (3 x 1 mark)", "marks": 3 },
+          { "id": "10-b", "description": "Understanding and interpretation: answers address the 'why/how' asked", "marks": 2 },
+          { "id": "10-c", "description": "Expression: clear, within word limit, student's own words", "marks": 1 }
+        ]
+      },
+      {
+        "id": "11",
+        "question_text": "Long answer (Flamingo) — 'Lost Spring' OR 'The Rattrap' (120-150 words).",
+        "max_marks": 6,
+        "criteria": [
+          { "id": "11-a", "description": "Content and understanding: addresses the proposition directly; Lost Spring — covers BOTH Saheb and Mukesh; Rattrap — traces the peddler's transformation", "marks": 3 },
+          { "id": "11-b", "description": "Textual evidence: at least two specific references or quotations from the text", "marks": 1 },
+          { "id": "11-c", "description": "Organisation: coherent argument with introduction and conclusion", "marks": 1 },
+          { "id": "11-d", "description": "Expression: accuracy of grammar and appropriate vocabulary", "marks": 1 }
+        ]
+      },
+      {
+        "id": "12",
+        "question_text": "Long answer (Vistas) — 'The Enemy' OR 'On the Face of It' (120-150 words).",
+        "max_marks": 6,
+        "criteria": [
+          { "id": "12-a", "description": "Content and understanding: addresses the proposition directly with the central conflict/attitudes explored", "marks": 3 },
+          { "id": "12-b", "description": "Textual evidence: at least two specific references or quotations from the text", "marks": 1 },
+          { "id": "12-c", "description": "Organisation: coherent argument with introduction and conclusion", "marks": 1 },
+          { "id": "12-d", "description": "Expression: accuracy of grammar and appropriate vocabulary", "marks": 1 }
+        ]
+      }
+    ]
+  }
+}

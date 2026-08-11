@@ -9,13 +9,14 @@ Layout under DATA_DIR:
 """
 
 import json
+import re
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
 
 from .config import DATA_DIR
-from .models import Job, Rubric, SubmissionReport, Transcript
+from .models import Job, Paper, Rubric, SheetMetadata, SubmissionReport, Transcript
 
 
 def _rubrics_dir() -> Path:
@@ -61,11 +62,82 @@ def list_rubrics() -> list[Rubric]:
 
 
 # ---------------------------------------------------------------------------
+# Papers (question-paper + marking-scheme registry)
+# ---------------------------------------------------------------------------
+
+def _papers_dir() -> Path:
+    d = DATA_DIR / "papers"
+    d.mkdir(parents=True, exist_ok=True)
+    return d
+
+
+def normalize_code(code: str) -> str:
+    """'1/1/1' -> '1-1-1'; case/spacing/punctuation-insensitive key part."""
+    return re.sub(r"[^a-z0-9]+", "-", code.strip().lower()).strip("-")
+
+
+def paper_storage_id(paper: Paper) -> str:
+    return f"{normalize_code(paper.paper_code)}_{paper.year}"
+
+
+def save_paper(paper: Paper) -> Paper:
+    paper.id = paper_storage_id(paper)
+    (_papers_dir() / f"{paper.id}.json").write_text(paper.model_dump_json(indent=2))
+    return paper
+
+
+def get_paper(paper_id: str) -> Optional[Paper]:
+    path = _papers_dir() / f"{Path(paper_id).name}.json"
+    if not path.exists():
+        return None
+    return Paper.model_validate_json(path.read_text())
+
+
+def list_papers() -> list[Paper]:
+    return sorted(
+        (Paper.model_validate_json(p.read_text()) for p in _papers_dir().glob("*.json")),
+        key=lambda p: (p.year, p.subject),
+        reverse=True,
+    )
+
+
+def find_paper(meta: SheetMetadata) -> Optional[Paper]:
+    """Match by paper code + year first; fall back to board/class/subject/year."""
+    papers = list_papers()
+
+    if meta.paper_code and meta.exam_year:
+        wanted = normalize_code(meta.paper_code)
+        for paper in papers:
+            if normalize_code(paper.paper_code) == wanted and paper.year == meta.exam_year:
+                return paper
+
+    def loose(s: Optional[str]) -> str:
+        return re.sub(r"[^a-z0-9]+", "", (s or "").lower())
+
+    if meta.subject and meta.exam_year:
+        for paper in papers:
+            subject_match = (
+                loose(meta.subject) in loose(paper.subject)
+                or loose(paper.subject) in loose(meta.subject)
+            )
+            if (
+                subject_match
+                and paper.year == meta.exam_year
+                and (not meta.board or loose(meta.board) == loose(paper.board))
+                and (not meta.class_level
+                     or loose(meta.class_level) == loose(paper.class_level))
+            ):
+                return paper
+    return None
+
+
+# ---------------------------------------------------------------------------
 # Jobs
 # ---------------------------------------------------------------------------
 
-def create_job(rubric_id: str, files: list[tuple[str, bytes]]) -> Job:
-    job = Job(id=uuid.uuid4().hex[:12], rubric_id=rubric_id)
+def create_job(rubric_id: Optional[str], files: list[tuple[str, bytes]],
+               kind: str = "examiner") -> Job:
+    job = Job(id=uuid.uuid4().hex[:12], rubric_id=rubric_id, kind=kind)
     uploads = _job_dir(job.id) / "uploads"
     uploads.mkdir(parents=True, exist_ok=True)
     for filename, data in files:
@@ -107,6 +179,25 @@ def _write_job(job: Job) -> None:
 def job_upload_paths(job: Job) -> list[Path]:
     uploads = _job_dir(job.id) / "uploads"
     return [uploads / name for name in job.uploaded_files]
+
+
+def save_paper_uploads(job: Job, files: list[tuple[str, bytes]]) -> list[Path]:
+    """Store question-paper files a student uploaded for an awaiting_paper job."""
+    d = _job_dir(job.id) / "paper_uploads"
+    d.mkdir(parents=True, exist_ok=True)
+    paths = []
+    for filename, data in files:
+        path = d / Path(filename).name
+        path.write_bytes(data)
+        paths.append(path)
+    return paths
+
+
+def paper_upload_paths(job: Job) -> list[Path]:
+    d = _job_dir(job.id) / "paper_uploads"
+    if not d.exists():
+        return []
+    return sorted(p for p in d.iterdir() if p.is_file())
 
 
 def annotated_dir(job_id: str) -> Path:

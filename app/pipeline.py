@@ -1,13 +1,23 @@
-"""Orchestrates a submission job: uploads -> transcript -> evaluation -> report."""
+"""Orchestrates a submission job: uploads -> transcript -> evaluation -> report.
+
+grade_submission() is the shared core; the examiner flow (rubric chosen up
+front) and the student flow (rubric resolved from the paper registry) both
+end here.
+"""
 
 import logging
 
 import anthropic
 
 from . import annotator, evaluator, ocr, storage
-from .models import Job, SubmissionReport
+from .models import Job, Rubric, SubmissionReport
 
 logger = logging.getLogger(__name__)
+
+
+def get_client() -> anthropic.Anthropic:
+    """Single place tests monkeypatch to inject a fake client."""
+    return anthropic.Anthropic()
 
 
 def run_pipeline(job_id: str) -> None:
@@ -24,12 +34,15 @@ def run_pipeline(job_id: str) -> None:
 
 
 def _run(job: Job) -> None:
-    rubric = storage.get_rubric(job.rubric_id)
+    rubric = storage.get_rubric(job.rubric_id) if job.rubric_id else None
     if rubric is None:
         raise RuntimeError(f"Rubric {job.rubric_id} not found")
+    grade_submission(job, rubric, get_client())
 
-    client = anthropic.Anthropic()
 
+def grade_submission(job: Job, rubric: Rubric,
+                     client: anthropic.Anthropic) -> SubmissionReport:
+    """Transcribe -> evaluate -> annotate -> report. Marks job completed."""
     storage.update_job(job, status="transcribing")
     transcript = ocr.transcribe(client, rubric, storage.job_upload_paths(job))
     storage.save_transcript(job.id, transcript)
@@ -52,3 +65,4 @@ def _run(job: Job) -> None:
         logger.exception("Job %s: annotation failed", job.id)
 
     storage.update_job(job, status="completed")
+    return report

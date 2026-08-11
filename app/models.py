@@ -52,6 +52,101 @@ class Rubric(BaseModel):
 
 
 # ---------------------------------------------------------------------------
+# Papers (question-paper registry, keyed by paper code + year)
+# ---------------------------------------------------------------------------
+
+class SheetMetadata(BaseModel):
+    """Structured output of front-page metadata extraction. Unknown -> null."""
+
+    board: Optional[str] = Field(
+        default=None, description="Examination board, e.g. CBSE, ICSE, or a state board."
+    )
+    class_level: Optional[str] = Field(
+        default=None, description="Class/grade as printed, e.g. '12'."
+    )
+    subject: Optional[str] = Field(
+        default=None, description="Subject name as printed, e.g. 'English Core'."
+    )
+    exam_year: Optional[int] = Field(
+        default=None, description="Year of the examination, e.g. 2026."
+    )
+    paper_code: Optional[str] = Field(
+        default=None,
+        description="Question paper code / set number as printed, e.g. '1/1/1'.",
+    )
+    paper_title: Optional[str] = Field(
+        default=None, description="Paper title if printed on the page."
+    )
+    student_name: Optional[str] = None
+    roll_number: Optional[str] = None
+    notes: Optional[str] = Field(
+        default=None,
+        description="Anything ambiguous or partially legible about the metadata.",
+    )
+
+
+class PaperQuestion(BaseModel):
+    """One question as printed on a question paper (before any rubric exists)."""
+
+    id: str = Field(description="Question number as printed, e.g. '3' or '7'.")
+    section: Optional[str] = Field(
+        default=None, description="Section label if the paper has sections, e.g. 'A'."
+    )
+    question_text: str = Field(
+        description=(
+            "The question, condensed but complete: include sub-parts, internal "
+            "choices ('answer any five'), and word limits."
+        )
+    )
+    max_marks: float
+
+
+class Paper(BaseModel):
+    """A registered question paper plus its marking scheme (rubric).
+
+    Stored once per paper code + year; every later student with the same
+    paper reuses it, so extraction and rubric generation never repeat.
+    """
+
+    id: Optional[str] = None  # server-assigned storage key
+    board: str
+    class_level: str
+    subject: str
+    year: int
+    paper_code: str
+    title: str
+    questions: list[PaperQuestion]
+    rubric: Optional[Rubric] = None
+    rubric_status: Literal["missing", "ai_generated", "verified"] = "missing"
+    created_at: str = Field(
+        default_factory=lambda: datetime.now(timezone.utc).isoformat()
+    )
+
+
+class GeneratedCriteria(BaseModel):
+    """Structured output of rubric generation for a single question."""
+
+    criteria: list[Criterion] = Field(
+        description=(
+            "Marking criteria for the question. Marks are in 0.5 steps and must "
+            "sum exactly to the question's maximum marks."
+        )
+    )
+
+
+class ExtractedQuestionPaper(BaseModel):
+    """Structured output of question-paper ingestion."""
+
+    title: Optional[str] = Field(
+        default=None, description="Paper title as printed, if any."
+    )
+    paper_code: Optional[str] = Field(
+        default=None, description="Paper code / set number as printed, if any."
+    )
+    questions: list[PaperQuestion]
+
+
+# ---------------------------------------------------------------------------
 # Transcript (structured output of the OCR stage)
 # ---------------------------------------------------------------------------
 
@@ -207,12 +302,25 @@ class SubmissionReport(BaseModel):
 # Job tracking
 # ---------------------------------------------------------------------------
 
-JobStatus = Literal["queued", "transcribing", "evaluating", "completed", "failed"]
+JobStatus = Literal[
+    "queued",
+    "extracting_metadata",
+    "awaiting_paper",
+    "reading_paper",
+    "generating_rubric",
+    "transcribing",
+    "evaluating",
+    "completed",
+    "failed",
+]
 
 
 class Job(BaseModel):
     id: str
-    rubric_id: str
+    rubric_id: Optional[str] = None       # examiner flow
+    kind: Literal["examiner", "student"] = "examiner"
+    metadata: Optional[SheetMetadata] = None  # student flow
+    paper_id: Optional[str] = None            # student flow
     status: JobStatus = "queued"
     error: Optional[str] = None
     created_at: str = Field(

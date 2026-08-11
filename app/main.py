@@ -1,24 +1,53 @@
-"""FastAPI application: rubric management, submission upload, results, overrides.
+"""FastAPI application: student self-service flow, examiner tools, overrides.
 
 Run with:  uvicorn app.main:app --reload
 """
 
+import logging
+from contextlib import asynccontextmanager
 from pathlib import Path
+from typing import Optional
 
 from fastapi import BackgroundTasks, FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, ValidationError
 
-from . import annotator, pipeline, storage
+from . import annotator, pipeline, storage, student_pipeline
 from .config import MAX_UPLOAD_BYTES, SUPPORTED_MEDIA_TYPES
-from .models import HumanOverride, Rubric
+from .models import HumanOverride, Paper, Rubric
+
+logger = logging.getLogger(__name__)
+
+STATIC_DIR = Path(__file__).parent / "static"
+SAMPLE_PAPERS_DIR = Path(__file__).parent.parent / "sample_data" / "papers"
+
+
+def seed_sample_papers() -> None:
+    """Load bundled sample papers (e.g. CBSE Class 12 English Core 2026) into
+    the registry so the student flow works out of the box."""
+    if not SAMPLE_PAPERS_DIR.exists():
+        return
+    for path in sorted(SAMPLE_PAPERS_DIR.glob("*.json")):
+        try:
+            paper = Paper.model_validate_json(path.read_text())
+            if storage.get_paper(storage.paper_storage_id(paper)) is None:
+                storage.save_paper(paper)
+                logger.info("Seeded paper %s (%s)", paper.paper_code, paper.title)
+        except Exception:
+            logger.exception("Failed to seed sample paper %s", path.name)
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    seed_sample_papers()
+    yield
+
 
 app = FastAPI(
     title="Answer Sheet Evaluator",
     description="OCR + rubric-based evaluation of scanned answer sheets.",
+    lifespan=lifespan,
 )
-
-STATIC_DIR = Path(__file__).parent / "static"
 
 
 # ---------------------------------------------------------------------------
@@ -45,20 +74,12 @@ def get_rubric(rubric_id: str) -> Rubric:
 
 
 # ---------------------------------------------------------------------------
-# Submissions
+# Shared upload validation
 # ---------------------------------------------------------------------------
 
-@app.post("/api/submissions", status_code=202)
-async def create_submission(
-    background: BackgroundTasks,
-    rubric_id: str = Form(...),
-    files: list[UploadFile] = File(...),
-):
-    if storage.get_rubric(rubric_id) is None:
-        raise HTTPException(404, "Rubric not found")
+async def _read_uploads(files: list[UploadFile]) -> list[tuple[str, bytes]]:
     if not files:
-        raise HTTPException(400, "At least one answer-sheet file is required")
-
+        raise HTTPException(400, "At least one file is required")
     contents: list[tuple[str, bytes]] = []
     for upload in files:
         suffix = Path(upload.filename or "").suffix.lower()
@@ -72,7 +93,134 @@ async def create_submission(
         if len(data) > MAX_UPLOAD_BYTES:
             raise HTTPException(413, f"{upload.filename} exceeds the upload size limit")
         contents.append((upload.filename or f"page{len(contents)}{suffix}", data))
+    return contents
 
+
+# ---------------------------------------------------------------------------
+# Student self-service flow
+# ---------------------------------------------------------------------------
+
+@app.post("/api/student/submissions", status_code=202)
+async def create_student_submission(
+    background: BackgroundTasks,
+    files: list[UploadFile] = File(...),
+):
+    contents = await _read_uploads(files)
+    job = storage.create_job(None, contents, kind="student")
+    background.add_task(student_pipeline.run_student_pipeline, job.id)
+    return {"job_id": job.id, "status": job.status}
+
+
+@app.get("/api/student/submissions/{job_id}")
+def get_student_submission(job_id: str):
+    job = storage.get_job(job_id)
+    if job is None or job.kind != "student":
+        raise HTTPException(404, "Submission not found")
+    paper = storage.get_paper(job.paper_id) if job.paper_id else None
+    return {
+        "job": job,
+        "paper": None if paper is None else {
+            "id": paper.id,
+            "title": paper.title,
+            "board": paper.board,
+            "class_level": paper.class_level,
+            "subject": paper.subject,
+            "year": paper.year,
+            "paper_code": paper.paper_code,
+            "rubric_status": paper.rubric_status,
+            "question_count": len(paper.questions),
+        },
+        "transcript": storage.get_transcript(job_id),
+        "report": storage.get_report(job_id),
+    }
+
+
+@app.post("/api/student/submissions/{job_id}/paper", status_code=202)
+async def upload_question_paper(
+    job_id: str,
+    background: BackgroundTasks,
+    files: list[UploadFile] = File(...),
+):
+    job = storage.get_job(job_id)
+    if job is None or job.kind != "student":
+        raise HTTPException(404, "Submission not found")
+    if job.status != "awaiting_paper":
+        raise HTTPException(409, "This submission is not waiting for a question paper")
+
+    contents = await _read_uploads(files)
+    storage.save_paper_uploads(job, contents)
+    background.add_task(student_pipeline.resume_with_uploaded_paper, job.id)
+    return {"job_id": job.id, "status": "reading_paper"}
+
+
+class PaperCodeRequest(BaseModel):
+    paper_code: str
+    exam_year: Optional[int] = None
+
+
+@app.post("/api/student/submissions/{job_id}/paper-code")
+def correct_paper_code(job_id: str, body: PaperCodeRequest,
+                       background: BackgroundTasks):
+    job = storage.get_job(job_id)
+    if job is None or job.kind != "student":
+        raise HTTPException(404, "Submission not found")
+    if job.status != "awaiting_paper":
+        raise HTTPException(409, "This submission is not waiting for a question paper")
+    if job.metadata is None:
+        raise HTTPException(409, "No metadata extracted for this submission")
+
+    job.metadata.paper_code = body.paper_code
+    if body.exam_year:
+        job.metadata.exam_year = body.exam_year
+    storage.update_job(job)
+
+    paper = storage.find_paper(job.metadata)
+    if paper is None:
+        return {"found": False}
+    background.add_task(
+        student_pipeline.resume_with_existing_paper, job.id, paper.id
+    )
+    return {"found": True, "paper_title": paper.title}
+
+
+# ---------------------------------------------------------------------------
+# Paper registry
+# ---------------------------------------------------------------------------
+
+@app.get("/api/papers")
+def list_papers():
+    return [
+        {
+            "id": p.id, "board": p.board, "class_level": p.class_level,
+            "subject": p.subject, "year": p.year, "paper_code": p.paper_code,
+            "title": p.title, "rubric_status": p.rubric_status,
+            "question_count": len(p.questions),
+        }
+        for p in storage.list_papers()
+    ]
+
+
+@app.get("/api/papers/{paper_id}")
+def get_paper(paper_id: str) -> Paper:
+    paper = storage.get_paper(paper_id)
+    if paper is None:
+        raise HTTPException(404, "Paper not found")
+    return paper
+
+
+# ---------------------------------------------------------------------------
+# Examiner submissions
+# ---------------------------------------------------------------------------
+
+@app.post("/api/submissions", status_code=202)
+async def create_submission(
+    background: BackgroundTasks,
+    rubric_id: str = Form(...),
+    files: list[UploadFile] = File(...),
+):
+    if storage.get_rubric(rubric_id) is None:
+        raise HTTPException(404, "Rubric not found")
+    contents = await _read_uploads(files)
     job = storage.create_job(rubric_id, contents)
     background.add_task(pipeline.run_pipeline, job.id)
     return {"job_id": job.id, "status": job.status}
@@ -170,5 +318,10 @@ def _refresh_annotations(job_id: str, report) -> None:
 # ---------------------------------------------------------------------------
 
 @app.get("/", include_in_schema=False)
-def index():
+def student_page():
+    return FileResponse(STATIC_DIR / "student.html")
+
+
+@app.get("/examiner", include_in_schema=False)
+def examiner_page():
     return FileResponse(STATIC_DIR / "index.html")

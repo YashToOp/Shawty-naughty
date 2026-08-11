@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Check My Answer Sheet — Class 12</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --card: #ffffff; --ink: #1c2430; --muted: #66707d;
+    --accent: #2557d6; --ok: #1e7d46; --warn: #b3560b; --bad: #b3261e;
+    --line: #e3e6ea; --soft: #eef1f5;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+         background: var(--bg); color: var(--ink); }
+  header { background: var(--card); border-bottom: 1px solid var(--line); padding: 18px 24px; }
+  header h1 { margin: 0; font-size: 19px; }
+  header p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+  header a { color: var(--accent); font-size: 12px; }
+  main { max-width: 920px; margin: 24px auto; padding: 0 16px; display: grid; gap: 16px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 20px; }
+  .card.dim { opacity: .55; }
+  .step-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .step-num { width: 26px; height: 26px; border-radius: 50%; background: var(--soft);
+              color: var(--muted); display: flex; align-items: center; justify-content: center;
+              font-size: 13px; font-weight: 700; flex: 0 0 auto; }
+  .step-num.active { background: var(--accent); color: #fff; }
+  .step-num.done { background: var(--ok); color: #fff; }
+  .step-head h2 { margin: 0; font-size: 15px; }
+  label { display: block; font-size: 13px; color: var(--muted); margin: 10px 0 4px; }
+  input[type=text], input[type=number] {
+    width: 100%; padding: 8px 10px; border: 1px solid var(--line); border-radius: 6px;
+    font: inherit; font-size: 13px; }
+  button { background: var(--accent); color: #fff; border: 0; border-radius: 6px;
+           padding: 9px 16px; font: inherit; font-size: 13.5px; cursor: pointer; margin-top: 10px; }
+  button.secondary { background: var(--soft); color: var(--ink); }
+  button:disabled { opacity: .5; cursor: default; }
+  .muted { color: var(--muted); font-size: 13px; }
+  .flag { color: var(--warn); font-weight: 600; }
+  .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+               gap: 8px; margin-top: 6px; }
+  .meta-item { background: var(--soft); border-radius: 6px; padding: 8px 10px; font-size: 13px; }
+  .meta-item .k { display: block; font-size: 11px; text-transform: uppercase;
+                  letter-spacing: .06em; color: var(--muted); }
+  .badge { font-size: 11.5px; padding: 2px 9px; border-radius: 10px; font-weight: 600; }
+  .badge.verified { background: #e2f3e8; color: var(--ok); }
+  .badge.ai { background: #e8eefb; color: var(--accent); }
+  .badge.warn { background: #fff1e0; color: var(--warn); }
+  .warn-box { background: #fff8ef; border: 1px solid #f2ddc2; border-radius: 8px;
+              padding: 14px 16px; margin-top: 12px; }
+  .warn-box b { color: var(--warn); }
+  .error-box { color: var(--bad); font-size: 13px; white-space: pre-wrap; }
+  .row { display: flex; gap: 10px; align-items: end; flex-wrap: wrap; }
+  .row > div { flex: 1; min-width: 140px; }
+  .score-hero { font-size: 34px; font-weight: 750; margin: 8px 0 2px; }
+  .score-hero small { font-size: 18px; color: var(--muted); font-weight: 500; }
+  details { margin: 8px 0; }
+  summary { cursor: pointer; font-weight: 600; font-size: 13.5px; }
+  .crit { border-left: 3px solid var(--line); margin: 8px 0 8px 6px; padding: 4px 10px; font-size: 13px; }
+  .crit .ev { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px;
+              background: var(--soft); border-radius: 4px; padding: 2px 6px;
+              display: inline-block; margin: 2px 0; }
+  .progress { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+  .spinner { width: 16px; height: 16px; border: 2.5px solid var(--line);
+             border-top-color: var(--accent); border-radius: 50%;
+             animation: spin .8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .spinner { animation: none; } }
+  img.sheet { max-width: 100%; border: 1px solid var(--line); border-radius: 8px; margin: 8px 0; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Check my answer sheet</h1>
+  <p>Class 12 · Upload your scanned answer sheet — we read it, find your question
+     paper's marking scheme, and grade every answer with the reason for each mark.
+     &nbsp;<a href="/examiner">Examiner tools →</a></p>
+</header>
+<main>
+
+  <section class="card" id="step1">
+    <div class="step-head"><div class="step-num active" id="n1">1</div>
+      <h2>Upload your answer sheet</h2></div>
+    <p class="muted">Scanned pages as PNG, JPG, WEBP or PDF. Include the front page —
+       that's where we read your exam details.</p>
+    <input type="file" id="sheet-files" multiple accept=".png,.jpg,.jpeg,.webp,.gif,.pdf">
+    <button id="submit-sheet">Check my paper</button>
+    <span id="submit-msg" class="muted"></span>
+  </section>
+
+  <section class="card dim" id="step2">
+    <div class="step-head"><div class="step-num" id="n2">2</div>
+      <h2>Your exam details</h2></div>
+    <div id="meta-body"><p class="muted">We'll read these from your front page.</p></div>
+  </section>
+
+  <section class="card dim" id="step3">
+    <div class="step-head"><div class="step-num" id="n3">3</div>
+      <h2>Question paper &amp; marking scheme</h2></div>
+    <div id="paper-body"><p class="muted">We'll look up your paper in our registry.</p></div>
+  </section>
+
+  <section class="card dim" id="step4">
+    <div class="step-head"><div class="step-num" id="n4">4</div>
+      <h2>Your result</h2></div>
+    <div id="result-body"><p class="muted">Grading starts once the marking scheme is ready.</p></div>
+  </section>
+
+</main>
+<script>
+const $ = (id) => document.getElementById(id);
+let jobId = null, pollTimer = null;
+
+async function api(path, opts) {
+  const res = await fetch(path, opts);
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}));
+    throw new Error(body.detail || res.statusText);
+  }
+  return res.json();
+}
+
+function esc(s) {
+  return String(s ?? "").replace(/[&<>"]/g, (c) =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+}
+
+function setStep(el, num, state) { // state: idle | active | done
+  el.classList.toggle("dim", state === "idle");
+  num.className = "step-num" + (state === "active" ? " active" : state === "done" ? " done" : "");
+  if (state === "done") num.textContent = "✓";
+}
+
+function spinner(text) {
+  return `<div class="progress"><div class="spinner"></div><span class="muted">${esc(text)}</span></div>`;
+}
+
+async function submitSheet() {
+  const files = $("sheet-files").files;
+  if (!files.length) { $("submit-msg").textContent = "Choose at least one file."; return; }
+  const form = new FormData();
+  for (const f of files) form.append("files", f);
+  try {
+    $("submit-sheet").disabled = true;
+    const res = await api("/api/student/submissions", { method: "POST", body: form });
+    jobId = res.job_id;
+    history.replaceState(null, "", `?job=${jobId}`);  // bookmarkable result link
+    $("submit-msg").textContent = "Uploaded. Reading your front page…";
+    setStep($("step1"), $("n1"), "done");
+    watch();
+  } catch (e) {
+    $("submit-msg").textContent = "Error: " + e.message;
+    $("submit-sheet").disabled = false;
+  }
+}
+
+function watch() {
+  clearInterval(pollTimer);
+  const tick = async () => {
+    const data = await api(`/api/student/submissions/${jobId}`);
+    render(data);
+    if (["completed", "failed"].includes(data.job.status)) clearInterval(pollTimer);
+  };
+  tick();
+  pollTimer = setInterval(tick, 3000);
+}
+
+function renderMeta(meta) {
+  if (!meta) { return `<p class="muted">Reading your front page…</p>`; }
+  const item = (k, v) => `<div class="meta-item"><span class="k">${k}</span>${esc(v ?? "—")}</div>`;
+  return `<div class="meta-grid">
+    ${item("Board", meta.board)}${item("Class", meta.class_level)}
+    ${item("Subject", meta.subject)}${item("Year", meta.exam_year)}
+    ${item("Paper code", meta.paper_code)}${item("Roll number", meta.roll_number)}
+  </div>${meta.notes ? `<p class="muted">Note: ${esc(meta.notes)}</p>` : ""}`;
+}
+
+function renderPaper(data) {
+  const { job, paper } = data;
+  if (job.status === "awaiting_paper") {
+    return `
+      <div class="warn-box">
+        <b>We don't have this question paper yet.</b>
+        <p class="muted">You're the first to check a sheet for this paper — help us
+        register it. Upload the question paper (photos or PDF) and we'll read the
+        questions and write a marking scheme automatically. Every student after
+        you with the same paper code will skip this step.</p>
+        <label>Question paper files</label>
+        <input type="file" id="paper-files" multiple accept=".png,.jpg,.jpeg,.webp,.gif,.pdf">
+        <button id="upload-paper">Upload question paper</button>
+        <p class="muted" style="margin-top:14px">…or, if we misread your paper code, correct it:</p>
+        <div class="row">
+          <div><label>Paper code</label><input type="text" id="fix-code" placeholder="e.g. 1/1/1"></div>
+          <div><label>Exam year</label><input type="number" id="fix-year" placeholder="2026"></div>
+          <div><button class="secondary" id="retry-code">Search again</button></div>
+        </div>
+        <span id="paper-msg" class="muted"></span>
+      </div>`;
+  }
+  if (job.status === "reading_paper") return spinner("Reading the question paper you uploaded…");
+  if (job.status === "generating_rubric")
+    return spinner("No marking guidelines exist for this paper — writing a complete marking scheme for every question (happens only once per paper)…");
+  if (paper) {
+    const badge = paper.rubric_status === "verified"
+      ? `<span class="badge verified">verified marking scheme</span>`
+      : `<span class="badge ai">AI-generated marking scheme</span>`;
+    return `<p><b>${esc(paper.title)}</b></p>
+      <p class="muted">${esc(paper.board)} · Class ${esc(paper.class_level)} ·
+        ${esc(paper.subject)} · ${esc(paper.year)} · code ${esc(paper.paper_code)} ·
+        ${paper.question_count} questions</p>
+      <p>${badge}</p>
+      ${paper.rubric_status !== "verified"
+        ? `<p class="muted">This scheme was written by AI following board marking
+           conventions — treat the result as an estimate until an examiner verifies it.</p>` : ""}`;
+  }
+  return `<p class="muted">Looking up your paper in the registry…</p>`;
+}
+
+function renderResult(data) {
+  const { job, report, transcript } = data;
+  if (job.status === "failed")
+    return `<div class="error-box">Something went wrong: ${esc(job.error)}</div>`;
+  if (job.status === "transcribing") return spinner("Reading your handwriting page by page…");
+  if (job.status === "evaluating") return spinner("Marking each answer against the scheme…");
+  if (!report) return `<p class="muted">Grading starts once the marking scheme is ready.</p>`;
+
+  let html = `<div class="score-hero">${report.total_awarded}
+      <small>/ ${report.total_available}</small></div>`;
+  if (report.questions_flagged_for_review)
+    html += `<p class="flag">⚑ ${report.questions_flagged_for_review} answer(s) were hard to
+       read or judge — treat those marks as provisional.</p>`;
+
+  if (job.annotated_files && job.annotated_files.length) {
+    html += `<details open><summary>Your annotated sheet</summary>
+      <p class="muted">Green box = full marks, amber = partial, red = none. Tags name the
+      marking-scheme criteria where you lost marks; the closing card explains each one.</p>`;
+    for (const f of job.annotated_files)
+      html += `<img class="sheet" src="/api/submissions/${esc(job.id)}/annotated/${esc(f)}?t=${Date.now()}" alt="${esc(f)}">`;
+    html += `</details>`;
+  }
+
+  html += `<details><summary>Marks question by question</summary>`;
+  for (const r of report.results) {
+    const ev = r.evaluation;
+    html += `<details style="margin-left:12px"><summary>Q${esc(ev.question_id)} —
+        ${r.override ? r.override.marks_awarded : ev.marks_awarded} / ${ev.max_marks}</summary>
+      <p class="muted">${esc(ev.overall_comment)}</p>`;
+    for (const c of ev.criteria) {
+      html += `<div class="crit"><b>[${esc(c.criterion_id)}]</b> ${c.marks_awarded} marks — ${esc(c.met)}<br>
+        ${esc(c.rationale)}<br>
+        ${c.evidence.map((e) => `<span class="ev">“${esc(e)}”</span>`).join(" ")}</div>`;
+    }
+    html += `</details>`;
+  }
+  html += `</details>`;
+
+  if (transcript) {
+    html += `<details><summary>What we read from your sheet (transcript)</summary>`;
+    for (const a of transcript.answers)
+      html += `<div class="crit"><b>Q${esc(a.question_id)}</b>
+        <span class="muted">(${esc(a.legibility)})</span><br>
+        <span style="white-space:pre-wrap">${esc(a.answer_text)}</span></div>`;
+    html += `</details>`;
+  }
+  return html;
+}
+
+function render(data) {
+  const { job } = data;
+  $("meta-body").innerHTML = renderMeta(job.metadata);
+  $("paper-body").innerHTML = renderPaper(data);
+  $("result-body").innerHTML = renderResult(data);
+
+  const s = job.status;
+  setStep($("step2"), $("n2"),
+    s === "extracting_metadata" ? "active" : job.metadata ? "done" : "idle");
+  setStep($("step3"), $("n3"),
+    ["awaiting_paper", "reading_paper", "generating_rubric"].includes(s) ? "active"
+      : data.paper ? "done" : "idle");
+  setStep($("step4"), $("n4"),
+    ["transcribing", "evaluating"].includes(s) ? "active"
+      : s === "completed" ? "done" : "idle");
+
+  const uploadBtn = $("upload-paper");
+  if (uploadBtn) uploadBtn.addEventListener("click", uploadPaper);
+  const retryBtn = $("retry-code");
+  if (retryBtn) retryBtn.addEventListener("click", retryCode);
+}
+
+async function uploadPaper() {
+  const files = $("paper-files").files;
+  if (!files.length) { $("paper-msg").textContent = "Choose the question paper files."; return; }
+  const form = new FormData();
+  for (const f of files) form.append("files", f);
+  try {
+    $("upload-paper").disabled = true;
+    await api(`/api/student/submissions/${jobId}/paper`, { method: "POST", body: form });
+    watch();
+  } catch (e) { $("paper-msg").textContent = "Error: " + e.message; }
+}
+
+async function retryCode() {
+  const code = $("fix-code").value.trim();
+  if (!code) { $("paper-msg").textContent = "Enter the paper code printed on your sheet."; return; }
+  const year = parseInt($("fix-year").value, 10);
+  try {
+    const res = await api(`/api/student/submissions/${jobId}/paper-code`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ paper_code: code, exam_year: isNaN(year) ? null : year }),
+    });
+    if (res.found) { $("paper-msg").textContent = `Found: ${res.paper_title}`; watch(); }
+    else $("paper-msg").textContent = "Still not in our registry — please upload the question paper above.";
+  } catch (e) { $("paper-msg").textContent = "Error: " + e.message; }
+}
+
+$("submit-sheet").addEventListener("click", submitSheet);
+
+// Resume a submission from a shared/bookmarked link: /?job=<id>
+const existing = new URLSearchParams(location.search).get("job");
+if (existing) {
+  jobId = existing;
+  setStep($("step1"), $("n1"), "done");
+  $("submit-msg").textContent = `Showing submission ${existing}.`;
+  watch();
+}
+</script>
+</body>
+</html>

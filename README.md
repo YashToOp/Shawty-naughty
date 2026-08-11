@@ -1,8 +1,29 @@
 # Answer Sheet Evaluator
 
-Upload scanned answer sheets → OCR them into a faithful transcript → evaluate every answer against a **human-authored rubric**, with verbatim evidence, per-criterion rationale, confidence flags, and a human-override workflow.
+Upload scanned answer sheets → OCR them into a faithful transcript → evaluate every answer against a marking scheme, with verbatim evidence, per-criterion rationale, confidence flags, and a human-override workflow.
 
 The goal is grading that is **cheaper** than fully manual marking, **more consistent** than rushed human marking, and **fully transparent** — every mark can be traced to a rubric criterion and a quote from the student's own answer.
+
+Two front doors share one grading pipeline:
+
+- **Student self-service** (`/`) — a Class 12 student uploads their own sheet and gets a graded, annotated result. The system reads the front page for exam metadata, finds the question paper in a shared registry, and writes the marking scheme itself when no institutional guidelines exist. Ships pre-seeded with a **CBSE Class 12 English Core 2026** paper.
+- **Examiner tools** (`/examiner`) — an examiner picks a rubric, uploads sheets, reviews flagged questions, and applies audited overrides.
+
+## Student self-service flow
+
+```
+ upload sheet ─▶ read front page ─▶ find paper in registry ─▶ marking scheme? ─▶ grade ─▶ result
+                (board/class/       │ not found:                │ missing:
+                 subject/year/      │  ask student to upload    │  AI writes the full
+                 paper code)        │  the question paper,      │  scheme per question,
+                                    │  or fix the paper code    │  saved to the registry
+                                    ▼                           ▼
+                              registered once            generated once
+                              — every later student with the same paper code
+                                goes straight to grading
+```
+
+The registry is the flywheel: the **first** student with a new paper code contributes the question paper (one upload), the system extracts the questions and writes a marking scheme following board conventions (CBSE English: Format / Content / Organisation / Accuracy for writing tasks; Content / Evidence / Organisation / Expression for literature), and **every subsequent student skips straight to grading**. AI-generated schemes are labeled as such in the result until an examiner verifies them.
 
 ## How it works
 
@@ -59,6 +80,21 @@ pytest
 
 ## API
 
+**Student flow**
+
+| Method | Path | Purpose |
+|---|---|---|
+| `POST` | `/api/student/submissions` | Upload answer-sheet files; starts metadata extraction + registry lookup |
+| `GET` | `/api/student/submissions/{id}` | Status + metadata + paper + transcript + report |
+| `POST` | `/api/student/submissions/{id}/paper` | Upload the question paper for an `awaiting_paper` submission |
+| `POST` | `/api/student/submissions/{id}/paper-code` | Correct a misread paper code and retry the registry lookup |
+| `GET` | `/api/papers` | Paper registry (board, subject, year, code, rubric status) |
+| `GET` | `/api/papers/{id}` | Full paper: questions + marking scheme |
+
+Student job statuses: `queued → extracting_metadata → [awaiting_paper → reading_paper] → [generating_rubric] → transcribing → evaluating → completed` (or `failed`).
+
+**Examiner flow**
+
 | Method | Path | Purpose |
 |---|---|---|
 | `POST` | `/api/rubrics` | Create a rubric |
@@ -99,16 +135,19 @@ Criterion marks must sum to the question's `max_marks` — the API rejects rubri
 
 ```
 app/
-  main.py        FastAPI routes (rubrics, submissions, overrides, UI)
-  pipeline.py    background job: transcript → evaluation → report
-  ocr.py         stage 1 — Claude vision transcription + answer bounding boxes
-  evaluator.py   stage 2 — per-question rubric grading + mark clamping
-  annotator.py   stage 3 — graded boxes/tags on the sheet + summary card
-  models.py      Pydantic schemas (also the structured-output contracts)
-  storage.py     filesystem persistence under DATA_DIR
-  static/        single-page review UI
-tests/           unit tests with a mocked Anthropic client
-sample_data/     example rubric
+  main.py             FastAPI routes (student flow, examiner tools, registry, UI)
+  student_pipeline.py student flow: metadata → registry lookup → (ingest/generate) → grade
+  pipeline.py         shared grading core: transcript → evaluation → annotation → report
+  metadata.py         front-page metadata extraction (board/class/subject/year/code)
+  paper_ingest.py     question-paper extraction + AI marking-scheme generation
+  ocr.py              Claude vision transcription + answer bounding boxes
+  evaluator.py        per-question rubric grading + mark clamping
+  annotator.py        graded boxes/tags on the sheet + summary card
+  models.py           Pydantic schemas (also the structured-output contracts)
+  storage.py          filesystem persistence under DATA_DIR (incl. paper registry)
+  static/             student wizard (/) and examiner UI (/examiner)
+tests/                unit tests with a mocked Anthropic client
+sample_data/          example rubric + seeded papers (CBSE 12 English Core 2026)
 ```
 
 ## Roadmap
