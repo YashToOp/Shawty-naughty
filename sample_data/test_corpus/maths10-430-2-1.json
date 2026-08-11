@@ -1,0 +1,19 @@
+{
+  "board": "CBSE",
+  "class_level": "10",
+  "subject": "Mathematics (Standard)",
+  "year": 2026,
+  "paper_code": "430/2/1",
+  "title": "Mathematics (Standard) — Class 10 practice test, Set 430/2/1 (21 marks)",
+  "_note": "Shuffled sibling of Set 430/1/1: five questions overlap (lightly reworded), three are new. Exercises bank dedupe.",
+  "questions": [
+    { "id": "1", "section": "A", "max_marks": 1, "question_text": "MCQ: The distance of the point (3, 4) from the origin is: (a) 3 (b) 4 (c) 5 (d) 7" },
+    { "id": "2", "section": "A", "max_marks": 1, "question_text": "MCQ: A fair coin is tossed once. The probability of getting a head is: (a) 0 (b) 1/4 (c) 1/2 (d) 1" },
+    { "id": "3", "section": "B", "max_marks": 2, "question_text": "Solve the pair of equations x + y = 9 and x - y = 1 for x and y." },
+    { "id": "4", "section": "B", "max_marks": 2, "question_text": "Determine the 10th term of the AP 3, 7, 11, ..." },
+    { "id": "5", "section": "C", "max_marks": 3, "question_text": "Find the area of the triangle whose vertices are (0, 0), (4, 0) and (0, 3)." },
+    { "id": "6", "section": "C", "max_marks": 3, "question_text": "Prove that root 5 is irrational." },
+    { "id": "7", "section": "D", "max_marks": 5, "question_text": "From a point on the ground 30 m from the foot of a tower, the angle of elevation of the tower's top is 30 degrees. Find the tower's height and the length of wire needed from the point to the top. (root 3 = 1.73)" },
+    { "id": "8", "section": "E", "max_marks": 4, "question_text": "Case study: A cinema hall has 20 seats in the first row, 23 in the second, 26 in the third, and so on for 15 rows. (i) What is the common difference? (1) (ii) How many seats are in the 15th row? (1) (iii) Find the total number of seats in the hall. (2)" }
+  ]
+}

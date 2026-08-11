@@ -1,0 +1,18 @@
+{
+  "board": "CBSE",
+  "class_level": "12",
+  "subject": "Physics",
+  "year": 2026,
+  "paper_code": "55/1/1",
+  "title": "Physics — Class 12 practice test, Set 55/1/1 (21 marks)",
+  "questions": [
+    { "id": "1", "section": "A", "max_marks": 1, "question_text": "MCQ: The SI unit of capacitance is the: (a) volt (b) farad (c) coulomb (d) henry" },
+    { "id": "2", "section": "A", "max_marks": 1, "question_text": "MCQ: The electrostatic force between two point charges varies with the distance r between them as: (a) r (b) 1/r (c) 1/r^2 (d) 1/r^3" },
+    { "id": "3", "section": "B", "max_marks": 2, "question_text": "Define electric flux and write its SI unit." },
+    { "id": "4", "section": "B", "max_marks": 2, "question_text": "What is drift velocity? Write the relation between current and drift velocity of electrons in a conductor." },
+    { "id": "5", "section": "C", "max_marks": 3, "question_text": "A parallel-plate capacitor of capacitance 12 pF is connected to a 50 V battery. Calculate (i) the charge stored and (ii) the energy stored in the capacitor." },
+    { "id": "6", "section": "C", "max_marks": 3, "question_text": "State Kirchhoff's junction rule and loop rule, and name the conservation principle on which each is based." },
+    { "id": "7", "section": "D", "max_marks": 5, "question_text": "State Gauss's law in electrostatics. Using it, derive the expression for the electric field due to an infinitely long straight uniformly charged wire at a distance r from it." },
+    { "id": "8", "section": "E", "max_marks": 4, "question_text": "Case study: A student plots V-I graphs for a metallic wire at two temperatures and for a semiconductor diode. The wire's graphs are straight lines with different slopes; the diode's graph is non-linear. (i) Which device obeys Ohm's law? (1) (ii) Which of the two wire graphs corresponds to the higher temperature, and why? (1) (iii) Why does the diode not obey Ohm's law? (2)" }
+  ]
+}

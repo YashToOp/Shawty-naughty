@@ -1,0 +1,16 @@
+{
+  "board": "CBSE",
+  "class_level": "11",
+  "subject": "Physics",
+  "year": 2026,
+  "paper_code": "HY-XI-PHY-A",
+  "title": "Physics — Class 11 Half-Yearly Examination, Set A (15 marks) [school-set paper: exercises the upload path]",
+  "questions": [
+    { "id": "1", "section": "A", "max_marks": 1, "question_text": "MCQ: The dimensional formula of force is: (a) MLT^-1 (b) MLT^-2 (c) ML^2T^-2 (d) ML^-1T^-2" },
+    { "id": "2", "section": "A", "max_marks": 1, "question_text": "MCQ: The SI unit of work is the: (a) watt (b) newton (c) joule (d) pascal" },
+    { "id": "3", "section": "B", "max_marks": 2, "question_text": "Distinguish between scalar and vector quantities with one example of each." },
+    { "id": "4", "section": "C", "max_marks": 3, "question_text": "Derive the equation v = u + at from a velocity-time graph." },
+    { "id": "5", "section": "C", "max_marks": 3, "question_text": "A ball is thrown vertically upwards with a speed of 20 m/s. Find the maximum height reached and the time taken to reach it. (g = 10 m/s^2)" },
+    { "id": "6", "section": "D", "max_marks": 5, "question_text": "State Newton's three laws of motion. A 2 kg block on a horizontal surface is pulled with a force of 10 N against a friction force of 4 N; find its acceleration." }
+  ]
+}

@@ -5,6 +5,7 @@ __pycache__/
 venv/
 .env
 data/
+test_corpus_rendered/
 .pytest_cache/
 .coverage
 htmlcov/

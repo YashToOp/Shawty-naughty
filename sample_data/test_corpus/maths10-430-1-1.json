@@ -1,0 +1,18 @@
+{
+  "board": "CBSE",
+  "class_level": "10",
+  "subject": "Mathematics (Standard)",
+  "year": 2026,
+  "paper_code": "430/1/1",
+  "title": "Mathematics (Standard) — Class 10 practice test, Set 430/1/1 (21 marks)",
+  "questions": [
+    { "id": "1", "section": "A", "max_marks": 1, "question_text": "MCQ: The HCF of 12 and 18 is: (a) 2 (b) 3 (c) 6 (d) 36" },
+    { "id": "2", "section": "A", "max_marks": 1, "question_text": "MCQ: The zeroes of the polynomial p(x) = x^2 - 5x + 6 are: (a) 2 and 3 (b) -2 and -3 (c) 1 and 6 (d) -1 and -6" },
+    { "id": "3", "section": "B", "max_marks": 2, "question_text": "Find the 10th term of the arithmetic progression 3, 7, 11, ..." },
+    { "id": "4", "section": "B", "max_marks": 2, "question_text": "Solve the pair of equations x + y = 9 and x - y = 1." },
+    { "id": "5", "section": "C", "max_marks": 3, "question_text": "Prove that root 5 is an irrational number." },
+    { "id": "6", "section": "C", "max_marks": 3, "question_text": "Find the area of the triangle whose vertices are (0, 0), (4, 0) and (0, 3)." },
+    { "id": "7", "section": "D", "max_marks": 5, "question_text": "From a point on the ground 30 m away from the foot of a tower, the angle of elevation of the top of the tower is 30 degrees. Find the height of the tower and the length of the wire needed to reach the top from the observation point. (Use root 3 = 1.73)" },
+    { "id": "8", "section": "E", "max_marks": 4, "question_text": "Case study: Anya saves money weekly. She saves Rs 50 in week 1, Rs 70 in week 2, Rs 90 in week 3, and continues the same pattern. (i) What is the common difference of this progression? (1) (ii) Write an expression for her saving in the nth week. (1) (iii) Find the total amount saved in the first 10 weeks. (2)" }
+  ]
+}

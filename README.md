@@ -31,6 +31,17 @@ Board papers ship in many shuffled **sets** (Science 31/1/1, 31/2/1, 31/3/1 …)
 
 Uploads feed the same flywheel: when a student uploads an unregistered set, extracted questions are **deduped against the bank** (text similarity + exact marks guard — conservative, because a wrong merge would grade against the wrong rubric), rubrics are generated only for genuinely new questions, and the set is registered as a new variant. Coverage policy (`/api/coverage`): board-exam classes 10 and 12 are covered centrally via banks; classes 9 and below and class 11 use the upload path.
 
+### Batch ingestion
+
+`scripts/ingest_paper.py` pours a paper set into the banks from the command line (requires `ANTHROPIC_API_KEY`):
+
+```bash
+python scripts/ingest_paper.py pages/*.png \
+  --board CBSE --class-level 10 --subject "Mathematics (Standard)" --year 2026
+```
+
+It extracts the questions, dedupes against the subject-year bank, generates rubrics only for new questions, registers the set variant, and reports reused-vs-new counts. `scripts/make_test_corpus.py` renders the original practice papers in `sample_data/test_corpus/` into page images (two Maths sets with overlapping questions, a Class 12 Physics set, and a Class 11 school paper) for exercising the pipeline end to end. Dedupe matching is deliberately conservative (high text similarity + exact marks): a missed match costs one redundant rubric, while a wrong merge would grade a student against the wrong scheme. Roadmap: adjudicate borderline pairs with a cheap model call during ingestion.
+
 **Marking strictness** is a lever on upload — 0 Board standard (lenient, CBSE-style: spelling ignored outside language criteria, benefit of the doubt, error carried forward), 1 Balanced, 2 Strict (competitive-exam style, UPSC-like: only what is explicitly demonstrated earns marks). Strictness changes the judgment disposition only — never the rubric or its arithmetic — and the level used is disclosed on every result alongside the invariants (identity-blind, evidence-cited, totals computed in code).
 
 ## How it works
