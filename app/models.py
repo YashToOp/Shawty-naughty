@@ -118,6 +118,50 @@ class Paper(BaseModel):
     questions: list[PaperQuestion]
     rubric: Optional[Rubric] = None
     rubric_status: Literal["missing", "ai_generated", "verified"] = "missing"
+    source_bank: Optional[str] = None  # set when materialized from a QuestionBank
+    created_at: str = Field(
+        default_factory=lambda: datetime.now(timezone.utc).isoformat()
+    )
+
+
+class BankQuestion(BaseModel):
+    """One unique question in a subject-year question bank, with its rubric.
+
+    Bank questions are the master copies: set variants (shuffled paper codes)
+    reference them by id, so a rubric is written once and reused by every set
+    and every student."""
+
+    id: str  # stable bank id, e.g. "B07"
+    section: Optional[str] = None
+    topic: Optional[str] = None
+    question_text: str
+    max_marks: float
+    criteria: list[Criterion] = Field(default_factory=list)  # empty until generated
+
+
+class SetVariant(BaseModel):
+    """A paper code's question numbering, mapped onto the bank."""
+
+    paper_code: str                # e.g. "31/2/1"
+    question_map: dict[str, str]   # paper question number -> bank question id
+
+
+class QuestionBank(BaseModel):
+    """All-in-one PYQ store for one board/class/subject/year.
+
+    Holds every unique question (with rubric) across all set variants of the
+    paper. Lookup by any registered set code materializes a Paper on demand."""
+
+    id: Optional[str] = None  # server-assigned storage key
+    board: str
+    class_level: str
+    subject: str
+    year: int
+    title: str
+    instructions: Optional[str] = None
+    rubric_status: Literal["missing", "ai_generated", "verified"] = "missing"
+    questions: list[BankQuestion]
+    variants: list[SetVariant] = Field(default_factory=list)
     created_at: str = Field(
         default_factory=lambda: datetime.now(timezone.utc).isoformat()
     )

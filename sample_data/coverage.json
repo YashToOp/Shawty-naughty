@@ -1,0 +1,15 @@
+{
+  "policy": {
+    "centralised": "Board-exam classes (10 and 12) are covered centrally: question banks with marking schemes are pre-loaded per subject and year, including all set variants of each paper.",
+    "upload_path": "Classes 9 and below, and Class 11 (school-set papers): upload the question paper with your sheet and a marking scheme is generated once, then reused for everyone with the same paper."
+  },
+  "targets": [
+    { "board": "CBSE", "class_level": "10", "year": 2026,
+      "subjects": ["Science", "Mathematics (Standard)", "Mathematics (Basic)",
+                   "English (Language & Literature)", "Social Science", "Hindi (Course A)", "Hindi (Course B)"] },
+    { "board": "CBSE", "class_level": "12", "year": 2026,
+      "subjects": ["English Core", "Physics", "Chemistry", "Mathematics",
+                   "Biology", "Accountancy", "Business Studies", "Economics",
+                   "Computer Science", "Political Science", "History", "Geography"] }
+  ]
+}

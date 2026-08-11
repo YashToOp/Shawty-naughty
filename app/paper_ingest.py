@@ -10,19 +10,25 @@ AI-generated schemes are stored with rubric_status="ai_generated" and shown
 as such; an examiner upgrading one to "verified" is a registry edit.
 """
 
+import re
+from difflib import SequenceMatcher
 from pathlib import Path
+from typing import Optional
 
 import anthropic
 
 from .config import ANTHROPIC_MODEL, MAX_OUTPUT_TOKENS
 from .models import (
+    BankQuestion,
     Criterion,
     ExtractedQuestionPaper,
     GeneratedCriteria,
     Paper,
     PaperQuestion,
     Question,
+    QuestionBank,
     Rubric,
+    SetVariant,
     SheetMetadata,
 )
 from .ocr import build_page_blocks
@@ -122,6 +128,30 @@ def _paper_context(paper: Paper) -> str:
     )
 
 
+def _generate_criteria(client: anthropic.Anthropic, system: list[dict],
+                       qid: str, question_text: str,
+                       max_marks: float) -> list[Criterion]:
+    response = client.messages.parse(
+        model=ANTHROPIC_MODEL,
+        max_tokens=4000,
+        system=system,
+        messages=[{
+            "role": "user",
+            "content": (
+                f"Write the marking scheme for question {qid} "
+                f"({max_marks} marks):\n\n{question_text}"
+            ),
+        }],
+        output_format=GeneratedCriteria,
+    )
+    if response.stop_reason == "refusal":
+        raise PaperIngestRefused(
+            f"The model declined to write a scheme for question {qid}."
+        )
+    generated = response.parsed_output.criteria if response.parsed_output else []
+    return fit_criteria(qid, generated, max_marks)
+
+
 def generate_rubric(client: anthropic.Anthropic, paper: Paper) -> Rubric:
     """Write a full marking scheme, one request per question, paper context cached."""
     system = [
@@ -135,29 +165,12 @@ def generate_rubric(client: anthropic.Anthropic, paper: Paper) -> Rubric:
 
     questions: list[Question] = []
     for pq in paper.questions:
-        response = client.messages.parse(
-            model=ANTHROPIC_MODEL,
-            max_tokens=4000,
-            system=system,
-            messages=[{
-                "role": "user",
-                "content": (
-                    f"Write the marking scheme for question {pq.id} "
-                    f"({pq.max_marks} marks):\n\n{pq.question_text}"
-                ),
-            }],
-            output_format=GeneratedCriteria,
-        )
-        if response.stop_reason == "refusal":
-            raise PaperIngestRefused(
-                f"The model declined to write a scheme for question {pq.id}."
-            )
-        generated = response.parsed_output.criteria if response.parsed_output else []
         questions.append(Question(
             id=pq.id,
             question_text=pq.question_text,
             max_marks=pq.max_marks,
-            criteria=fit_criteria(pq.id, generated, pq.max_marks),
+            criteria=_generate_criteria(client, system, pq.id,
+                                        pq.question_text, pq.max_marks),
         ))
 
     return Rubric(
@@ -171,18 +184,101 @@ def generate_rubric(client: anthropic.Anthropic, paper: Paper) -> Rubric:
     )
 
 
-def build_paper(meta: SheetMetadata, extracted: ExtractedQuestionPaper) -> Paper:
-    """Combine front-page metadata with the extracted question list."""
+# ---------------------------------------------------------------------------
+# Question-bank ingestion (PYQ dedupe across shuffled set variants)
+# ---------------------------------------------------------------------------
+
+MATCH_THRESHOLD = 0.8  # similarity above which two questions are the same PYQ
+
+
+def _norm_text(s: str) -> str:
+    return re.sub(r"[^a-z0-9 ]+", " ", s.lower()).strip()
+
+
+def match_bank_question(bank: QuestionBank,
+                        question: PaperQuestion) -> Optional[BankQuestion]:
+    """Find the bank's copy of this question, if it already exists.
+
+    Same marks + high text similarity = the same PYQ appearing in another
+    shuffled set. Marks equality is a hard guard against near-miss matches."""
+    best, best_ratio = None, 0.0
+    wanted = _norm_text(question.question_text)
+    for bq in bank.questions:
+        if abs(bq.max_marks - question.max_marks) > 1e-6:
+            continue
+        ratio = SequenceMatcher(None, wanted, _norm_text(bq.question_text)).ratio()
+        if ratio > best_ratio:
+            best, best_ratio = bq, ratio
+    return best if best_ratio >= MATCH_THRESHOLD else None
+
+
+def ingest_into_bank(client: anthropic.Anthropic, meta: SheetMetadata,
+                     extracted: ExtractedQuestionPaper,
+                     bank: Optional[QuestionBank]) -> tuple[QuestionBank, SetVariant]:
+    """Fold an uploaded question paper into the subject-year bank.
+
+    Questions already in the bank (from other set variants) are reused with
+    their existing rubrics; only genuinely new questions get criteria
+    generated. Returns the updated bank and this paper's set variant."""
+    if bank is None:
+        subject = meta.subject or extracted.title or "Unknown subject"
+        bank = QuestionBank(
+            board=meta.board or "Unknown board",
+            class_level=meta.class_level or "?",
+            subject=subject,
+            year=meta.exam_year or 0,
+            title=extracted.title
+            or f"{subject} — Class {meta.class_level or '?'} ({meta.exam_year or '?'})",
+            rubric_status="ai_generated",
+            instructions=(
+                "AI-generated marking scheme (no institutional guidelines were "
+                "available for this paper). Award marks strictly per criterion."
+            ),
+            questions=[],
+        )
+
     code = extracted.paper_code or meta.paper_code or "uncoded"
-    subject = meta.subject or extracted.title or "Unknown subject"
-    year = meta.exam_year or 0
-    return Paper(
-        board=meta.board or "Unknown board",
-        class_level=meta.class_level or "?",
-        subject=subject,
-        year=year,
-        paper_code=code,
-        title=extracted.title
-        or f"{subject} — Class {meta.class_level or '?'} ({year})",
-        questions=extracted.questions,
-    )
+    question_map: dict[str, str] = {}
+
+    for pq in extracted.questions:
+        existing = match_bank_question(bank, pq)
+        if existing is not None:
+            question_map[pq.id] = existing.id
+            continue
+        new_id = f"B{len(bank.questions) + 1:02d}"
+        bank.questions.append(BankQuestion(
+            id=new_id, section=pq.section,
+            question_text=pq.question_text, max_marks=pq.max_marks,
+        ))
+        question_map[pq.id] = new_id
+
+    # Generate rubrics only for bank questions that still lack them.
+    pending = [bq for bq in bank.questions if not bq.criteria]
+    if pending:
+        system = [
+            {"type": "text", "text": RUBRIC_SYSTEM},
+            {
+                "type": "text",
+                "text": (
+                    f"Examination: {bank.board} Class {bank.class_level} — "
+                    f"{bank.subject} ({bank.year})."
+                ),
+                "cache_control": {"type": "ephemeral"},
+            },
+        ]
+        for bq in pending:
+            bq.criteria = _generate_criteria(client, system, bq.id,
+                                             bq.question_text, bq.max_marks)
+
+    variant = next(
+        (v for v in bank.variants
+         if v.paper_code.strip().lower() == code.strip().lower()), None)
+    if variant is None:
+        variant = SetVariant(paper_code=code, question_map=question_map)
+        bank.variants.append(variant)
+    else:
+        variant.question_map = question_map
+
+    return bank, variant
+
+

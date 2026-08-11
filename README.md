@@ -25,6 +25,12 @@ Two front doors share one grading pipeline:
 
 The registry is the flywheel: the **first** student with a new paper code contributes the question paper (one upload), the system extracts the questions and writes a marking scheme following board conventions (CBSE English: Format / Content / Organisation / Accuracy for writing tasks; Content / Evidence / Organisation / Expression for literature), and **every subsequent student skips straight to grading**. AI-generated schemes are labeled as such in the result until an examiner verifies them.
 
+## PYQ question banks & set variants
+
+Board papers ship in many shuffled **sets** (Science 31/1/1, 31/2/1, 31/3/1 …) drawing on one question pool, so rubrics are stored once in an all-in-one **question bank** per board/class/subject/year (`sample_data/banks/`), and each set code is just a mapping of question numbers onto the bank. A sheet from any registered set materializes its paper (questions renumbered, criterion ids relabeled) from the bank on first lookup.
+
+Uploads feed the same flywheel: when a student uploads an unregistered set, extracted questions are **deduped against the bank** (text similarity + exact marks guard — conservative, because a wrong merge would grade against the wrong rubric), rubrics are generated only for genuinely new questions, and the set is registered as a new variant. Coverage policy (`/api/coverage`): board-exam classes 10 and 12 are covered centrally via banks; classes 9 and below and class 11 use the upload path.
+
 **Marking strictness** is a lever on upload — 0 Board standard (lenient, CBSE-style: spelling ignored outside language criteria, benefit of the doubt, error carried forward), 1 Balanced, 2 Strict (competitive-exam style, UPSC-like: only what is explicitly demonstrated earns marks). Strictness changes the judgment disposition only — never the rubric or its arithmetic — and the level used is disclosed on every result alongside the invariants (identity-blind, evidence-cited, totals computed in code).
 
 ## How it works

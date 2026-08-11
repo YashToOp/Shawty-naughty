@@ -1,0 +1,843 @@
+{
+  "id": null,
+  "board": "CBSE",
+  "class_level": "10",
+  "subject": "Science",
+  "year": 2026,
+  "title": "Science (086) \u2014 Class 10, CBSE 2026 [practice bank following the official 2026 pattern: Biology 30 \u00b7 Chemistry 25 \u00b7 Physics 25]",
+  "instructions": "Marking scheme following CBSE conventions. MCQ/objective items: full mark for the correct option, zero otherwise, no negative marking. Numericals: separate marks for formula, substitution/working, and final answer with unit; error carried forward applies - a wrong early value with correct subsequent method earns the method marks. Diagrams: marks for correct shape and essential labels; accept clear unambiguous sketches. Questions with internal choice (A OR B): apply the criteria to whichever option the student attempted; if both attempted, mark the first. Accept any scientifically correct equivalent phrasing.",
+  "rubric_status": "verified",
+  "questions": [
+    {
+      "id": "B01",
+      "section": "A (Biology)",
+      "topic": null,
+      "question_text": "MCQ: In which part of the alimentary canal is food completely digested and its products absorbed? (a) stomach (b) small intestine (c) large intestine (d) oesophagus",
+      "max_marks": 1,
+      "criteria": [
+        {
+          "id": "1-a",
+          "description": "Correct option (b) small intestine",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "B02",
+      "section": "A (Biology)",
+      "topic": null,
+      "question_text": "MCQ: The structural and functional unit of the kidney is the: (a) neuron (b) nephron (c) alveolus (d) villus",
+      "max_marks": 1,
+      "criteria": [
+        {
+          "id": "2-a",
+          "description": "Correct option (b) nephron",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "B03",
+      "section": "A (Biology)",
+      "topic": null,
+      "question_text": "MCQ: The hormone that regulates the level of sugar in the blood is: (a) thyroxine (b) adrenaline (c) insulin (d) growth hormone",
+      "max_marks": 1,
+      "criteria": [
+        {
+          "id": "3-a",
+          "description": "Correct option (c) insulin",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "B04",
+      "section": "A (Biology)",
+      "topic": null,
+      "question_text": "MCQ: The part of the human brain that maintains posture and balance of the body is the: (a) cerebrum (b) cerebellum (c) medulla (d) hypothalamus",
+      "max_marks": 1,
+      "criteria": [
+        {
+          "id": "4-a",
+          "description": "Correct option (b) cerebellum",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "B05",
+      "section": "A (Biology)",
+      "topic": null,
+      "question_text": "MCQ: Which organism reproduces by budding? (a) Amoeba (b) Hydra (c) Plasmodium (d) Spirogyra",
+      "max_marks": 1,
+      "criteria": [
+        {
+          "id": "5-a",
+          "description": "Correct option (b) Hydra",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "B06",
+      "section": "A (Biology)",
+      "topic": null,
+      "question_text": "MCQ: In pea plants tallness (T) is dominant over dwarfness (t). The genotype of a true-breeding tall plant is: (a) Tt (b) TT (c) tt (d) T",
+      "max_marks": 1,
+      "criteria": [
+        {
+          "id": "6-a",
+          "description": "Correct option (b) TT",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "B07",
+      "section": "A (Biology)",
+      "topic": null,
+      "question_text": "MCQ: Which of the following is a biodegradable waste? (a) plastic bottle (b) glass piece (c) vegetable peels (d) aluminium foil",
+      "max_marks": 1,
+      "criteria": [
+        {
+          "id": "7-a",
+          "description": "Correct option (c) vegetable peels",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "B08",
+      "section": "A (Biology)",
+      "topic": null,
+      "question_text": "Assertion-Reason: Assertion (A): Veins have valves along their length. Reason (R): Blood in veins flows at low pressure. Choose: (a) both A and R true, R explains A (b) both true, R does not explain A (c) A true, R false (d) A false, R true",
+      "max_marks": 1,
+      "criteria": [
+        {
+          "id": "8-a",
+          "description": "Correct option (a): both true and R is the correct explanation of A",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "B09",
+      "section": "A (Biology)",
+      "topic": null,
+      "question_text": "Assertion-Reason: Assertion (A): In human beings, the sex of the child is determined by the chromosome inherited from the father. Reason (R): Females have two X chromosomes while males have one X and one Y chromosome. Options as standard.",
+      "max_marks": 1,
+      "criteria": [
+        {
+          "id": "9-a",
+          "description": "Correct option (a): both true and R is the correct explanation of A",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "B10",
+      "section": "A (Biology)",
+      "topic": null,
+      "question_text": "List two differences between aerobic and anaerobic respiration. (30-50 words)",
+      "max_marks": 2,
+      "criteria": [
+        {
+          "id": "10-a",
+          "description": "First valid difference stated as a contrast (e.g. uses oxygen vs occurs without oxygen; complete vs incomplete breakdown of glucose)",
+          "marks": 1
+        },
+        {
+          "id": "10-b",
+          "description": "Second distinct valid difference (e.g. end products CO2+H2O vs ethanol/lactic acid; more vs less energy released)",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "B11",
+      "section": "A (Biology)",
+      "topic": null,
+      "question_text": "What is a reflex arc? Trace the path of an impulse in a reflex action. (30-50 words)",
+      "max_marks": 2,
+      "criteria": [
+        {
+          "id": "11-a",
+          "description": "Defines reflex arc as the pathway of a reflex action (spontaneous/involuntary response route through the spinal cord)",
+          "marks": 1
+        },
+        {
+          "id": "11-b",
+          "description": "Correct sequence: receptor -> sensory neuron -> spinal cord (relay neuron) -> motor neuron -> effector (muscle/gland)",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "B12",
+      "section": "A (Biology)",
+      "topic": null,
+      "question_text": "State two advantages of vegetative propagation in plants. (30-50 words)",
+      "max_marks": 2,
+      "criteria": [
+        {
+          "id": "12-a",
+          "description": "First valid advantage (e.g. offspring genetically identical to parent / preserves desired traits; plants that lost capacity to produce seeds can be grown)",
+          "marks": 1
+        },
+        {
+          "id": "12-b",
+          "description": "Second distinct valid advantage (e.g. faster growth / earlier flowering and fruiting than seed-grown plants)",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "B13",
+      "section": "A (Biology)",
+      "topic": null,
+      "question_text": "Describe filtration and selective reabsorption as they occur in a nephron. Why is glucose normally absent from the urine of a healthy person? (50-80 words)",
+      "max_marks": 3,
+      "criteria": [
+        {
+          "id": "13-a",
+          "description": "Filtration described: blood filtered at glomerulus/Bowman's capsule under pressure, filtrate contains water, glucose, salts, urea",
+          "marks": 1
+        },
+        {
+          "id": "13-b",
+          "description": "Selective reabsorption described: useful substances (glucose, amino acids, salts, most water) reabsorbed into blood along the tubule",
+          "marks": 1
+        },
+        {
+          "id": "13-c",
+          "description": "Explains glucose is completely reabsorbed in a healthy person, hence absent from urine",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "B14",
+      "section": "A (Biology)",
+      "topic": null,
+      "question_text": "In a monohybrid cross, two heterozygous tall pea plants (Tt) are crossed. Show the cross with a Punnett square and state the phenotypic and genotypic ratios of the offspring.",
+      "max_marks": 3,
+      "criteria": [
+        {
+          "id": "14-a",
+          "description": "Correct cross/Punnett square showing gametes T,t x T,t giving TT, Tt, Tt, tt",
+          "marks": 1
+        },
+        {
+          "id": "14-b",
+          "description": "Phenotypic ratio 3 tall : 1 dwarf stated (error carried forward from their square)",
+          "marks": 1
+        },
+        {
+          "id": "14-c",
+          "description": "Genotypic ratio 1 TT : 2 Tt : 1 tt stated (error carried forward from their square)",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "B15",
+      "section": "A (Biology)",
+      "topic": null,
+      "question_text": "(A) Draw a labelled diagram of the human female reproductive system. State one function each of the ovary and the fallopian tube. Where does fertilisation occur? OR (B) Draw a labelled diagram of the longitudinal section of a flower. Distinguish pollination from fertilisation and state what the ovary and ovule develop into after fertilisation. (80-120 words)",
+      "max_marks": 5,
+      "criteria": [
+        {
+          "id": "15-a",
+          "description": "Correct labelled diagram for the chosen option (A: ovary, fallopian tube, uterus, cervix, vagina labelled; B: sepal, petal, stamen with anther/filament, carpel with stigma/style/ovary labelled) - 1 mark if diagram correct but 2+ essential labels missing",
+          "marks": 2
+        },
+        {
+          "id": "15-b",
+          "description": "Required explanations for the chosen option (A: one correct function each of ovary and fallopian tube; B: pollination vs fertilisation correctly distinguished)",
+          "marks": 2
+        },
+        {
+          "id": "15-c",
+          "description": "Final point for the chosen option (A: fertilisation occurs in the fallopian tube/oviduct; B: ovary -> fruit and ovule -> seed)",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "B16",
+      "section": "A (Biology)",
+      "topic": null,
+      "question_text": "Case study: A grassland food chain grass -> deer -> lion is described, with producers capturing solar energy and roughly 10% of energy transferring to each next trophic level. (i) What is the original source of energy for the producers? (1) (ii) If the grass in an area holds 10,000 J of energy, how much energy is available to the deer, and to the lion? (1) (iii) Why are food chains generally limited to three or four trophic levels? (2)",
+      "max_marks": 4,
+      "criteria": [
+        {
+          "id": "16-a",
+          "description": "(i) The Sun / solar energy identified as the original energy source",
+          "marks": 1
+        },
+        {
+          "id": "16-b",
+          "description": "(ii) Deer 1,000 J and lion 100 J by the 10% law (error carried forward if one step slips but method correct)",
+          "marks": 1
+        },
+        {
+          "id": "16-c",
+          "description": "(iii) Explains that only ~10% of energy passes to the next level, so too little usable energy remains after 3-4 levels to support further levels",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "B17",
+      "section": "B (Chemistry)",
+      "topic": null,
+      "question_text": "MCQ: The gas evolved when dilute hydrochloric acid reacts with zinc granules is: (a) chlorine (b) hydrogen (c) oxygen (d) carbon dioxide",
+      "max_marks": 1,
+      "criteria": [
+        {
+          "id": "17-a",
+          "description": "Correct option (b) hydrogen",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "B18",
+      "section": "B (Chemistry)",
+      "topic": null,
+      "question_text": "MCQ: When an iron nail is kept dipped in copper sulphate solution, the colour of the solution: (a) remains blue (b) turns colourless (c) changes from blue to light green (d) turns yellow",
+      "max_marks": 1,
+      "criteria": [
+        {
+          "id": "18-a",
+          "description": "Correct option (c) blue changes to light green",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "B19",
+      "section": "B (Chemistry)",
+      "topic": null,
+      "question_text": "MCQ: A solution turns phenolphthalein pink. Its pH is most likely: (a) 2 (b) 7 (c) 10 (d) 1",
+      "max_marks": 1,
+      "criteria": [
+        {
+          "id": "19-a",
+          "description": "Correct option (c) 10",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "B20",
+      "section": "B (Chemistry)",
+      "topic": null,
+      "question_text": "MCQ: Which of the following is a decomposition reaction? (a) CaO + H2O -> Ca(OH)2 (b) 2FeSO4 --heat--> Fe2O3 + SO2 + SO3 (c) Zn + CuSO4 -> ZnSO4 + Cu (d) NaOH + HCl -> NaCl + H2O",
+      "max_marks": 1,
+      "criteria": [
+        {
+          "id": "20-a",
+          "description": "Correct option (b) 2FeSO4 heated giving Fe2O3 + SO2 + SO3",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "B21",
+      "section": "B (Chemistry)",
+      "topic": null,
+      "question_text": "MCQ: The chemical formula of baking soda is: (a) Na2CO3 (b) NaHCO3 (c) NaOH (d) CaOCl2",
+      "max_marks": 1,
+      "criteria": [
+        {
+          "id": "21-a",
+          "description": "Correct option (b) NaHCO3",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "B22",
+      "section": "B (Chemistry)",
+      "topic": null,
+      "question_text": "MCQ: An element has electronic configuration 2,8,7. It is a: (a) metal that forms a cation (b) non-metal that forms an anion (c) noble gas (d) metalloid with no ion formation",
+      "max_marks": 1,
+      "criteria": [
+        {
+          "id": "22-a",
+          "description": "Correct option (b) non-metal that forms an anion",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "B23",
+      "section": "B (Chemistry)",
+      "topic": null,
+      "question_text": "MCQ: The functional group present in ethanol is: (a) -COOH (b) -OH (c) -CHO (d) >C=O",
+      "max_marks": 1,
+      "criteria": [
+        {
+          "id": "23-a",
+          "description": "Correct option (b) -OH",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "B24",
+      "section": "B (Chemistry)",
+      "topic": null,
+      "question_text": "Assertion-Reason: Assertion (A): Ionic compounds conduct electricity in the molten state. Reason (R): In the molten state the ions become free to move. Options as standard.",
+      "max_marks": 1,
+      "criteria": [
+        {
+          "id": "24-a",
+          "description": "Correct option (a): both true and R is the correct explanation of A",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "B25",
+      "section": "B (Chemistry)",
+      "topic": null,
+      "question_text": "Balance the chemical equation Fe + H2O -> Fe3O4 + H2 (iron with steam) and identify the type of reaction. (30-50 words)",
+      "max_marks": 2,
+      "criteria": [
+        {
+          "id": "25-a",
+          "description": "Correctly balanced: 3Fe + 4H2O -> Fe3O4 + 4H2",
+          "marks": 1
+        },
+        {
+          "id": "25-b",
+          "description": "Type identified as redox (oxidation of iron / reduction of water); accept displacement with justification",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "B26",
+      "section": "B (Chemistry)",
+      "topic": null,
+      "question_text": "Explain the cleansing action of soap with reference to micelle formation. (50-80 words)",
+      "max_marks": 3,
+      "criteria": [
+        {
+          "id": "26-a",
+          "description": "Soap molecule structure: hydrophilic (ionic) head and hydrophobic (hydrocarbon) tail",
+          "marks": 1
+        },
+        {
+          "id": "26-b",
+          "description": "Micelle formation described: tails point toward oily dirt / interior, heads toward water",
+          "marks": 1
+        },
+        {
+          "id": "26-c",
+          "description": "Explains removal: micelles keep oily dirt suspended in water and it is washed away; accept a labelled micelle diagram in lieu of prose",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "B27",
+      "section": "B (Chemistry)",
+      "topic": null,
+      "question_text": "Give reasons: (i) Platinum and gold are used to make jewellery. (ii) Sodium is stored under kerosene. (iii) Aluminium is a reactive metal yet aluminium vessels resist corrosion. (50-80 words)",
+      "max_marks": 3,
+      "criteria": [
+        {
+          "id": "27-a",
+          "description": "(i) Platinum/gold are least reactive (and lustrous/malleable), so they neither corrode nor tarnish",
+          "marks": 1
+        },
+        {
+          "id": "27-b",
+          "description": "(ii) Sodium reacts vigorously with air/water (may catch fire), kerosene prevents contact",
+          "marks": 1
+        },
+        {
+          "id": "27-c",
+          "description": "(iii) Aluminium forms a thin protective oxide (Al2O3) layer that prevents further corrosion",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "B28",
+      "section": "B (Chemistry)",
+      "topic": null,
+      "question_text": "(A) What is a homologous series? State two characteristics of a homologous series, and write the names and molecular formulae of the first two members of the alkane series. OR (B) What is a displacement reaction? Describe two displacement reactions of metals with salt solutions, giving the balanced equation and the observation for each. (80-120 words)",
+      "max_marks": 5,
+      "criteria": [
+        {
+          "id": "28-a",
+          "description": "Core definition for the chosen option (A: homologous series - family of carbon compounds with same functional group, successive members differing by CH2; B: displacement - more reactive metal displaces less reactive metal from its salt solution)",
+          "marks": 1
+        },
+        {
+          "id": "28-b",
+          "description": "Two supporting points for the chosen option (A: two characteristics e.g. gradation in physical properties, similar chemical properties, difference of 14 u; B: correct observation for each of two reactions e.g. blue colour fades, reddish-brown copper deposits)",
+          "marks": 2
+        },
+        {
+          "id": "28-c",
+          "description": "Correct formulae/equations (A: methane CH4 and ethane C2H6; B: two balanced displacement equations e.g. Fe + CuSO4 -> FeSO4 + Cu, Zn + CuSO4 -> ZnSO4 + Cu)",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "B29",
+      "section": "B (Chemistry)",
+      "topic": null,
+      "question_text": "Case study: A passage on pH in daily life explains that tooth enamel corrodes when the mouth's pH falls below 5.5 after eating, that toothpastes are basic, and that plants require a soil pH near neutral. (i) Why does tooth decay begin after sugary food is eaten? (1) (ii) How does using toothpaste prevent tooth decay? (1) (iii) A farmer finds the soil is too acidic. Name two substances the farmer can treat the soil with, and explain how they work. (2)",
+      "max_marks": 4,
+      "criteria": [
+        {
+          "id": "29-a",
+          "description": "(i) Bacteria act on sugar producing acid, mouth pH falls below 5.5 and enamel corrodes",
+          "marks": 1
+        },
+        {
+          "id": "29-b",
+          "description": "(ii) Toothpaste is basic and neutralises the excess acid in the mouth",
+          "marks": 1
+        },
+        {
+          "id": "29-c",
+          "description": "(iii) Two correct substances (quicklime/slaked lime/chalk - CaO, Ca(OH)2, CaCO3) with explanation that being basic they neutralise the acidic soil (1 mark for substances, 1 for explanation)",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "B30",
+      "section": "C (Physics)",
+      "topic": null,
+      "question_text": "MCQ: The SI unit of electrical resistance is the: (a) volt (b) ampere (c) ohm (d) watt",
+      "max_marks": 1,
+      "criteria": [
+        {
+          "id": "30-a",
+          "description": "Correct option (c) ohm",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "B31",
+      "section": "C (Physics)",
+      "topic": null,
+      "question_text": "MCQ: The mirror used as a rear-view mirror in vehicles is a: (a) plane mirror (b) concave mirror (c) convex mirror (d) parabolic mirror",
+      "max_marks": 1,
+      "criteria": [
+        {
+          "id": "31-a",
+          "description": "Correct option (c) convex mirror",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "B32",
+      "section": "C (Physics)",
+      "topic": null,
+      "question_text": "Assertion-Reason: Assertion (A): A fuse wire has a low melting point. Reason (R): When current exceeds the safe limit the fuse wire melts and breaks the circuit. Options as standard.",
+      "max_marks": 1,
+      "criteria": [
+        {
+          "id": "32-a",
+          "description": "Correct option (a): both true and R is the correct explanation of A",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "B33",
+      "section": "C (Physics)",
+      "topic": null,
+      "question_text": "Why does a magnetic compass needle placed near a current-carrying wire show deflection? Name the scientist who first observed this effect. (30-50 words)",
+      "max_marks": 2,
+      "criteria": [
+        {
+          "id": "33-a",
+          "description": "Explains that a current-carrying wire produces a magnetic field around it which deflects the needle",
+          "marks": 1
+        },
+        {
+          "id": "33-b",
+          "description": "Names Oersted (Hans Christian Oersted)",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "B34",
+      "section": "C (Physics)",
+      "topic": null,
+      "question_text": "Define power of a lens. Calculate the power of a concave lens of focal length 50 cm. (30-50 words)",
+      "max_marks": 2,
+      "criteria": [
+        {
+          "id": "34-a",
+          "description": "Defines power as reciprocal of focal length in metres, P = 1/f, unit dioptre",
+          "marks": 1
+        },
+        {
+          "id": "34-b",
+          "description": "Correct calculation with sign: f = -0.5 m so P = -2 D (error carried forward on sign if magnitude method correct: max half)",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "B35",
+      "section": "C (Physics)",
+      "topic": null,
+      "question_text": "Two resistors of 4 ohm and 6 ohm are connected in series across a 10 V battery. Calculate (i) the total resistance of the circuit, (ii) the current through the circuit, and (iii) the potential difference across the 6 ohm resistor.",
+      "max_marks": 3,
+      "criteria": [
+        {
+          "id": "35-a",
+          "description": "(i) Total resistance R = 4 + 6 = 10 ohm",
+          "marks": 1
+        },
+        {
+          "id": "35-b",
+          "description": "(ii) Current I = V/R = 10/10 = 1 A (error carried forward from their R)",
+          "marks": 1
+        },
+        {
+          "id": "35-c",
+          "description": "(iii) V across 6 ohm = I x 6 = 6 V with unit (error carried forward from their I)",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "B36",
+      "section": "C (Physics)",
+      "topic": null,
+      "question_text": "An object is placed between the pole and the principal focus of a concave mirror. Draw the ray diagram for the image formed and state the nature, position and relative size of the image.",
+      "max_marks": 3,
+      "criteria": [
+        {
+          "id": "36-a",
+          "description": "Correct ray diagram: two standard rays, image shown behind the mirror (1 mark if rays correct but image position wrong)",
+          "marks": 2
+        },
+        {
+          "id": "36-b",
+          "description": "Nature stated: virtual, erect and magnified, formed behind the mirror",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "B37",
+      "section": "C (Physics)",
+      "topic": null,
+      "question_text": "State the two laws of refraction of light. Define the refractive index of a medium in terms of the speed of light. (50-80 words)",
+      "max_marks": 3,
+      "criteria": [
+        {
+          "id": "37-a",
+          "description": "Both laws stated: (1) incident ray, refracted ray and normal lie in one plane; (2) Snell's law - sin i / sin r constant for a given pair of media (1 mark each)",
+          "marks": 2
+        },
+        {
+          "id": "37-b",
+          "description": "Refractive index defined as n = speed of light in vacuum / speed of light in the medium (n = c/v)",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "B38",
+      "section": "C (Physics)",
+      "topic": null,
+      "question_text": "(A) State the principle of an electric motor. Draw a labelled diagram and explain its working, including the function of the split-ring commutator. OR (B) State Ohm's law. Describe an experiment with a circuit diagram to verify it, showing the expected V-I graph, and use the law to find the resistance of a conductor through which 0.5 A flows at 12 V. (80-120 words)",
+      "max_marks": 5,
+      "criteria": [
+        {
+          "id": "38-a",
+          "description": "Principle/law stated for the chosen option (A: current-carrying coil in a magnetic field experiences a force/torque; B: V is directly proportional to I at constant temperature, V = IR)",
+          "marks": 1
+        },
+        {
+          "id": "38-b",
+          "description": "Correct labelled diagram for the chosen option (A: coil, magnets, split-ring commutator, brushes, battery; B: circuit with battery, ammeter, voltmeter, resistor and the straight-line V-I graph) - 1 mark if diagram correct but 2+ essential labels missing",
+          "marks": 2
+        },
+        {
+          "id": "38-c",
+          "description": "Working/solution for the chosen option (A: explains rotation and that the split ring reverses current every half turn to keep rotation one-way; B: describes varying cells and reading V and I, plus numerical R = V/I = 12/0.5 = 24 ohm with unit, error carried forward)",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "B39",
+      "section": "C (Physics)",
+      "topic": null,
+      "question_text": "Case study: Ravi, a Class 10 student, can read his book clearly but cannot see the blackboard clearly from the last bench. A doctor finds that his far point is 2 m. (i) Name the defect of vision Ravi suffers from. (1) (ii) Which type of lens is used to correct this defect? (1) (iii) Calculate the focal length and power of the corrective lens required. (2)",
+      "max_marks": 4,
+      "criteria": [
+        {
+          "id": "39-a",
+          "description": "(i) Defect named: myopia / short-sightedness (near-sightedness)",
+          "marks": 1
+        },
+        {
+          "id": "39-b",
+          "description": "(ii) Concave (diverging) lens identified",
+          "marks": 1
+        },
+        {
+          "id": "39-c",
+          "description": "(iii) Focal length f = -2 m and power P = 1/f = -0.5 D, with signs and units (1 mark for f, 1 for P; error carried forward from their f)",
+          "marks": 2
+        }
+      ]
+    }
+  ],
+  "variants": [
+    {
+      "paper_code": "31/1/1",
+      "question_map": {
+        "1": "B01",
+        "2": "B02",
+        "3": "B03",
+        "4": "B04",
+        "5": "B05",
+        "6": "B06",
+        "7": "B07",
+        "8": "B08",
+        "9": "B09",
+        "10": "B10",
+        "11": "B11",
+        "12": "B12",
+        "13": "B13",
+        "14": "B14",
+        "15": "B15",
+        "16": "B16",
+        "17": "B17",
+        "18": "B18",
+        "19": "B19",
+        "20": "B20",
+        "21": "B21",
+        "22": "B22",
+        "23": "B23",
+        "24": "B24",
+        "25": "B25",
+        "26": "B26",
+        "27": "B27",
+        "28": "B28",
+        "29": "B29",
+        "30": "B30",
+        "31": "B31",
+        "32": "B32",
+        "33": "B33",
+        "34": "B34",
+        "35": "B35",
+        "36": "B36",
+        "37": "B37",
+        "38": "B38",
+        "39": "B39"
+      }
+    },
+    {
+      "paper_code": "31/2/1",
+      "question_map": {
+        "1": "B06",
+        "2": "B03",
+        "3": "B05",
+        "4": "B04",
+        "5": "B01",
+        "6": "B07",
+        "7": "B02",
+        "8": "B09",
+        "9": "B08",
+        "10": "B12",
+        "11": "B11",
+        "12": "B10",
+        "13": "B14",
+        "14": "B13",
+        "15": "B15",
+        "16": "B16",
+        "17": "B22",
+        "18": "B17",
+        "19": "B23",
+        "20": "B20",
+        "21": "B18",
+        "22": "B21",
+        "23": "B19",
+        "24": "B24",
+        "25": "B25",
+        "26": "B27",
+        "27": "B26",
+        "28": "B28",
+        "29": "B29",
+        "30": "B31",
+        "31": "B30",
+        "32": "B32",
+        "33": "B34",
+        "34": "B33",
+        "35": "B36",
+        "36": "B37",
+        "37": "B35",
+        "38": "B38",
+        "39": "B39"
+      }
+    },
+    {
+      "paper_code": "31/3/1",
+      "question_map": {
+        "1": "B04",
+        "2": "B05",
+        "3": "B01",
+        "4": "B02",
+        "5": "B06",
+        "6": "B03",
+        "7": "B07",
+        "8": "B09",
+        "9": "B08",
+        "10": "B10",
+        "11": "B12",
+        "12": "B11",
+        "13": "B14",
+        "14": "B13",
+        "15": "B15",
+        "16": "B16",
+        "17": "B19",
+        "18": "B20",
+        "19": "B23",
+        "20": "B17",
+        "21": "B22",
+        "22": "B21",
+        "23": "B18",
+        "24": "B24",
+        "25": "B25",
+        "26": "B27",
+        "27": "B26",
+        "28": "B28",
+        "29": "B29",
+        "30": "B31",
+        "31": "B30",
+        "32": "B32",
+        "33": "B34",
+        "34": "B33",
+        "35": "B35",
+        "36": "B37",
+        "37": "B36",
+        "38": "B38",
+        "39": "B39"
+      }
+    }
+  ],
+  "created_at": "2026-08-11T00:00:00+00:00"
+}

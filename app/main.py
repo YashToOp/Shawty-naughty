@@ -3,6 +3,7 @@
 Run with:  uvicorn app.main:app --reload
 """
 
+import json
 import logging
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -14,27 +15,39 @@ from pydantic import BaseModel, ValidationError
 
 from . import annotator, pipeline, storage, student_pipeline
 from .config import MAX_UPLOAD_BYTES, SUPPORTED_MEDIA_TYPES
-from .models import HumanOverride, Paper, Rubric
+from .models import HumanOverride, Paper, QuestionBank, Rubric
 
 logger = logging.getLogger(__name__)
 
 STATIC_DIR = Path(__file__).parent / "static"
-SAMPLE_PAPERS_DIR = Path(__file__).parent.parent / "sample_data" / "papers"
+SAMPLE_DATA_DIR = Path(__file__).parent.parent / "sample_data"
+SAMPLE_PAPERS_DIR = SAMPLE_DATA_DIR / "papers"
+SAMPLE_BANKS_DIR = SAMPLE_DATA_DIR / "banks"
+COVERAGE_FILE = SAMPLE_DATA_DIR / "coverage.json"
 
 
 def seed_sample_papers() -> None:
-    """Load bundled sample papers (e.g. CBSE Class 12 English Core 2026) into
-    the registry so the student flow works out of the box."""
-    if not SAMPLE_PAPERS_DIR.exists():
-        return
-    for path in sorted(SAMPLE_PAPERS_DIR.glob("*.json")):
-        try:
-            paper = Paper.model_validate_json(path.read_text())
-            if storage.get_paper(storage.paper_storage_id(paper)) is None:
-                storage.save_paper(paper)
-                logger.info("Seeded paper %s (%s)", paper.paper_code, paper.title)
-        except Exception:
-            logger.exception("Failed to seed sample paper %s", path.name)
+    """Load bundled papers and question banks into the registry so the
+    student flow works out of the box."""
+    if SAMPLE_PAPERS_DIR.exists():
+        for path in sorted(SAMPLE_PAPERS_DIR.glob("*.json")):
+            try:
+                paper = Paper.model_validate_json(path.read_text())
+                if storage.get_paper(storage.paper_storage_id(paper)) is None:
+                    storage.save_paper(paper)
+                    logger.info("Seeded paper %s (%s)", paper.paper_code, paper.title)
+            except Exception:
+                logger.exception("Failed to seed sample paper %s", path.name)
+    if SAMPLE_BANKS_DIR.exists():
+        for path in sorted(SAMPLE_BANKS_DIR.glob("*.json")):
+            try:
+                bank = QuestionBank.model_validate_json(path.read_text())
+                if storage.get_bank(storage.bank_storage_id(bank)) is None:
+                    storage.save_bank(bank)
+                    logger.info("Seeded bank %s (%d questions, %d sets)",
+                                bank.title, len(bank.questions), len(bank.variants))
+            except Exception:
+                logger.exception("Failed to seed question bank %s", path.name)
 
 
 @asynccontextmanager
@@ -188,8 +201,58 @@ def correct_paper_code(job_id: str, body: PaperCodeRequest,
 
 
 # ---------------------------------------------------------------------------
-# Paper registry
+# Paper registry & coverage
 # ---------------------------------------------------------------------------
+
+@app.get("/api/coverage")
+def coverage():
+    """What's centrally covered vs the upload path, plus live registry state."""
+    manifest = {}
+    if COVERAGE_FILE.exists():
+        manifest = json.loads(COVERAGE_FILE.read_text())
+    available = [
+        {
+            "kind": "bank", "id": b.id, "board": b.board,
+            "class_level": b.class_level, "subject": b.subject, "year": b.year,
+            "question_count": len(b.questions),
+            "set_variants": [v.paper_code for v in b.variants],
+            "rubric_status": b.rubric_status,
+        }
+        for b in storage.list_banks()
+    ] + [
+        {
+            "kind": "paper", "id": p.id, "board": p.board,
+            "class_level": p.class_level, "subject": p.subject, "year": p.year,
+            "question_count": len(p.questions),
+            "set_variants": [p.paper_code],
+            "rubric_status": p.rubric_status,
+        }
+        for p in storage.list_papers() if p.source_bank is None
+    ]
+    return {**manifest, "available": available}
+
+
+@app.get("/api/banks")
+def list_banks():
+    return [
+        {
+            "id": b.id, "board": b.board, "class_level": b.class_level,
+            "subject": b.subject, "year": b.year, "title": b.title,
+            "question_count": len(b.questions),
+            "set_variants": [v.paper_code for v in b.variants],
+            "rubric_status": b.rubric_status,
+        }
+        for b in storage.list_banks()
+    ]
+
+
+@app.get("/api/banks/{bank_id}")
+def get_bank(bank_id: str) -> QuestionBank:
+    bank = storage.get_bank(bank_id)
+    if bank is None:
+        raise HTTPException(404, "Question bank not found")
+    return bank
+
 
 @app.get("/api/papers")
 def list_papers():

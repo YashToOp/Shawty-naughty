@@ -53,7 +53,13 @@ def _start(job: Job) -> None:
 
 
 def resume_with_uploaded_paper(job_id: str) -> None:
-    """Student uploaded the question paper for an awaiting_paper job."""
+    """Student uploaded the question paper for an awaiting_paper job.
+
+    The paper is folded into the subject-year question bank: questions seen in
+    other set variants are reused with their existing rubrics; only new
+    questions get schemes generated. The set code becomes a bank variant, so
+    every later student with this code (or any registered shuffle of it)
+    resolves instantly."""
     job = storage.get_job(job_id)
     if job is None:
         return
@@ -63,14 +69,23 @@ def resume_with_uploaded_paper(job_id: str) -> None:
         extracted = paper_ingest.extract_questions(
             client, storage.paper_upload_paths(job)
         )
-        paper = paper_ingest.build_paper(job.metadata, extracted)
 
-        existing = storage.get_paper(storage.paper_storage_id(paper))
-        if existing is not None:  # someone registered it while we were reading
-            paper = existing
-        else:
-            paper = storage.save_paper(paper)
+        code = extracted.paper_code or (job.metadata.paper_code if job.metadata else None)
+        year = job.metadata.exam_year if job.metadata else None
+        if code and year:
+            hit = storage.find_bank_variant(code, year)
+            if hit is not None:  # registered while we were reading
+                paper = storage.materialize_variant(*hit)
+                _continue_with_paper(job, paper, client)
+                return
 
+        storage.update_job(job, status="generating_rubric")
+        bank = storage.find_bank_for(job.metadata) if job.metadata else None
+        bank, variant = paper_ingest.ingest_into_bank(
+            client, job.metadata, extracted, bank
+        )
+        storage.save_bank(bank)
+        paper = storage.materialize_variant(bank, variant)
         _continue_with_paper(job, paper, client)
     except Exception as exc:
         logger.exception("Student job %s failed while reading the paper", job_id)

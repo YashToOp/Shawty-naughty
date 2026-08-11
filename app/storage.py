@@ -16,7 +16,19 @@ from pathlib import Path
 from typing import Optional
 
 from .config import DATA_DIR
-from .models import Job, Paper, Rubric, SheetMetadata, SubmissionReport, Transcript
+from .models import (
+    Criterion,
+    Job,
+    Paper,
+    PaperQuestion,
+    Question,
+    QuestionBank,
+    Rubric,
+    SetVariant,
+    SheetMetadata,
+    SubmissionReport,
+    Transcript,
+)
 
 
 def _rubrics_dir() -> Path:
@@ -101,8 +113,14 @@ def list_papers() -> list[Paper]:
     )
 
 
+def _loose(s: Optional[str]) -> str:
+    return re.sub(r"[^a-z0-9]+", "", (s or "").lower())
+
+
 def find_paper(meta: SheetMetadata) -> Optional[Paper]:
-    """Match by paper code + year first; fall back to board/class/subject/year."""
+    """Resolution order: registered paper by code+year -> question-bank set
+    variant by code+year (materialized on demand) -> registered paper by
+    board/class/subject/year fallback for misread codes."""
     papers = list_papers()
 
     if meta.paper_code and meta.exam_year:
@@ -111,24 +129,137 @@ def find_paper(meta: SheetMetadata) -> Optional[Paper]:
             if normalize_code(paper.paper_code) == wanted and paper.year == meta.exam_year:
                 return paper
 
-    def loose(s: Optional[str]) -> str:
-        return re.sub(r"[^a-z0-9]+", "", (s or "").lower())
+        hit = find_bank_variant(meta.paper_code, meta.exam_year)
+        if hit is not None:
+            bank, variant = hit
+            return materialize_variant(bank, variant)
 
     if meta.subject and meta.exam_year:
         for paper in papers:
             subject_match = (
-                loose(meta.subject) in loose(paper.subject)
-                or loose(paper.subject) in loose(meta.subject)
+                _loose(meta.subject) in _loose(paper.subject)
+                or _loose(paper.subject) in _loose(meta.subject)
             )
             if (
                 subject_match
                 and paper.year == meta.exam_year
-                and (not meta.board or loose(meta.board) == loose(paper.board))
+                and (not meta.board or _loose(meta.board) == _loose(paper.board))
                 and (not meta.class_level
-                     or loose(meta.class_level) == loose(paper.class_level))
+                     or _loose(meta.class_level) == _loose(paper.class_level))
             ):
                 return paper
     return None
+
+
+# ---------------------------------------------------------------------------
+# Question banks (all-in-one PYQ store; one bank per board/class/subject/year)
+# ---------------------------------------------------------------------------
+
+def _banks_dir() -> Path:
+    d = DATA_DIR / "banks"
+    d.mkdir(parents=True, exist_ok=True)
+    return d
+
+
+def bank_storage_id(bank: QuestionBank) -> str:
+    return (f"{_loose(bank.board)}-{_loose(bank.class_level)}-"
+            f"{_loose(bank.subject)}_{bank.year}")
+
+
+def save_bank(bank: QuestionBank) -> QuestionBank:
+    bank.id = bank_storage_id(bank)
+    (_banks_dir() / f"{bank.id}.json").write_text(bank.model_dump_json(indent=2))
+    return bank
+
+
+def get_bank(bank_id: str) -> Optional[QuestionBank]:
+    path = _banks_dir() / f"{Path(bank_id).name}.json"
+    if not path.exists():
+        return None
+    return QuestionBank.model_validate_json(path.read_text())
+
+
+def list_banks() -> list[QuestionBank]:
+    return sorted(
+        (QuestionBank.model_validate_json(p.read_text())
+         for p in _banks_dir().glob("*.json")),
+        key=lambda b: (b.year, b.subject), reverse=True,
+    )
+
+
+def find_bank_variant(paper_code: str,
+                      year: int) -> Optional[tuple[QuestionBank, SetVariant]]:
+    wanted = normalize_code(paper_code)
+    for bank in list_banks():
+        if bank.year != year:
+            continue
+        for variant in bank.variants:
+            if normalize_code(variant.paper_code) == wanted:
+                return bank, variant
+    return None
+
+
+def find_bank_for(meta: SheetMetadata) -> Optional[QuestionBank]:
+    """Bank for this sheet's board/class/subject/year (for upload dedupe)."""
+    if not (meta.subject and meta.exam_year):
+        return None
+    for bank in list_banks():
+        subject_match = (
+            _loose(meta.subject) in _loose(bank.subject)
+            or _loose(bank.subject) in _loose(meta.subject)
+        )
+        if (
+            subject_match and bank.year == meta.exam_year
+            and (not meta.board or _loose(meta.board) == _loose(bank.board))
+            and (not meta.class_level
+                 or _loose(meta.class_level) == _loose(bank.class_level))
+        ):
+            return bank
+    return None
+
+
+def _numeric_sort_key(qnum: str):
+    return (0, int(qnum)) if qnum.isdigit() else (1, qnum)
+
+
+def materialize_variant(bank: QuestionBank, variant: SetVariant) -> Paper:
+    """Build (and persist) the Paper for one set code from the bank.
+
+    Bank questions carry the master rubric; materialization renumbers them to
+    the set's question numbers and relabels criterion ids to match."""
+    by_id = {q.id: q for q in bank.questions}
+    paper_questions: list[PaperQuestion] = []
+    rubric_questions: list[Question] = []
+
+    for qnum in sorted(variant.question_map, key=_numeric_sort_key):
+        bq = by_id[variant.question_map[qnum]]
+        paper_questions.append(PaperQuestion(
+            id=qnum, section=bq.section,
+            question_text=bq.question_text, max_marks=bq.max_marks,
+        ))
+        rubric_questions.append(Question(
+            id=qnum, question_text=bq.question_text, max_marks=bq.max_marks,
+            criteria=[
+                Criterion(id=f"{qnum}-{chr(ord('a') + i)}",
+                          description=c.description, marks=c.marks)
+                for i, c in enumerate(bq.criteria)
+            ],
+        ))
+
+    paper = Paper(
+        board=bank.board, class_level=bank.class_level, subject=bank.subject,
+        year=bank.year, paper_code=variant.paper_code,
+        title=f"{bank.title} — Set {variant.paper_code}",
+        questions=paper_questions,
+        rubric=Rubric(title=f"{bank.title} — Marking Scheme",
+                      instructions=bank.instructions,
+                      questions=rubric_questions),
+        rubric_status=bank.rubric_status,
+        source_bank=bank.id,
+    )
+    saved = save_paper(paper)
+    saved.rubric.id = saved.id
+    return save_paper(saved)
 
 
 # ---------------------------------------------------------------------------
