@@ -1,0 +1,37 @@
+{
+  "title": "Class 10 Science - Motion & Forces",
+  "instructions": "Award marks strictly per criterion. No negative marking. Accept equivalent correct phrasings.",
+  "questions": [
+    {
+      "id": "1",
+      "question_text": "State Newton's second law of motion and write its mathematical form.",
+      "max_marks": 4,
+      "model_answer": "The rate of change of momentum of a body is directly proportional to the applied force and takes place in the direction of the force. Mathematically, F = ma.",
+      "criteria": [
+        { "id": "1-a", "description": "States the law in words (rate of change of momentum proportional to force, or equivalent)", "marks": 2 },
+        { "id": "1-b", "description": "Writes the correct equation F = ma with symbols identified or obvious from context", "marks": 2 }
+      ]
+    },
+    {
+      "id": "2",
+      "question_text": "A car of mass 1000 kg accelerates from rest to 20 m/s in 10 s. Calculate the force applied.",
+      "max_marks": 3,
+      "model_answer": "a = (20 - 0) / 10 = 2 m/s^2; F = ma = 1000 x 2 = 2000 N.",
+      "criteria": [
+        { "id": "2-a", "description": "Calculates acceleration correctly (2 m/s^2)", "marks": 1 },
+        { "id": "2-b", "description": "Applies F = ma with their acceleration value", "marks": 1 },
+        { "id": "2-c", "description": "Correct final answer with unit (2000 N)", "marks": 1 }
+      ]
+    },
+    {
+      "id": "3",
+      "question_text": "Explain why a passenger falls backward when a bus suddenly starts moving.",
+      "max_marks": 3,
+      "model_answer": "Due to inertia of rest, the lower body moves with the bus while the upper body tends to remain at rest, so the passenger falls backward.",
+      "criteria": [
+        { "id": "3-a", "description": "Identifies inertia (of rest) as the cause", "marks": 1 },
+        { "id": "3-b", "description": "Explains that the lower body moves with the bus while the upper body resists the change", "marks": 2 }
+      ]
+    }
+  ]
+}

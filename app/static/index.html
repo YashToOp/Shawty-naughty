@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Answer Sheet Evaluator</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --card: #ffffff; --ink: #1c2430; --muted: #66707d;
+    --accent: #2557d6; --ok: #1e7d46; --warn: #b3560b; --bad: #b3261e;
+    --line: #e3e6ea;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+         background: var(--bg); color: var(--ink); }
+  header { background: var(--card); border-bottom: 1px solid var(--line);
+           padding: 16px 24px; }
+  header h1 { margin: 0; font-size: 18px; }
+  header p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+  main { max-width: 1080px; margin: 24px auto; padding: 0 16px;
+         display: grid; gap: 20px; }
+  .card { background: var(--card); border: 1px solid var(--line);
+          border-radius: 10px; padding: 20px; }
+  .card h2 { margin: 0 0 12px; font-size: 15px; }
+  label { display: block; font-size: 13px; color: var(--muted); margin: 10px 0 4px; }
+  textarea, input[type=text], input[type=number], select {
+    width: 100%; padding: 8px 10px; border: 1px solid var(--line);
+    border-radius: 6px; font: inherit; font-size: 13px; }
+  textarea { font-family: ui-monospace, Menlo, Consolas, monospace; min-height: 140px; }
+  button { background: var(--accent); color: #fff; border: 0; border-radius: 6px;
+           padding: 8px 14px; font: inherit; font-size: 13px; cursor: pointer; margin-top: 10px; }
+  button.secondary { background: #eef1f5; color: var(--ink); }
+  button:disabled { opacity: .5; cursor: default; }
+  .status { font-size: 12px; padding: 2px 8px; border-radius: 10px; display: inline-block; }
+  .status.completed { background: #e2f3e8; color: var(--ok); }
+  .status.failed { background: #fbe4e2; color: var(--bad); }
+  .status.queued, .status.transcribing, .status.evaluating { background: #fff1e0; color: var(--warn); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+  .muted { color: var(--muted); }
+  .flag { color: var(--warn); font-weight: 600; }
+  details { margin: 8px 0; }
+  summary { cursor: pointer; font-weight: 600; font-size: 13px; }
+  .crit { border-left: 3px solid var(--line); margin: 8px 0 8px 6px; padding: 4px 10px; font-size: 13px; }
+  .crit .ev { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px;
+              background: #f2f4f7; border-radius: 4px; padding: 2px 6px; display: inline-block; margin: 2px 0; }
+  .error-box { color: var(--bad); font-size: 13px; white-space: pre-wrap; }
+  .row { display: flex; gap: 8px; align-items: end; flex-wrap: wrap; }
+  .row > div { flex: 1; min-width: 140px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Answer Sheet Evaluator</h1>
+  <p>Upload scanned answer sheets &rarr; OCR transcript &rarr; rubric-based evaluation with evidence, rationale and human review.</p>
+</header>
+<main>
+
+  <section class="card">
+    <h2>1. Rubric</h2>
+    <label for="rubric-select">Use an existing rubric</label>
+    <select id="rubric-select"></select>
+    <details>
+      <summary>Or create a new rubric (JSON)</summary>
+      <label for="rubric-json">Rubric JSON</label>
+      <textarea id="rubric-json" spellcheck="false"></textarea>
+      <button id="save-rubric">Save rubric</button>
+      <span id="rubric-msg" class="muted"></span>
+    </details>
+  </section>
+
+  <section class="card">
+    <h2>2. Upload answer sheet</h2>
+    <label for="sheet-files">Scanned pages (PNG, JPG, WEBP, GIF or PDF)</label>
+    <input type="file" id="sheet-files" multiple accept=".png,.jpg,.jpeg,.webp,.gif,.pdf">
+    <button id="submit-sheet">Evaluate</button>
+    <span id="submit-msg" class="muted"></span>
+  </section>
+
+  <section class="card">
+    <h2>3. Submissions</h2>
+    <table>
+      <thead><tr><th>Job</th><th>Status</th><th>Created</th><th></th></tr></thead>
+      <tbody id="jobs-body"></tbody>
+    </table>
+  </section>
+
+  <section class="card" id="result-card" hidden>
+    <h2>Result</h2>
+    <div id="result-body"></div>
+  </section>
+
+</main>
+<script>
+const $ = (id) => document.getElementById(id);
+let pollTimer = null;
+
+const EXAMPLE_RUBRIC = {
+  title: "Physics Quiz 1",
+  instructions: "Award marks per criterion. No negative marking.",
+  questions: [
+    {
+      id: "1",
+      question_text: "State Newton's second law and give its equation.",
+      max_marks: 4,
+      model_answer: "Force equals mass times acceleration (F = ma); the net force on a body is proportional to the rate of change of its momentum.",
+      criteria: [
+        { id: "1-a", description: "States the law in words (force proportional to rate of change of momentum, or F = ma relationship described)", marks: 2 },
+        { id: "1-b", description: "Gives the correct equation F = ma", marks: 2 }
+      ]
+    }
+  ]
+};
+
+async function api(path, opts) {
+  const res = await fetch(path, opts);
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}));
+    throw new Error(body.detail || res.statusText);
+  }
+  return res.json();
+}
+
+async function loadRubrics() {
+  const rubrics = await api("/api/rubrics");
+  const sel = $("rubric-select");
+  sel.innerHTML = "";
+  if (!rubrics.length) {
+    sel.innerHTML = '<option value="">No rubrics yet - create one below</option>';
+  }
+  for (const r of rubrics) {
+    const opt = document.createElement("option");
+    opt.value = r.id;
+    opt.textContent = `${r.title} (${r.questions.length} questions)`;
+    sel.appendChild(opt);
+  }
+}
+
+async function saveRubric() {
+  $("rubric-msg").textContent = "";
+  try {
+    const rubric = JSON.parse($("rubric-json").value);
+    const saved = await api("/api/rubrics", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(rubric),
+    });
+    $("rubric-msg").textContent = `Saved "${saved.title}"`;
+    await loadRubrics();
+    $("rubric-select").value = saved.id;
+  } catch (e) {
+    $("rubric-msg").textContent = "Error: " + e.message;
+  }
+}
+
+async function submitSheet() {
+  $("submit-msg").textContent = "";
+  const rubricId = $("rubric-select").value;
+  const files = $("sheet-files").files;
+  if (!rubricId) { $("submit-msg").textContent = "Select or create a rubric first."; return; }
+  if (!files.length) { $("submit-msg").textContent = "Choose at least one file."; return; }
+  const form = new FormData();
+  form.append("rubric_id", rubricId);
+  for (const f of files) form.append("files", f);
+  try {
+    $("submit-sheet").disabled = true;
+    const res = await api("/api/submissions", { method: "POST", body: form });
+    $("submit-msg").textContent = `Job ${res.job_id} queued.`;
+    await refreshJobs();
+    watchJob(res.job_id);
+  } catch (e) {
+    $("submit-msg").textContent = "Error: " + e.message;
+  } finally {
+    $("submit-sheet").disabled = false;
+  }
+}
+
+async function refreshJobs() {
+  const jobs = await api("/api/submissions");
+  const body = $("jobs-body");
+  body.innerHTML = "";
+  for (const j of jobs) {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${j.id}</td>
+      <td><span class="status ${j.status}">${j.status}</span></td>
+      <td class="muted">${new Date(j.created_at).toLocaleString()}</td>
+      <td><button class="secondary" data-job="${j.id}">View</button></td>`;
+    body.appendChild(tr);
+  }
+  body.querySelectorAll("button[data-job]").forEach((b) =>
+    b.addEventListener("click", () => watchJob(b.dataset.job)));
+}
+
+function watchJob(jobId) {
+  clearInterval(pollTimer);
+  const tick = async () => {
+    const data = await api(`/api/submissions/${jobId}`);
+    renderResult(data);
+    if (data.job.status === "completed" || data.job.status === "failed") {
+      clearInterval(pollTimer);
+      refreshJobs();
+    }
+  };
+  tick();
+  pollTimer = setInterval(tick, 3000);
+}
+
+function esc(s) {
+  return String(s ?? "").replace(/[&<>"]/g, (c) =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+}
+
+function renderResult(data) {
+  const card = $("result-card");
+  const body = $("result-body");
+  card.hidden = false;
+  const { job, report, transcript } = data;
+
+  if (job.status === "failed") {
+    body.innerHTML = `<div class="error-box">Job failed: ${esc(job.error)}</div>`;
+    return;
+  }
+  if (!report) {
+    body.innerHTML = `<p class="muted">Job ${esc(job.id)} is <b>${esc(job.status)}</b>&hellip; this page refreshes automatically.</p>`;
+    return;
+  }
+
+  let html = `
+    <p><b>${esc(report.rubric_title)}</b>
+       ${report.student_identifier ? " &mdash; " + esc(report.student_identifier) : ""}</p>
+    <p style="font-size:22px;margin:6px 0"><b>${report.total_awarded}</b>
+       <span class="muted">/ ${report.total_available}</span>
+       ${report.questions_flagged_for_review
+         ? `<span class="flag"> &nbsp;&#9873; ${report.questions_flagged_for_review} question(s) need human review</span>` : ""}
+    </p>`;
+
+  for (const r of report.results) {
+    const ev = r.evaluation;
+    const finalMarks = r.override ? r.override.marks_awarded : ev.marks_awarded;
+    html += `
+    <details ${ev.needs_human_review && !r.override ? "open" : ""}>
+      <summary>Q${esc(ev.question_id)} &mdash; ${finalMarks} / ${ev.max_marks}
+        ${r.override ? '<span class="muted">(human override)</span>' : ""}
+        ${ev.needs_human_review && !r.override ? '<span class="flag">&#9873; review</span>' : ""}
+        <span class="muted">confidence: ${ev.confidence}</span>
+      </summary>
+      <p class="muted">${esc(ev.overall_comment)}</p>`;
+    for (const c of ev.criteria) {
+      html += `
+      <div class="crit">
+        <b>[${esc(c.criterion_id)}]</b> ${c.marks_awarded} marks &mdash; ${esc(c.met)}<br>
+        ${esc(c.rationale)}<br>
+        ${c.evidence.map((e) => `<span class="ev">&ldquo;${esc(e)}&rdquo;</span>`).join(" ")}
+      </div>`;
+    }
+    if (r.override) {
+      html += `<p class="muted">Override by ${esc(r.override.reviewer)}: ${esc(r.override.reason)}</p>`;
+    }
+    html += `
+      <div class="row">
+        <div><label>Corrected marks</label>
+          <input type="number" step="0.5" min="0" max="${ev.max_marks}" id="ov-marks-${esc(ev.question_id)}"></div>
+        <div><label>Reason</label>
+          <input type="text" id="ov-reason-${esc(ev.question_id)}"></div>
+        <div><label>Reviewer</label>
+          <input type="text" id="ov-reviewer-${esc(ev.question_id)}"></div>
+        <div><button class="secondary" data-override="${esc(ev.question_id)}" data-jobid="${esc(job.id)}">Apply override</button></div>
+      </div>
+    </details>`;
+  }
+
+  if (transcript) {
+    html += `<details><summary>OCR transcript (audit)</summary>`;
+    for (const a of transcript.answers) {
+      html += `<div class="crit"><b>Q${esc(a.question_id)}</b>
+        <span class="muted">(${esc(a.legibility)})</span><br>
+        <span style="white-space:pre-wrap">${esc(a.answer_text)}</span>
+        ${a.transcription_notes ? `<br><span class="muted">Note: ${esc(a.transcription_notes)}</span>` : ""}</div>`;
+    }
+    if (transcript.unmatched_content) {
+      html += `<div class="crit"><b>Unmatched content</b><br>${esc(transcript.unmatched_content)}</div>`;
+    }
+    html += `</details>`;
+  }
+
+  body.innerHTML = html;
+  body.querySelectorAll("button[data-override]").forEach((b) =>
+    b.addEventListener("click", async () => {
+      const qid = b.dataset.override, jobId = b.dataset.jobid;
+      try {
+        await api(`/api/submissions/${jobId}/questions/${qid}/override`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            marks_awarded: parseFloat($(`ov-marks-${qid}`).value),
+            reason: $(`ov-reason-${qid}`).value || "manual correction",
+            reviewer: $(`ov-reviewer-${qid}`).value || "reviewer",
+          }),
+        });
+        watchJob(jobId);
+      } catch (e) { alert("Override failed: " + e.message); }
+    }));
+}
+
+$("rubric-json").value = JSON.stringify(EXAMPLE_RUBRIC, null, 2);
+$("save-rubric").addEventListener("click", saveRubric);
+$("submit-sheet").addEventListener("click", submitSheet);
+loadRubrics();
+refreshJobs();
+</script>
+</body>
+</html>
