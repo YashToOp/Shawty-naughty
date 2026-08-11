@@ -48,9 +48,11 @@ def grade_submission(job: Job, rubric: Rubric,
     storage.save_transcript(job.id, transcript)
 
     storage.update_job(job, status="evaluating")
-    results = evaluator.evaluate_submission(client, rubric, transcript)
+    results = evaluator.evaluate_submission(client, rubric, transcript,
+                                            strictness=job.strictness)
 
-    report = SubmissionReport.build(rubric, transcript, results)
+    report = SubmissionReport.build(rubric, transcript, results,
+                                    strictness=job.strictness)
     storage.save_report(job.id, report)
 
     # Annotation is an overlay on top of a finished evaluation — a drawing

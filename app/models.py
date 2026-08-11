@@ -280,10 +280,12 @@ class SubmissionReport(BaseModel):
     total_awarded: float
     total_available: float
     questions_flagged_for_review: int
+    strictness: int = 0  # disclosed: which marking disposition graded this paper
 
     @staticmethod
     def build(rubric: Rubric, transcript: Transcript,
-              results: list[QuestionResult]) -> "SubmissionReport":
+              results: list[QuestionResult],
+              strictness: int = 0) -> "SubmissionReport":
         return SubmissionReport(
             rubric_id=rubric.id or "",
             rubric_title=rubric.title,
@@ -295,6 +297,7 @@ class SubmissionReport(BaseModel):
                 1 for r in results
                 if r.evaluation.needs_human_review and r.override is None
             ),
+            strictness=strictness,
         )
 
 
@@ -321,6 +324,7 @@ class Job(BaseModel):
     kind: Literal["examiner", "student"] = "examiner"
     metadata: Optional[SheetMetadata] = None  # student flow
     paper_id: Optional[str] = None            # student flow
+    strictness: int = 0                        # 0 lenient · 1 balanced · 2 strict
     status: JobStatus = "queued"
     error: Optional[str] = None
     created_at: str = Field(

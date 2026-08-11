@@ -25,6 +25,8 @@ Two front doors share one grading pipeline:
 
 The registry is the flywheel: the **first** student with a new paper code contributes the question paper (one upload), the system extracts the questions and writes a marking scheme following board conventions (CBSE English: Format / Content / Organisation / Accuracy for writing tasks; Content / Evidence / Organisation / Expression for literature), and **every subsequent student skips straight to grading**. AI-generated schemes are labeled as such in the result until an examiner verifies them.
 
+**Marking strictness** is a lever on upload — 0 Board standard (lenient, CBSE-style: spelling ignored outside language criteria, benefit of the doubt, error carried forward), 1 Balanced, 2 Strict (competitive-exam style, UPSC-like: only what is explicitly demonstrated earns marks). Strictness changes the judgment disposition only — never the rubric or its arithmetic — and the level used is disclosed on every result alongside the invariants (identity-blind, evidence-cited, totals computed in code).
+
 ## How it works
 
 ```

@@ -67,6 +67,12 @@
   @keyframes spin { to { transform: rotate(360deg); } }
   @media (prefers-reduced-motion: reduce) { .spinner { animation: none; } }
   img.sheet { max-width: 100%; border: 1px solid var(--line); border-radius: 8px; margin: 8px 0; }
+  .strict-row { max-width: 420px; }
+  .strict-row input[type=range] { width: 100%; accent-color: var(--accent); }
+  .strict-marks { display: flex; justify-content: space-between; font-size: 11.5px;
+                  color: var(--muted); margin-top: 2px; }
+  .disclose { font-size: 12.5px; color: var(--muted); margin: 2px 0 10px; }
+  .disclose b { color: var(--ink); }
 </style>
 </head>
 <body>
@@ -84,6 +90,13 @@
     <p class="muted">Scanned pages as PNG, JPG, WEBP or PDF. Include the front page —
        that's where we read your exam details.</p>
     <input type="file" id="sheet-files" multiple accept=".png,.jpg,.jpeg,.webp,.gif,.pdf">
+    <label for="strict">Marking strictness</label>
+    <div class="strict-row">
+      <input type="range" id="strict" min="0" max="2" step="1" value="0"
+             aria-describedby="strict-label">
+      <div class="strict-marks"><span>Board standard</span><span>Balanced</span><span>Strict</span></div>
+    </div>
+    <p class="muted" id="strict-label"></p>
     <button id="submit-sheet">Check my paper</button>
     <span id="submit-msg" class="muted"></span>
   </section>
@@ -135,10 +148,22 @@ function spinner(text) {
   return `<div class="progress"><div class="spinner"></div><span class="muted">${esc(text)}</span></div>`;
 }
 
+const STRICT_LEVELS = {
+  0: ["Board standard", "Lenient, CBSE-style: spelling slips ignored outside language criteria, benefit of the doubt to you, credit for method even after an early mistake."],
+  1: ["Balanced", "Neutral: marks for what you demonstrated; benefit of the doubt only when the evidence is genuinely balanced."],
+  2: ["Strict", "Competitive-exam style (UPSC-like): only what is explicitly and precisely demonstrated earns marks; vague answers stay at partial credit."],
+};
+
+function updateStrictLabel() {
+  const v = $("strict").value;
+  $("strict-label").innerHTML = `<b>${STRICT_LEVELS[v][0]}</b> — ${STRICT_LEVELS[v][1]}`;
+}
+
 async function submitSheet() {
   const files = $("sheet-files").files;
   if (!files.length) { $("submit-msg").textContent = "Choose at least one file."; return; }
   const form = new FormData();
+  form.append("strictness", $("strict").value);
   for (const f of files) form.append("files", f);
   try {
     $("submit-sheet").disabled = true;
@@ -224,8 +249,11 @@ function renderResult(data) {
   if (job.status === "evaluating") return spinner("Marking each answer against the scheme…");
   if (!report) return `<p class="muted">Grading starts once the marking scheme is ready.</p>`;
 
+  const lvl = STRICT_LEVELS[report.strictness ?? 0];
   let html = `<div class="score-hero">${report.total_awarded}
-      <small>/ ${report.total_available}</small></div>`;
+      <small>/ ${report.total_available}</small></div>
+    <p class="disclose">Marked under: <b>${lvl[0]}</b> strictness · identity-blind ·
+      every mark cites your own words · totals computed, not judged</p>`;
   if (report.questions_flagged_for_review)
     html += `<p class="flag">⚑ ${report.questions_flagged_for_review} answer(s) were hard to
        read or judge — treat those marks as provisional.</p>`;
@@ -315,6 +343,8 @@ async function retryCode() {
 }
 
 $("submit-sheet").addEventListener("click", submitSheet);
+$("strict").addEventListener("input", updateStrictLabel);
+updateStrictLabel();
 
 // Resume a submission from a shared/bookmarked link: /?job=<id>
 const existing = new URLSearchParams(location.search).get("job");

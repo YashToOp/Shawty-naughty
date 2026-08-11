@@ -31,9 +31,8 @@ class EvaluationRefused(Exception):
 
 GRADING_SYSTEM = """You are an experienced examiner marking student answer sheets against a fixed rubric.
 
-Rules:
+Invariant rules (apply at every strictness level):
 - Award marks only for what the rubric's criteria describe. Do not reward or penalize anything outside the rubric.
-- Judge the substance of the answer, not spelling, grammar, or handwriting artifacts, unless a criterion explicitly requires them.
 - For every criterion, quote the exact words from the student's answer that earned the marks. If nothing in the answer addresses the criterion, award 0 for it with an empty evidence list.
 - Partial credit is allowed within a criterion when the answer partially satisfies it; explain the shortfall in the rationale.
 - The transcript may contain [illegible] markers. Never assume illegible content is correct or incorrect - if it could plausibly change the marks, lower your confidence and set needs_human_review to true.
@@ -41,10 +40,37 @@ Rules:
 - Be consistent: identical answers must always receive identical marks."""
 
 
-def _grading_context(rubric: Rubric) -> list[dict]:
-    """System blocks: stable instructions + rubric, cached across question calls."""
+# Marking dispositions: how generously the criteria are judged. The rubric and
+# its arithmetic never change with strictness - only the judgment culture does,
+# and the level used is disclosed on the report.
+DISPOSITIONS: dict[int, tuple[str, str]] = {
+    0: ("Board standard (lenient)", """Marking disposition - BOARD STANDARD (as followed by school boards such as CBSE):
+- Judge substance, not surface: ignore spelling, grammar, and handwriting slips unless a criterion is explicitly about language.
+- Benefit of the doubt goes to the student: where the evidence genuinely supports either of two marks, award the higher and note the doubt in the rationale.
+- Error carried forward: if an early slip is followed by correct method or reasoning, award the later criteria on the student's own (incorrect) value.
+- Accept any relevant response: an answer the rubric did not anticipate still earns marks if it validly satisfies the criterion's intent."""),
+    1: ("Balanced", """Marking disposition - BALANCED:
+- Minor language slips do not cost marks outside language criteria, but repeated imprecision that muddies meaning can keep a criterion at 'partially' met.
+- Benefit of the doubt only when the evidence is truly balanced; otherwise award what is demonstrated.
+- Error carried forward applies when the later method is clearly correct in its own right.
+- Unanticipated but valid answers earn marks when they clearly satisfy the criterion's intent."""),
+    2: ("Strict (competitive-exam style)", """Marking disposition - STRICT (as followed in competitive examinations such as UPSC Mains):
+- Award marks only for what is explicitly and precisely demonstrated; ambiguity resolves against the answer.
+- The answer must address the question's directive verb ('critically examine' is not 'describe'); restating the question or generic filler earns nothing.
+- Vague, partially-correct, or unstructured responses are capped at 'partially' met even when the general idea is present.
+- Imprecise language that reduces the answer's exactness costs marks within the relevant criteria; no benefit-of-the-doubt inflation."""),
+}
+
+
+def _grading_context(rubric: Rubric, strictness: int = 0) -> list[dict]:
+    """System blocks: invariant rules + disposition + rubric (cached).
+
+    The rubric block carries the cache breakpoint; calls at the same
+    strictness share the cached prefix."""
+    _, disposition = DISPOSITIONS.get(strictness, DISPOSITIONS[0])
     return [
         {"type": "text", "text": GRADING_SYSTEM},
+        {"type": "text", "text": disposition},
         {
             "type": "text",
             "text": "The full rubric for this exam:\n\n" + rubric.model_dump_json(indent=2),
@@ -125,12 +151,12 @@ def sanitize(evaluation: QuestionEvaluation, question: Question) -> QuestionEval
 
 
 def evaluate_question(client: anthropic.Anthropic, rubric: Rubric,
-                      question: Question,
-                      answer: TranscribedAnswer) -> QuestionEvaluation:
+                      question: Question, answer: TranscribedAnswer,
+                      strictness: int = 0) -> QuestionEvaluation:
     response = client.messages.parse(
         model=ANTHROPIC_MODEL,
         max_tokens=MAX_OUTPUT_TOKENS,
-        system=_grading_context(rubric),
+        system=_grading_context(rubric, strictness),
         messages=[{"role": "user", "content": _question_prompt(question, answer)}],
         output_format=QuestionEvaluation,
     )
@@ -144,7 +170,8 @@ def evaluate_question(client: anthropic.Anthropic, rubric: Rubric,
 
 
 def evaluate_submission(client: anthropic.Anthropic, rubric: Rubric,
-                        transcript: Transcript) -> list[QuestionResult]:
+                        transcript: Transcript,
+                        strictness: int = 0) -> list[QuestionResult]:
     answers_by_id = {a.question_id: a for a in transcript.answers}
     results: list[QuestionResult] = []
 
@@ -153,7 +180,8 @@ def evaluate_submission(client: anthropic.Anthropic, rubric: Rubric,
         if answer is None:
             evaluation = _missing_answer_evaluation(question)
         else:
-            evaluation = evaluate_question(client, rubric, question, answer)
+            evaluation = evaluate_question(client, rubric, question, answer,
+                                           strictness)
             if answer.legibility != "clear":
                 evaluation.needs_human_review = True
         results.append(QuestionResult(evaluation=evaluation))

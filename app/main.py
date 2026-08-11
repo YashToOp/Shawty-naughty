@@ -104,9 +104,13 @@ async def _read_uploads(files: list[UploadFile]) -> list[tuple[str, bytes]]:
 async def create_student_submission(
     background: BackgroundTasks,
     files: list[UploadFile] = File(...),
+    strictness: int = Form(0),
 ):
+    if strictness not in (0, 1, 2):
+        raise HTTPException(400, "strictness must be 0 (lenient), 1 (balanced) or 2 (strict)")
     contents = await _read_uploads(files)
     job = storage.create_job(None, contents, kind="student")
+    storage.update_job(job, strictness=strictness)
     background.add_task(student_pipeline.run_student_pipeline, job.id)
     return {"job_id": job.id, "status": job.status}
 
