@@ -9,15 +9,26 @@ import logging
 
 import anthropic
 
-from . import annotator, evaluator, ocr, storage
+from . import annotator, config, evaluator, ocr, storage, vision_ocr
 from .models import Job, Rubric, SubmissionReport
 
 logger = logging.getLogger(__name__)
 
 
-def get_client() -> anthropic.Anthropic:
-    """Single place tests monkeypatch to inject a fake client."""
+def get_client():
+    """Single place tests monkeypatch to inject a fake client.
+
+    Returns the judgment-model client for the configured EVAL_PROVIDER —
+    both expose the same messages.parse surface (see providers.py)."""
+    if config.EVAL_PROVIDER == "workers-ai":
+        from .providers import WorkersAIClient
+        return WorkersAIClient()
     return anthropic.Anthropic()
+
+
+def transcriber():
+    """The OCR module for the configured OCR_PROVIDER."""
+    return vision_ocr if config.OCR_PROVIDER == "google-vision" else ocr
 
 
 def run_pipeline(job_id: str) -> None:
@@ -40,11 +51,11 @@ def _run(job: Job) -> None:
     grade_submission(job, rubric, get_client())
 
 
-def grade_submission(job: Job, rubric: Rubric,
-                     client: anthropic.Anthropic) -> SubmissionReport:
+def grade_submission(job: Job, rubric: Rubric, client) -> SubmissionReport:
     """Transcribe -> evaluate -> annotate -> report. Marks job completed."""
     storage.update_job(job, status="transcribing")
-    transcript = ocr.transcribe(client, rubric, storage.job_upload_paths(job))
+    transcript = transcriber().transcribe(client, rubric,
+                                          storage.job_upload_paths(job))
     storage.save_transcript(job.id, transcript)
 
     storage.update_job(job, status="evaluating")

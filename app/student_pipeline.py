@@ -17,12 +17,22 @@ grading.
 
 import logging
 
-import anthropic
-
-from . import metadata, paper_ingest, pipeline, storage
+from . import config, metadata, paper_ingest, pipeline, storage, vision_ocr
 from .models import Job, Paper
 
 logger = logging.getLogger(__name__)
+
+
+def _extract_metadata(client, first_page):
+    if config.OCR_PROVIDER == "google-vision":
+        return vision_ocr.extract_metadata(client, first_page)
+    return metadata.extract(client, first_page)
+
+
+def _extract_questions(client, paper_files):
+    if config.OCR_PROVIDER == "google-vision":
+        return vision_ocr.extract_questions(client, paper_files)
+    return paper_ingest.extract_questions(client, paper_files)
 
 
 def run_student_pipeline(job_id: str) -> None:
@@ -42,7 +52,7 @@ def _start(job: Job) -> None:
 
     storage.update_job(job, status="extracting_metadata")
     pages = storage.job_upload_paths(job)
-    job.metadata = metadata.extract(client, pages[0])
+    job.metadata = _extract_metadata(client, pages[0])
     storage.update_job(job)
 
     paper = storage.find_paper(job.metadata)
@@ -66,9 +76,7 @@ def resume_with_uploaded_paper(job_id: str) -> None:
     try:
         client = pipeline.get_client()
         storage.update_job(job, status="reading_paper")
-        extracted = paper_ingest.extract_questions(
-            client, storage.paper_upload_paths(job)
-        )
+        extracted = _extract_questions(client, storage.paper_upload_paths(job))
 
         code = extracted.paper_code or (job.metadata.paper_code if job.metadata else None)
         year = job.metadata.exam_year if job.metadata else None
@@ -105,8 +113,7 @@ def resume_with_existing_paper(job_id: str, paper_id: str) -> None:
         storage.update_job(job, status="failed", error=str(exc))
 
 
-def _continue_with_paper(job: Job, paper: Paper,
-                         client: anthropic.Anthropic) -> None:
+def _continue_with_paper(job: Job, paper: Paper, client) -> None:
     if paper.rubric is None or paper.rubric_status == "missing":
         storage.update_job(job, status="generating_rubric")
         paper.rubric = paper_ingest.generate_rubric(client, paper)

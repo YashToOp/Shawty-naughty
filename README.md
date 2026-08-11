@@ -77,6 +77,37 @@ It extracts the questions, dedupes against the subject-year bank, generates rubr
 - Human effort is spent only where it matters: reviewers are pointed at flagged questions instead of re-marking everything.
 - Roadmap: the [Message Batches API](https://platform.claude.com/docs/en/build-with-claude/batch-processing) can cut token costs by a further 50% for overnight bulk grading.
 
+## Model backends & the free stack
+
+Every stage talks to models through one interface, so backends swap per stage
+without touching prompts, rubric arithmetic, or the review workflow:
+
+| | `EVAL_PROVIDER` (judges answers, writes schemes) | `OCR_PROVIDER` (reads the pages) |
+|---|---|---|
+| **Claude stack** (default, calibration baseline) | `anthropic` — Claude via the Anthropic SDK | `claude` — Claude vision reads pages directly (images + PDFs) |
+| **Free stack** | `workers-ai` — open models on [Cloudflare Workers AI](https://developers.cloudflare.com/workers-ai/) (free tier: 10k neurons/day) | `google-vision` — [Google Cloud Vision OCR](https://cloud.google.com/vision) (free tier: 1000 pages/month) + one cheap text-only segmentation call (images only) |
+
+On the free path, Vision returns raw text with per-word confidences and boxes;
+a small text model only decides *which lines belong to which question* — answer
+bounding boxes are computed in code as unions of Vision's own line boxes, and
+legibility is floored in code from Vision's confidences (same "model judges,
+code enforces" rule as the marking arithmetic). Low-confidence lines are
+flagged in the segmentation prompt and cap the answer at `partial`, which
+forces human review downstream.
+
+Mixed stacks work too (`EVAL_PROVIDER=anthropic` + `OCR_PROVIDER=google-vision`
+keeps Claude's judgment while cutting vision-token cost). Compare stacks on the
+same sheet before trusting a cheaper one:
+
+```bash
+python scripts/benchmark_models.py pages/*.png \
+  --rubric sample_data/papers/cbse-12-english-core-2026.json \
+  --stack anthropic --stack free
+```
+
+It prints per-question marks side by side plus total drift against the
+baseline stack, with review flags marked.
+
 ## Getting started
 
 ```bash
