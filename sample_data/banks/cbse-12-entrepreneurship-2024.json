@@ -1,0 +1,640 @@
+{
+  "id": null,
+  "board": "CBSE",
+  "class_level": "12",
+  "subject": "Entrepreneurship",
+  "year": 2024,
+  "title": "Entrepreneurship (Theory) — Class 12 (2024)",
+  "instructions": "34 compulsory questions in four sections: A (Q1-18, MCQ, 1 mark), B (Q19-24, 2 marks, 30-40 words), C (Q25-29, 3 marks, 50-70 words), D (Q30-34, 5 marks, 120-150 words). Internal choices in B, C and D. Maximum marks 70, time 3 hours.",
+  "rubric_status": "ai_generated",
+  "questions": [
+    {
+      "id": "B01",
+      "section": "A",
+      "topic": null,
+      "question_text": "MCQ: 'The business of a partnership firm can be carried on by all the partners or any one of them acting for all.' Identify the characteristic of partnership indicated (options: Agreement / Implied authority / Mutual agency / Utmost good faith).",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B01-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B02",
+      "section": "A",
+      "topic": null,
+      "question_text": "MCQ: Case: Shivam, a manufacturer of hair-straightening flat irons, saw sales fall because experts now recommend ceramic irons sold by competitors, so he too started making ceramic irons with added features. Identify the source of idea field used (Trading related / Existing products or services based / Service sector / Market or demand driven).",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B02-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B03",
+      "section": "A",
+      "topic": null,
+      "question_text": "MCQ: A pricing method in which goods are sold at high prices so fewer sales are needed to break even, also helping recover R&D costs of a new product. Identify the method (Penetrating / Cost-plus / Variable / Creaming pricing).",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B03-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B04",
+      "section": "A",
+      "topic": null,
+      "question_text": "MCQ: Given the picture of 'State Bank of India' as displayed, state what it represents (Logo / Brand / Brand name / Tagline). (VI alternative: which method of promotion is NOT 'below-the-line' - Personal selling / Direct marketing / Sales promotion / Advertising)",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B04-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B05",
+      "section": "A",
+      "topic": null,
+      "question_text": "MCQ: Case: Sudershan, trained under the Skill Development Mission, wants to start a small business with Rs 1,00,000 from his father, managing and controlling it himself with a few assistants. Suggest the form of business organisation (Public Ltd / Private Ltd / Partnership / Sole proprietorship).",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B05-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B06",
+      "section": "A",
+      "topic": null,
+      "question_text": "MCQ: Fill in the blank: a business opportunity is an economic idea which can be implemented to create ________ and earn profits (customers / competitors / a business enterprise / an economic environment).",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B06-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B07",
+      "section": "A",
+      "topic": null,
+      "question_text": "MCQ: Match the components of a Business Plan (Production plan, Operational plan, Organizational plan, Marketing plan) with their meanings (form of ownership; transformation of raw material; movement of material, machines and labour; marketing objectives and strategies) and pick the correct combination.",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B07-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B08",
+      "section": "A",
+      "topic": null,
+      "question_text": "MCQ: Case: 'Payal Ltd.' sells unique high-end water purifiers through salespersons who go door-to-door. Identify the channel of distribution (Three-level / Two-level / One-level / Zero-level).",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B08-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B09",
+      "section": "A",
+      "topic": null,
+      "question_text": "MCQ: Statements about patents: pick the correct combination among (i) right to exclude others from making/using/selling an invention for a limited period in exchange for disclosure, (ii) exclusive rights of the creator of an original work, (iii) a recognizable distinguishing sign or expression, (iv) protection of visual designs of objects.",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B09-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B10",
+      "section": "A",
+      "topic": null,
+      "question_text": "MCQ: A brand or part of a brand that is given legal protection against use by other firms is called ________ (Brand name / Brand mark / Trademark / Logo).",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B10-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B11",
+      "section": "A",
+      "topic": null,
+      "question_text": "MCQ: Case: 'Bharat Cars Ltd.' (car maker) merges with 'Swadeshi Ltd.' (its parts supplier) for better part pricing, control over manufacturing and steady business. Identify the type of merger (Market extension / Vertical / Horizontal / Product extension).",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B11-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B12",
+      "section": "A",
+      "topic": null,
+      "question_text": "MCQ: The title or cover page providing a brief summary of a business plan's contents is (Description of venture / General introduction / Production plan / Operational plan).",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B12-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B13",
+      "section": "A",
+      "topic": null,
+      "question_text": "MCQ: Assertion-Reason: (A) Registration of a partnership firm is not compulsory as there is no penalty for non-registration; (R) an unregistered firm can file a suit to enforce contractual rights or rights under the Partnership Act. Choose the correct evaluation.",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B13-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B14",
+      "section": "A",
+      "topic": null,
+      "question_text": "MCQ: Return on Investment (ROI) = Net Profit / ________ x 100. Complete the formula (Equity / Debt / Total capital invested / Debt + interest on debt).",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B14-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B15",
+      "section": "A",
+      "topic": null,
+      "question_text": "MCQ: Which of the following is NOT a current liability (Outstanding rent / Short-term investment / Trade creditors / Short-term loans)?",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B15-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B16",
+      "section": "A",
+      "topic": null,
+      "question_text": "MCQ: The method of floatation of new issues in which a company sells securities directly to a limited number of sophisticated investors, sometimes without open-market disclosure (Public issue / Rights issue / Private placement / Offer to employees).",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B16-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B17",
+      "section": "A",
+      "topic": null,
+      "question_text": "MCQ: In ________ acquisition, a public company is taken over by a private company (Friendly / Reverse / Backflip / Hostile).",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B17-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B18",
+      "section": "A",
+      "topic": null,
+      "question_text": "MCQ: Case: 'Techworks' assigns every inventory item a unique alphanumeric code used for data collection and decision-making; over time some items fall out of use as technology advances. The two inventory concepts discussed are ________ and ________ (options pairing SKU code, motley crowd, unpredictable demand, obsolescence, shelf life).",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B18-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B19",
+      "section": "B",
+      "topic": null,
+      "question_text": "Either (a) define 'business opportunity' and list any two of its elements, or (b) identify and state any four sources that lead to the emergence of basic ideas while sensing opportunities. (30-40 words)",
+      "max_marks": 2.0,
+      "criteria": [
+        {
+          "id": "B19-a",
+          "description": "Correct definition / identification asked in the attempted option",
+          "marks": 1.0
+        },
+        {
+          "id": "B19-b",
+          "description": "The required elements or sources correctly listed (two elements, or four sources at half mark each)",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B20",
+      "section": "B",
+      "topic": null,
+      "question_text": "Case: Manorama's Bengaluru fashion-garment outlet tracks trends on social media and adapts to changing customer needs. (a) Identify the point of importance of environment discussed; (b) explain one more point on why sensitivity to environmental factors is crucial for an entrepreneur. (30-40 words)",
+      "max_marks": 2.0,
+      "criteria": [
+        {
+          "id": "B20-a",
+          "description": "Correctly identifies the point of importance shown in the case (sensitising the entrepreneur to changing customer needs / first mover advantage)",
+          "marks": 1.0
+        },
+        {
+          "id": "B20-b",
+          "description": "Explains one additional valid point of importance of the environment",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B21",
+      "section": "B",
+      "topic": null,
+      "question_text": "Either (a) partners share profits 3:2:1; Deepa wants to transfer half her share to her son without the other partners' consent - can she? Give the reason and the feature of partnership highlighted; or (b) a bank recovers a bakery's unpaid loan from Aruna's personal savings and property - can personal property be used for business debts? Give the reason and the feature of sole proprietorship highlighted. (30-40 words)",
+      "max_marks": 2.0,
+      "criteria": [
+        {
+          "id": "B21-a",
+          "description": "Correct decision with a valid supporting reason",
+          "marks": 1.0
+        },
+        {
+          "id": "B21-b",
+          "description": "Correctly states the feature highlighted (restriction on transfer of interest / unlimited liability)",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B22",
+      "section": "B",
+      "topic": null,
+      "question_text": "Case: Sujit found professional trend spotters too costly, so he read leading publications and visited websites related to his intended tailoring business and spotted trends himself. Identify and explain the method of trend spotting used, and list two other ways trends can be spotted. (30-40 words)",
+      "max_marks": 2.0,
+      "criteria": [
+        {
+          "id": "B22-a",
+          "description": "Identifies and explains the method used (reading trade publications and websites / do-it-yourself trend spotting)",
+          "marks": 1.0
+        },
+        {
+          "id": "B22-b",
+          "description": "Lists two other valid ways of spotting trends (half mark each)",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B23",
+      "section": "B",
+      "topic": null,
+      "question_text": "Explain 'a pitch deck with oral narrative' as a format of a business plan. (30-40 words)",
+      "max_marks": 2.0,
+      "criteria": [
+        {
+          "id": "B23-a",
+          "description": "States what a pitch deck is (brief slide presentation of the business plan)",
+          "marks": 1.0
+        },
+        {
+          "id": "B23-b",
+          "description": "Explains the oral-narrative aspect (entrepreneur presents and elaborates the slides verbally to the audience/investors)",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B24",
+      "section": "B",
+      "topic": null,
+      "question_text": "Either (a) for the given cash conversion cycle (cash -> stock of goods -> sales -> debtors -> cash): identify the type of business it belongs to and draw the cycle for another type of business (VI alternative: calculate gross working capital from given figures), or (b) give the meaning of the ABC analysis technique of inventory control. (30-40 words)",
+      "max_marks": 2.0,
+      "criteria": [
+        {
+          "id": "B24-a",
+          "description": "First requirement of the attempted option correct (identification / formula selection / meaning stated)",
+          "marks": 1.0
+        },
+        {
+          "id": "B24-b",
+          "description": "Second requirement correct (cycle drawn for another business / correct computed value / classification explained)",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B25",
+      "section": "C",
+      "topic": null,
+      "question_text": "Case: 'Chai Cart' (est. 2021) expanded by adding machines, opening branches in malls, airports and suburbs, and introducing new products. (a) Identify and explain the type of expansion discussed; (b) explain one other type of expansion. (50-70 words)",
+      "max_marks": 3.0,
+      "criteria": [
+        {
+          "id": "B25-a",
+          "description": "Correctly identifies the type of expansion shown in the case",
+          "marks": 1.0
+        },
+        {
+          "id": "B25-b",
+          "description": "Explains the identified type with reference to the case",
+          "marks": 1.0
+        },
+        {
+          "id": "B25-c",
+          "description": "Explains one other type of expansion correctly",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B26",
+      "section": "C",
+      "topic": null,
+      "question_text": "Either (a) 'carefully identifying the product or service features, design and resources needed' is one element of the innovation process - explain its other three elements; or (b) one step of the creativity process is the subconscious transition period - explain the next three steps that follow. (50-70 words)",
+      "max_marks": 3.0,
+      "criteria": [
+        {
+          "id": "B26-a",
+          "description": "First required element/step explained correctly",
+          "marks": 1.0
+        },
+        {
+          "id": "B26-b",
+          "description": "Second required element/step explained correctly",
+          "marks": 1.0
+        },
+        {
+          "id": "B26-c",
+          "description": "Third required element/step explained correctly",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B27",
+      "section": "C",
+      "topic": null,
+      "question_text": "Case: 'Golden Ice Cream Ltd.' priced varieties on manufacturing estimates, ignored competitors' actions, included sunk costs and ignored opportunity costs, and made losses. (a) Identify the pricing method used; (b) explain any two advantages of that method. (50-70 words)",
+      "max_marks": 3.0,
+      "criteria": [
+        {
+          "id": "B27-a",
+          "description": "Correctly identifies the pricing method (cost-plus pricing)",
+          "marks": 1.0
+        },
+        {
+          "id": "B27-b",
+          "description": "First advantage explained correctly",
+          "marks": 1.0
+        },
+        {
+          "id": "B27-c",
+          "description": "Second advantage explained correctly",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B28",
+      "section": "C",
+      "topic": null,
+      "question_text": "Either (a) explain any three product-related considerations an entrepreneur uses while selecting a channel of distribution; or (b) explain the 'above-the-line' promotion strategy used by a company to promote its products. (50-70 words)",
+      "max_marks": 3.0,
+      "criteria": [
+        {
+          "id": "B28-a",
+          "description": "First consideration explained / concept of above-the-line promotion stated",
+          "marks": 1.0
+        },
+        {
+          "id": "B28-b",
+          "description": "Second consideration explained / mass-media examples and reach explained",
+          "marks": 1.0
+        },
+        {
+          "id": "B28-c",
+          "description": "Third consideration explained / distinction from other promotion levels brought out",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B29",
+      "section": "C",
+      "topic": null,
+      "question_text": "Numerical: 'Kwality Book Store' sells 40,000 chart papers a year at constant demand; purchase cost Rs 10 per paper, holding cost 20% of purchase cost per annum, ordering cost Rs 100 per order. Calculate the Economic Order Quantity.",
+      "max_marks": 3.0,
+      "criteria": [
+        {
+          "id": "B29-a",
+          "description": "Correct EOQ formula stated (sqrt(2 x annual demand x ordering cost / holding cost per unit))",
+          "marks": 1.0
+        },
+        {
+          "id": "B29-b",
+          "description": "Correct substitution of values (holding cost Rs 2 per unit per annum)",
+          "marks": 1.0
+        },
+        {
+          "id": "B29-c",
+          "description": "Correct answer with units (EOQ = 2,000 chart papers)",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B30",
+      "section": "D",
+      "topic": null,
+      "question_text": "Case: 'Bharat Ltd.' plans to manufacture AI-based computers; the complex manufacturing process needs thorough planning. (a) Identify the component of the business plan discussed; (b) state its objective; (c) list five points that must be described in this component if manufacturing is done wholly in-house. (120-150 words)",
+      "max_marks": 5.0,
+      "criteria": [
+        {
+          "id": "B30-a",
+          "description": "Correctly identifies the component (production plan)",
+          "marks": 1.0
+        },
+        {
+          "id": "B30-b",
+          "description": "States the objective of the production plan",
+          "marks": 1.0
+        },
+        {
+          "id": "B30-c",
+          "description": "Lists five valid points to be described (machinery/equipment, raw materials and suppliers, manufacturing process, plant layout, cost estimates, quality control, etc.)",
+          "marks": 3.0
+        }
+      ]
+    },
+    {
+      "id": "B31",
+      "section": "D",
+      "topic": null,
+      "question_text": "Either (a) what is meant by 'franchising'? Explain the main components of a franchise agreement; or (b) explain any five forms of 'synergy'. (120-150 words)",
+      "max_marks": 5.0,
+      "criteria": [
+        {
+          "id": "B31-a",
+          "description": "Core concept correctly defined (franchising / synergy)",
+          "marks": 1.0
+        },
+        {
+          "id": "B31-b",
+          "description": "Required components or forms explained fully (main franchise-agreement components, or five forms of synergy)",
+          "marks": 4.0
+        }
+      ]
+    },
+    {
+      "id": "B32",
+      "section": "D",
+      "topic": null,
+      "question_text": "Case: 'Good Air Ltd.' invested in R&D for energy-efficient fans, entered newly electrified rural areas under a stable government, complied with health, safety and environmental laws, offered instalment schemes for low-income customers, recycled waste and used biodegradable packaging. Quoting lines from the text, identify five macro-environmental factors the company considered. (120-150 words)",
+      "max_marks": 5.0,
+      "criteria": [
+        {
+          "id": "B32-a",
+          "description": "Each macro factor correctly identified with a supporting quoted line - technological, political, legal, economic, socio-cultural/natural (1 mark each)",
+          "marks": 5.0
+        }
+      ]
+    },
+    {
+      "id": "B33",
+      "section": "D",
+      "topic": null,
+      "question_text": "Numerical: fixed cost Rs 1,76,000; juices Mango/Orange/Guava with selling prices Rs 150/135/100, variable costs Rs 80/65/60, sales mix 20%/40%/40%. Calculate (a) total weighted-average contribution margin per unit, (b) break-even point in units of the sales mix, (c) break-even point in rupees for each juice type.",
+      "max_marks": 5.0,
+      "criteria": [
+        {
+          "id": "B33-a",
+          "description": "Weighted-average contribution per unit computed correctly (14 + 28 + 16 = Rs 58)",
+          "marks": 2.0
+        },
+        {
+          "id": "B33-b",
+          "description": "Break-even point in units of sales mix computed from fixed cost / weighted contribution",
+          "marks": 1.5
+        },
+        {
+          "id": "B33-c",
+          "description": "Break-even value in rupees for each juice type computed from the mix proportions and selling prices",
+          "marks": 1.5
+        }
+      ]
+    },
+    {
+      "id": "B34",
+      "section": "D",
+      "topic": null,
+      "question_text": "Either (a) 'an equity-based investment in a growth-oriented small-to-medium business in return for a minority shareholding': (i) identify this type of capital, (ii) explain the three stages of early-stage financing where it may be required; or (b) 'an affluent individual providing capital to start-ups in exchange for convertible debt or ownership equity': (i) identify this source of finance, (ii) state any four of its features. (120-150 words)",
+      "max_marks": 5.0,
+      "criteria": [
+        {
+          "id": "B34-a",
+          "description": "Correct identification (venture capital / angel investor)",
+          "marks": 1.0
+        },
+        {
+          "id": "B34-b",
+          "description": "Required explanation complete (three early-stage financing stages explained, or four features stated)",
+          "marks": 4.0
+        }
+      ]
+    }
+  ],
+  "variants": [
+    {
+      "paper_code": "98",
+      "question_map": {
+        "1": "B01",
+        "2": "B02",
+        "3": "B03",
+        "4": "B04",
+        "5": "B05",
+        "6": "B06",
+        "7": "B07",
+        "8": "B08",
+        "9": "B09",
+        "10": "B10",
+        "11": "B11",
+        "12": "B12",
+        "13": "B13",
+        "14": "B14",
+        "15": "B15",
+        "16": "B16",
+        "17": "B17",
+        "18": "B18",
+        "19": "B19",
+        "20": "B20",
+        "21": "B21",
+        "22": "B22",
+        "23": "B23",
+        "24": "B24",
+        "25": "B25",
+        "26": "B26",
+        "27": "B27",
+        "28": "B28",
+        "29": "B29",
+        "30": "B30",
+        "31": "B31",
+        "32": "B32",
+        "33": "B33",
+        "34": "B34"
+      }
+    }
+  ],
+  "created_at": "2026-08-12T13:30:30.705156+00:00"
+}

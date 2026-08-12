@@ -1,0 +1,400 @@
+{
+  "id": null,
+  "board": "CBSE",
+  "class_level": "10",
+  "subject": "Artificial Intelligence",
+  "year": 2024,
+  "title": "Artificial Intelligence — Class 10 (2024)",
+  "instructions": "21 questions in two sections; candidates answer 15 in 2 hours for 50 marks. Section A: objective blocks Q1-Q5 (24 marks, internal 'answer any N of M' choice inside each block). Section B: subjective - Q6-Q10 employability (any 3 of 5, 2 marks), Q11-Q16 (any 4 of 6, 2 marks), Q17-Q21 (any 3 of 5, 4 marks). Word limits as printed.",
+  "rubric_status": "ai_generated",
+  "questions": [
+    {
+      "id": "B01",
+      "section": "A",
+      "topic": null,
+      "question_text": "Objective block (answer any 4 of 6 one-mark parts on Employability Skills): (i) communication - receiver decodes and gives ________ (feedback); (ii) kind of motivation with no apparent reward (intrinsic/extrinsic/...); (iii) personality disorder of one who trusts no one and holds grudges; (iv) how to protect a spreadsheet from being opened or edited on a shared laptop; (v) which is NOT an environmental barrier for an entrepreneur; (vi) which is not a greenhouse gas.",
+      "max_marks": 4.0,
+      "criteria": [
+        {
+          "id": "B01-a",
+          "description": "Correct answer for each attempted part, 1 mark each for any four parts",
+          "marks": 4.0
+        }
+      ]
+    },
+    {
+      "id": "B02",
+      "section": "A",
+      "topic": null,
+      "question_text": "Objective block (answer any 5 of 6 one-mark parts): (i) statements on capstone projects (final project; independent research) - evaluate; (ii) three key elements of data storytelling; (iii) which statement about RMSE is true; (iv) which is NOT one of the three main stages of an AI project life-cycle; (v) first step of the six-step AI project process; (vi) which statement about the design/build stage is true.",
+      "max_marks": 5.0,
+      "criteria": [
+        {
+          "id": "B02-a",
+          "description": "Correct answer for each attempted part, 1 mark each for any five parts",
+          "marks": 5.0
+        }
+      ]
+    },
+    {
+      "id": "B03",
+      "section": "A",
+      "topic": null,
+      "question_text": "Objective block (answer any 5 of 6 one-mark parts): (i) which is NOT one of the six steps in an AI project; (ii) why narrative matters in data storytelling; (iii) meaning of 'garbage in, garbage out' for an AI project; (iv) a long-term benefit of data storytelling; (v) primary focus of design thinking; (vi) which is NOT a key activity of the scoping phase of an AI model life-cycle.",
+      "max_marks": 5.0,
+      "criteria": [
+        {
+          "id": "B03-a",
+          "description": "Correct answer for each attempted part, 1 mark each for any five parts",
+          "marks": 5.0
+        }
+      ]
+    },
+    {
+      "id": "B04",
+      "section": "A",
+      "topic": null,
+      "question_text": "Objective block (answer any 5 of 6 one-mark parts): (i) the AI project cycle stage covering planning and motivational aspects; (ii) structured approach for communicating insights with visuals and narratives; (iii) a good model's RMSE should be less than ________; (iv) the narrative is accompanied with ________ to explain why an insight was generated; (v) which is not an AI development platform; (vi) assertion-reason on MSE as a regression loss function.",
+      "max_marks": 5.0,
+      "criteria": [
+        {
+          "id": "B04-a",
+          "description": "Correct answer for each attempted part, 1 mark each for any five parts",
+          "marks": 5.0
+        }
+      ]
+    },
+    {
+      "id": "B05",
+      "section": "A",
+      "topic": null,
+      "question_text": "Objective block (answer any 5 of 6 one-mark parts): (i) match icons to data / visuals / narrative; (ii) true or false - if there is no pattern in the data, AI development techniques may be employed; (iii) which is NOT an open framework used in AI model building; (iv) first and last stages of the 5-stage design-thinking process; (v) true or false - human biases in selecting test data can adversely impact testing; (vi) which analytical approach should be used to show relationships.",
+      "max_marks": 5.0,
+      "criteria": [
+        {
+          "id": "B05-a",
+          "description": "Correct answer for each attempted part, 1 mark each for any five parts",
+          "marks": 5.0
+        }
+      ]
+    },
+    {
+      "id": "B06",
+      "section": "B",
+      "topic": null,
+      "question_text": "There are five stages of active listening; the first is 'Receiving'. Write the names of the other four stages. (20-30 words; part of 'answer any 3 of 5' Employability Skills set)",
+      "max_marks": 2.0,
+      "criteria": [
+        {
+          "id": "B06-a",
+          "description": "Any four correct remaining stages named (understanding, evaluating, remembering, responding), half mark each",
+          "marks": 2.0
+        }
+      ]
+    },
+    {
+      "id": "B07",
+      "section": "B",
+      "topic": null,
+      "question_text": "Explain the term 'personality traits'. Name any two parameters that describe a personality based on the Five Factor Model. (20-30 words)",
+      "max_marks": 2.0,
+      "criteria": [
+        {
+          "id": "B07-a",
+          "description": "Correct explanation of personality traits (enduring characteristics/patterns of thinking, feeling, behaving)",
+          "marks": 1.0
+        },
+        {
+          "id": "B07-b",
+          "description": "Any two Five-Factor parameters named (openness, conscientiousness, extraversion, agreeableness, neuroticism), half mark each",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B08",
+      "section": "B",
+      "topic": null,
+      "question_text": "Write the steps to print a presentation. (20-30 words)",
+      "max_marks": 2.0,
+      "criteria": [
+        {
+          "id": "B08-a",
+          "description": "Correct opening of the print command (File menu > Print / Ctrl+P)",
+          "marks": 1.0
+        },
+        {
+          "id": "B08-b",
+          "description": "Correct completion (select printer, slides/copies and settings, then Print/OK)",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B09",
+      "section": "B",
+      "topic": null,
+      "question_text": "List any four qualities of a successful entrepreneur. (20-30 words)",
+      "max_marks": 2.0,
+      "criteria": [
+        {
+          "id": "B09-a",
+          "description": "Any four valid qualities listed, half mark each",
+          "marks": 2.0
+        }
+      ]
+    },
+    {
+      "id": "B10",
+      "section": "B",
+      "topic": null,
+      "question_text": "Write any two ways to minimise waste and pollution in manufacturing plants and factories. (20-30 words)",
+      "max_marks": 2.0,
+      "criteria": [
+        {
+          "id": "B10-a",
+          "description": "Two valid ways stated, 1 mark each",
+          "marks": 2.0
+        }
+      ]
+    },
+    {
+      "id": "B11",
+      "section": "B",
+      "topic": null,
+      "question_text": "Briefly explain the cross-validation procedure used to validate a model. (20-30 words; part of 'answer any 4 of 6' set)",
+      "max_marks": 2.0,
+      "criteria": [
+        {
+          "id": "B11-a",
+          "description": "Core idea correct (splitting data into folds/subsets, training and validating on rotating folds)",
+          "marks": 1.0
+        },
+        {
+          "id": "B11-b",
+          "description": "Purpose or completion correct (each fold serves as validation once; results averaged for a robust estimate)",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B12",
+      "section": "B",
+      "topic": null,
+      "question_text": "What is train-test split evaluation? For which two types of problems can it be used? (20-30 words)",
+      "max_marks": 2.0,
+      "criteria": [
+        {
+          "id": "B12-a",
+          "description": "Correct meaning (dataset divided into a training set and a held-back testing set to evaluate the model)",
+          "marks": 1.0
+        },
+        {
+          "id": "B12-b",
+          "description": "The two problem types named (classification and regression), half mark each",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B13",
+      "section": "B",
+      "topic": null,
+      "question_text": "Write any two factors that make storytelling a powerful and integral part of indigenous culture. (20-30 words)",
+      "max_marks": 2.0,
+      "criteria": [
+        {
+          "id": "B13-a",
+          "description": "Two valid factors stated (e.g. passing knowledge across generations, memorability, emotional connection, shared identity), 1 mark each",
+          "marks": 2.0
+        }
+      ]
+    },
+    {
+      "id": "B14",
+      "section": "B",
+      "topic": null,
+      "question_text": "Draw a diagram to represent the foundational methodology for data science. (20-30 words)",
+      "max_marks": 2.0,
+      "criteria": [
+        {
+          "id": "B14-a",
+          "description": "Key stages of the methodology present (from business understanding through data preparation, modelling, evaluation, deployment, feedback)",
+          "marks": 1.0
+        },
+        {
+          "id": "B14-b",
+          "description": "Cyclic/ordered flow shown correctly",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B15",
+      "section": "B",
+      "topic": null,
+      "question_text": "'Time series decomposition involves thinking of a series as a combination of level, trend, seasonality and noise components.' Define any two of these components. (20-30 words)",
+      "max_marks": 2.0,
+      "criteria": [
+        {
+          "id": "B15-a",
+          "description": "First chosen component correctly defined",
+          "marks": 1.0
+        },
+        {
+          "id": "B15-b",
+          "description": "Second chosen component correctly defined",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B16",
+      "section": "B",
+      "topic": null,
+      "question_text": "With respect to evaluation of AI development platforms, give any two examples each of (a) open languages, (b) productivity-enhancing capabilities. (20-30 words)",
+      "max_marks": 2.0,
+      "criteria": [
+        {
+          "id": "B16-a",
+          "description": "Two valid open languages (e.g. Python, R, Scala), half mark each",
+          "marks": 1.0
+        },
+        {
+          "id": "B16-b",
+          "description": "Two valid productivity-enhancing capabilities (e.g. visual modelling/drag-and-drop tools, AutoML, notebooks, pre-built model APIs), half mark each",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B17",
+      "section": "B",
+      "topic": null,
+      "question_text": "List the steps that can assist in finding compelling stories in data sets. (50-80 words; part of 'answer any 3 of 5' set)",
+      "max_marks": 4.0,
+      "criteria": [
+        {
+          "id": "B17-a",
+          "description": "Any four valid steps listed and in a sensible order (e.g. get the data and think of analysis, understand context/audience, explore visualisations, find and refine the insight/story), 1 mark each",
+          "marks": 4.0
+        }
+      ]
+    },
+    {
+      "id": "B18",
+      "section": "B",
+      "topic": null,
+      "question_text": "(a) What is a loss function? Write the two categories of loss functions. (b) Explain, with an example, when to use MSE as the loss function. (50-80 words)",
+      "max_marks": 4.0,
+      "criteria": [
+        {
+          "id": "B18-a",
+          "description": "Loss function correctly defined (measures how far predictions deviate from actual values)",
+          "marks": 1.0
+        },
+        {
+          "id": "B18-b",
+          "description": "Two categories written (regression losses and classification losses)",
+          "marks": 1.0
+        },
+        {
+          "id": "B18-c",
+          "description": "When to use MSE explained (regression targets, normally distributed around a mean, penalises large errors)",
+          "marks": 1.0
+        },
+        {
+          "id": "B18-d",
+          "description": "A suitable example given (e.g. predicting house prices/temperature)",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B19",
+      "section": "B",
+      "topic": null,
+      "question_text": "Explain the following stages of every AI project life-cycle: (a) requirements analysis, (b) building the model. (50-80 words)",
+      "max_marks": 4.0,
+      "criteria": [
+        {
+          "id": "B19-a",
+          "description": "Requirements analysis explained (understanding the problem, planning, feasibility, stakeholder needs)",
+          "marks": 2.0
+        },
+        {
+          "id": "B19-b",
+          "description": "Building the model explained (selecting/constructing algorithms, training with prepared data, iterating)",
+          "marks": 2.0
+        }
+      ]
+    },
+    {
+      "id": "B20",
+      "section": "B",
+      "topic": null,
+      "question_text": "'Picking an analytic approach to solve a problem is based on the type of question.' Explain the statement with suitable examples. (50-80 words)",
+      "max_marks": 4.0,
+      "criteria": [
+        {
+          "id": "B20-a",
+          "description": "Explains the link between question type and approach (descriptive for current status, diagnostic for why, predictive for what will happen, prescriptive/classification for what to do, statistical for relationships)",
+          "marks": 2.0
+        },
+        {
+          "id": "B20-b",
+          "description": "At least two suitable question-to-approach examples given",
+          "marks": 2.0
+        }
+      ]
+    },
+    {
+      "id": "B21",
+      "section": "B",
+      "topic": null,
+      "question_text": "(a) How do good stories emerge? (b) Given two rank charts of states comparing least forest area lost with maximum GSDP growth (2001-22) - one unlabelled, one with a legend - state which is the better data story and give reasons. (50-80 words)",
+      "max_marks": 4.0,
+      "criteria": [
+        {
+          "id": "B21-a",
+          "description": "How good stories emerge explained (exploring/questioning the data, context and audience, insights surfacing through visual exploration)",
+          "marks": 2.0
+        },
+        {
+          "id": "B21-b",
+          "description": "Better chart identified (the labelled/legended one) with valid reasons (legend and labels supply context, make the comparison interpretable)",
+          "marks": 2.0
+        }
+      ]
+    }
+  ],
+  "variants": [
+    {
+      "paper_code": "367",
+      "question_map": {
+        "1": "B01",
+        "2": "B02",
+        "3": "B03",
+        "4": "B04",
+        "5": "B05",
+        "6": "B06",
+        "7": "B07",
+        "8": "B08",
+        "9": "B09",
+        "10": "B10",
+        "11": "B11",
+        "12": "B12",
+        "13": "B13",
+        "14": "B14",
+        "15": "B15",
+        "16": "B16",
+        "17": "B17",
+        "18": "B18",
+        "19": "B19",
+        "20": "B20",
+        "21": "B21"
+      }
+    }
+  ],
+  "created_at": "2026-08-12T13:30:30.705441+00:00"
+}
