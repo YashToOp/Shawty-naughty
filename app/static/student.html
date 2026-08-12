@@ -5,116 +5,76 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Check My Answer Sheet</title>
 <style>
-  :root {
-    --paper: #f4efe3;      /* answer-booklet cream */
-    --card: #fdfbf4;       /* sheet of paper */
-    --ink: #262319;
-    --muted: #7d7460;
-    --line: #d9d0b8;
-    --soft: #eee8d8;
-    --accent: #274c8f;     /* office-stamp blue */
-    --margin: #c65746;     /* the red margin line */
-    --ok: #2d6a3f;
-    --warn: #a2621a;
-    --bad: #b3362a;
-  }
   * { box-sizing: border-box; }
-  body { margin: 0; background: var(--paper); color: var(--ink);
-         font-family: Georgia, "Times New Roman", serif; font-size: 15.5px; line-height: 1.55; }
-  header { max-width: 940px; margin: 0 auto; padding: 30px 20px 16px;
-           border-bottom: 3px double var(--ink); }
-  header h1 { margin: 0; font-size: 30px; font-weight: 700; }
-  header p { margin: 8px 0 0; color: var(--muted); font-size: 14.5px; font-style: italic; }
-  header a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px;
-             font-style: normal; }
-  main { max-width: 940px; margin: 22px auto; padding: 0 16px; display: grid; gap: 24px; }
-  .card { background: var(--card); border: 1px solid var(--line);
-          box-shadow: 3px 3px 0 rgba(38, 35, 25, .10);
-          padding: 24px 28px 24px 62px; position: relative; }
-  .card::before { content: ""; position: absolute; left: 42px; top: 0; bottom: 0;
-                  width: 1.5px; background: rgba(198, 87, 70, .5); }
-  .card.dim { opacity: .55; }
-  @media (max-width: 640px) { .card { padding-left: 28px; } .card::before { display: none; } }
-  .step-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 12px;
-               border-bottom: 1px solid var(--soft); padding-bottom: 10px; }
-  .step-num { width: 26px; height: 26px; background: var(--soft); color: var(--muted);
-              display: flex; align-items: center; justify-content: center;
-              font-size: 13px; font-weight: 700; flex: 0 0 auto; align-self: center; }
-  .step-num.active { background: var(--margin); color: var(--card); }
-  .step-num.done { background: var(--ok); color: var(--card); }
-  .step-head h2 { margin: 0; font-size: 17px; font-weight: 700; }
-  label { display: block; font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
-          color: var(--muted); margin: 14px 0 2px; }
+  body { margin: 0; font-family: system-ui, sans-serif; color: #191919;
+         background: #fff; line-height: 1.55; font-size: 15px; }
+  header { max-width: 760px; margin: 0 auto; padding: 30px 20px 18px;
+           border-bottom: 1px solid #ddd; }
+  header h1 { margin: 0 0 6px; font-size: 22px; }
+  header p { margin: 0; color: #555; font-size: 14.5px; }
+  header a { color: #1a56b0; }
+  main { max-width: 760px; margin: 10px auto 40px; padding: 0 20px; }
+  .card { margin: 32px 0; }
+  .card.dim { opacity: .5; }
+  .step-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .step-num { width: 24px; height: 24px; border-radius: 50%; background: #eee;
+              color: #666; display: flex; align-items: center; justify-content: center;
+              font-size: 13px; font-weight: 600; flex: 0 0 auto; }
+  .step-num.active { background: #1a1a1a; color: #fff; }
+  .step-num.done { background: #1a6b38; color: #fff; }
+  .step-head h2 { margin: 0; font-size: 17px; }
+  label { display: block; font-size: 13px; color: #555; margin: 12px 0 3px; }
   input[type=text], input[type=number] {
-    width: 100%; padding: 6px 2px; font: 15.5px Georgia, serif; color: var(--ink);
-    background: transparent; border: 0; border-bottom: 1.5px solid var(--ink);
-    border-radius: 0; }
-  input[type=text]:focus, input[type=number]:focus {
-    outline: none; border-bottom-color: var(--margin); }
-  input[type=file] { font: 14px Georgia, serif; color: var(--muted); margin-top: 6px; }
-  ::placeholder { color: #b4ab96; font-style: italic; }
-  button { font: 700 11.5px Georgia, serif; letter-spacing: .18em; text-transform: uppercase;
-           background: var(--ink); color: var(--card); border: 1px solid var(--ink);
-           padding: 11px 20px; cursor: pointer; margin-top: 14px;
-           box-shadow: 3px 3px 0 rgba(38, 35, 25, .22); }
-  button:hover { background: #3a3527; }
-  button:active { transform: translate(2px, 2px); box-shadow: none; }
-  button.secondary { background: transparent; color: var(--ink); }
-  button:disabled { opacity: .45; cursor: default; }
-  .muted { color: var(--muted); font-size: 14px; }
-  .flag { color: var(--warn); font-weight: 700; }
+    width: 100%; max-width: 420px; padding: 7px 9px; font: inherit;
+    border: 1px solid #bbb; border-radius: 3px; }
+  input[type=file] { margin-top: 4px; font: inherit; font-size: 14px; }
+  button { margin-top: 14px; padding: 9px 16px; font: inherit; font-size: 14px;
+           background: #1a1a1a; color: #fff; border: 1px solid #1a1a1a;
+           border-radius: 3px; cursor: pointer; }
+  button.secondary { background: #fff; color: #191919; border-color: #bbb; }
+  button:disabled { opacity: .5; cursor: default; }
+  .muted { color: #666; font-size: 14px; }
+  .flag { color: #8a6d1a; font-weight: 600; }
   .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-               gap: 10px; margin-top: 6px; }
-  .meta-item { border: 1px solid var(--line); background: var(--paper);
-               padding: 8px 12px; font-size: 15px; }
-  .meta-item .k { display: block; font-size: 10px; text-transform: uppercase;
-                  letter-spacing: .16em; color: var(--muted); margin-bottom: 1px; }
-  .badge { display: inline-block; font-weight: 700; font-size: 10.5px;
-           letter-spacing: .16em; text-transform: uppercase; padding: 3px 9px;
-           transform: rotate(-1.5deg); }
-  .badge.verified { color: var(--ok); border: 2px double var(--ok); }
-  .badge.ai { color: var(--muted); border: 1.5px dashed var(--muted); }
-  .badge.warn { color: var(--warn); border: 2px double var(--warn); }
-  .warn-box { background: var(--paper); border: 1px solid var(--line);
-              border-left: 3px solid var(--warn); padding: 14px 18px; margin-top: 12px; }
-  .warn-box b { color: var(--warn); }
-  .error-box { color: var(--bad); font-size: 14px; white-space: pre-wrap; }
-  .row { display: flex; gap: 22px; align-items: end; flex-wrap: wrap; }
-  .row > div { flex: 1; min-width: 150px; }
-  .score-hero { font-size: 40px; font-weight: 700; margin: 8px 0 2px; }
-  .score-hero small { font-size: 20px; color: var(--muted); font-weight: 400; }
-  details { margin: 10px 0; }
-  summary { cursor: pointer; font-weight: 700; font-size: 15px; }
-  .crit { border-left: 2px solid var(--line); margin: 8px 0 8px 6px; padding: 4px 12px;
+               gap: 8px 20px; margin-top: 6px; }
+  .meta-item { font-size: 14.5px; padding: 4px 0; border-bottom: 1px solid #eee; }
+  .meta-item .k { display: block; font-size: 12px; color: #666; }
+  .badge { font-size: 13px; font-weight: 600; }
+  .badge.verified { color: #1a6b38; }
+  .badge.ai { color: #8a6d1a; }
+  .badge.warn { color: #8a6d1a; }
+  .warn-box { border: 1px solid #ddd; border-left: 3px solid #8a6d1a;
+              padding: 12px 16px; margin-top: 12px; }
+  .warn-box b { color: #191919; }
+  .error-box { color: #b3261e; font-size: 14px; white-space: pre-wrap; }
+  .row { display: flex; gap: 16px; align-items: end; flex-wrap: wrap; }
+  .row > div { flex: 1; min-width: 140px; }
+  .score-hero { font-size: 34px; font-weight: 700; margin: 8px 0 2px; }
+  .score-hero small { font-size: 18px; color: #666; font-weight: 400; }
+  details { margin: 8px 0; }
+  summary { cursor: pointer; font-weight: 600; font-size: 14.5px; }
+  .crit { border-left: 2px solid #ddd; margin: 8px 0 8px 4px; padding: 4px 12px;
           font-size: 14px; }
-  .crit b { font-family: "DejaVu Sans Mono", ui-monospace, Menlo, monospace;
-            font-size: 12.5px; color: var(--margin); }
-  .crit .ev { font-style: italic; background: var(--soft); padding: 1px 6px;
-              display: inline-block; margin: 2px 0; }
-  .progress { display: flex; align-items: center; gap: 10px; margin-top: 8px;
-              font-style: italic; }
-  .spinner { width: 15px; height: 15px; border: 2.5px solid var(--line);
-             border-top-color: var(--margin); border-radius: 50%;
-             animation: spin .8s linear infinite; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  @media (prefers-reduced-motion: reduce) { .spinner { animation: none; } }
-  img.sheet { max-width: 100%; border: 1px solid var(--line);
-              box-shadow: 3px 3px 0 rgba(38, 35, 25, .10); margin: 8px 0; }
-  .strict-row { max-width: 440px; }
-  .strict-row input[type=range] { width: 100%; accent-color: var(--margin); }
-  .strict-marks { display: flex; justify-content: space-between; font-size: 10.5px;
-                  letter-spacing: .1em; text-transform: uppercase;
-                  color: var(--muted); margin-top: 2px; }
-  .disclose { font-size: 13px; color: var(--muted); font-style: italic; margin: 2px 0 10px; }
-  .disclose b { color: var(--ink); font-style: normal; }
+  .crit b { color: #555; }
+  .crit .ev { font-style: italic; color: #444; }
+  .progress { margin-top: 8px; }
+  .spinner { display: none; }
+  img.sheet { max-width: 100%; border: 1px solid #ddd; margin: 8px 0; }
+  .strict-row { max-width: 420px; }
+  .strict-row input[type=range] { width: 100%; accent-color: #1a1a1a; }
+  .strict-marks { display: flex; justify-content: space-between; font-size: 12px;
+                  color: #666; margin-top: 2px; }
+  .disclose { font-size: 13px; color: #666; margin: 2px 0 10px; }
+  .disclose b { color: #191919; }
 </style>
 </head>
 <body>
 <header>
   <h1>Check my answer sheet</h1>
-  <p>Upload your scanned answer sheet — we read it, find your question paper's marking
-     scheme in the register, and mark every answer with the reason for each mark.
-     &nbsp;<a href="/">Contribute a question paper</a> · <a href="/examiner">Examiner tools</a></p>
+  <p>Upload your scanned answer sheet — we read it, find your question paper's
+     marking scheme, and mark every answer with the reason for each mark.
+     <a href="/">Contribute a question paper</a> ·
+     <a href="/examiner">Examiner tools</a></p>
 </header>
 <main>
 

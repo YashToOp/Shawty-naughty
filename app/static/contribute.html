@@ -3,189 +3,95 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Question-Paper Registry</title>
+<title>Contribute a question paper</title>
 <style>
-  :root {
-    --paper: #f4efe3;      /* answer-booklet cream */
-    --sheet: #fdfbf4;      /* sheet of paper */
-    --ink: #262319;
-    --faded: #7d7460;
-    --rule: #d9d0b8;
-    --rule-soft: #eae3d1;
-    --margin: #c65746;     /* the red margin line */
-    --pen-red: #b3362a;
-    --pen-green: #2d6a3f;
-    --pen-amber: #a2621a;
-    --stamp-blue: #274c8f;
-  }
-  * { box-sizing: border-box; }
-  body { margin: 0; background: var(--paper); color: var(--ink);
-         font-family: Georgia, "Times New Roman", serif; font-size: 16px; line-height: 1.55; }
-
-  header { max-width: 980px; margin: 0 auto; padding: 34px 20px 18px;
-           border-bottom: 3px double var(--ink); }
-  .masthead { display: flex; justify-content: space-between; align-items: flex-end;
-              gap: 16px; flex-wrap: wrap; }
-  h1 { margin: 0; font-size: 34px; font-weight: 700; letter-spacing: .01em; }
-  h1 .amp { color: var(--margin); font-style: italic; }
-  .masthead nav { font-size: 14px; padding-bottom: 6px; white-space: nowrap; }
-  .masthead nav a { color: var(--stamp-blue); text-decoration: underline;
-                    text-underline-offset: 3px; margin-left: 18px; }
-  .lede { max-width: 980px; margin: 0 auto; padding: 14px 20px 6px; color: var(--faded);
-          font-size: 15.5px; font-style: italic; }
-  .lede b { color: var(--ink); font-style: normal; }
-
-  main { max-width: 980px; margin: 18px auto 8px; padding: 0 20px;
-         display: grid; gap: 26px; }
-
-  .sheet { background: var(--sheet); border: 1px solid var(--rule);
-           box-shadow: 3px 3px 0 rgba(38, 35, 25, .10);
-           padding: 26px 30px 26px 66px; position: relative; }
-  .sheet::before { content: ""; position: absolute; left: 44px; top: 0; bottom: 0;
-                   width: 1.5px; background: rgba(198, 87, 70, .5); }
-  .sheet.dim { opacity: .55; }
-
-  .sec-head { display: flex; align-items: baseline; gap: 14px; margin: 0 0 16px;
-              border-bottom: 1px solid var(--rule-soft); padding-bottom: 10px; }
-  .sec-head .sec { font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
-                   color: var(--margin); font-weight: 700; }
-  .sec-head h2 { margin: 0; font-size: 19px; font-weight: 700; }
-
-  label { display: block; font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
-          color: var(--faded); margin: 16px 0 2px; }
+  body { margin: 0; font-family: system-ui, sans-serif; color: #191919;
+         background: #fff; line-height: 1.55; font-size: 15px; }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 20px; }
+  header { padding: 30px 0 18px; border-bottom: 1px solid #ddd; }
+  header h1 { margin: 0 0 6px; font-size: 22px; }
+  header p { margin: 0; color: #555; }
+  nav { margin-top: 8px; font-size: 14px; }
+  nav a { color: #1a56b0; margin-right: 16px; }
+  section { margin: 34px 0; }
+  h2 { font-size: 17px; margin: 0 0 12px; }
+  label { display: block; font-size: 13px; color: #555; margin: 14px 0 3px; }
   input[type=text], input[type=number] {
-    width: 100%; padding: 6px 2px; font: 16px Georgia, serif; color: var(--ink);
-    background: transparent; border: 0; border-bottom: 1.5px solid var(--ink);
-    border-radius: 0; }
-  input[type=text]:focus, input[type=number]:focus {
-    outline: none; border-bottom-color: var(--margin); }
-  input[type=file] { font: 14px Georgia, serif; color: var(--faded); margin-top: 6px; }
-  ::placeholder { color: #b4ab96; font-style: italic; }
-
-  button { font: 700 12px Georgia, serif; letter-spacing: .18em; text-transform: uppercase;
-           background: var(--ink); color: var(--sheet); border: 1px solid var(--ink);
-           padding: 12px 22px; cursor: pointer; margin-top: 20px;
-           box-shadow: 3px 3px 0 rgba(38, 35, 25, .22); }
-  button:hover { background: #3a3527; }
-  button:active { transform: translate(2px, 2px); box-shadow: none; }
-  button:disabled { opacity: .45; cursor: default; }
-  button.secondary { background: transparent; color: var(--ink); }
-
-  .muted { color: var(--faded); font-size: 14.5px; }
-  .footnote { font-size: 13px; color: var(--faded); font-style: italic; margin-top: 18px; }
-  .error-box { color: var(--pen-red); white-space: pre-wrap; font-size: 15px; }
-
-  .stamp { display: inline-block; font-weight: 700; font-size: 10.5px;
-           letter-spacing: .18em; text-transform: uppercase; padding: 3px 9px;
-           transform: rotate(-1.5deg); white-space: nowrap; }
-  .stamp.green { color: var(--pen-green); border: 2px double var(--pen-green); }
-  .stamp.ink { color: var(--faded); border: 1.5px dashed var(--faded); }
-  .stamp.red { color: var(--pen-red); border: 2px double var(--pen-red); }
-
-  .registered-note { border: 1px solid var(--rule); background: var(--paper);
-                     padding: 12px 16px; font-size: 15px; margin: 4px 0 18px;
-                     display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
-
-  .paper-head { margin: 4px 0 2px; font-size: 18px; }
-  .paper-sub { color: var(--faded); font-size: 14.5px; margin: 0 0 14px; }
-  .mono, .code { font-family: "DejaVu Sans Mono", ui-monospace, Menlo, monospace;
-                 font-size: .92em; }
-
+    width: 100%; max-width: 420px; padding: 7px 9px; font: inherit;
+    border: 1px solid #bbb; border-radius: 3px; box-sizing: border-box; }
+  input[type=file] { margin-top: 4px; font: inherit; font-size: 14px; }
+  .cols { display: flex; gap: 20px; flex-wrap: wrap; }
+  .cols > div { flex: 1; min-width: 160px; }
+  button { margin-top: 18px; padding: 9px 16px; font: inherit; font-size: 14px;
+           background: #1a1a1a; color: #fff; border: 1px solid #1a1a1a;
+           border-radius: 3px; cursor: pointer; }
+  button:disabled { opacity: .5; cursor: default; }
+  .muted { color: #666; font-size: 14px; }
+  .small { color: #666; font-size: 13px; }
+  .error { color: #b3261e; white-space: pre-wrap; }
+  .ok { color: #1a6b38; }
+  .provisional { color: #8a6d1a; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th { text-align: left; font-weight: 600; color: #555; font-size: 13px;
+       padding: 6px 14px 6px 0; border-bottom: 1px solid #ccc; }
+  td { padding: 7px 14px 7px 0; border-bottom: 1px solid #eee; vertical-align: top; }
+  code { font-size: 13px; }
   details { margin: 10px 0; }
-  summary { cursor: pointer; font-weight: 700; font-size: 15.5px; }
-  summary .marks { font-weight: 400; color: var(--faded); }
-  .qtext { color: var(--faded); font-style: italic; margin: 6px 0 10px; }
-  .scheme-row { display: flex; align-items: baseline; gap: 8px; margin: 5px 0 5px 8px;
-                font-size: 14.5px; }
-  .scheme-row .cid { font-family: "DejaVu Sans Mono", ui-monospace, monospace;
-                     font-size: 12.5px; color: var(--margin); flex: 0 0 auto; }
-  .scheme-row .dots { flex: 1; border-bottom: 1.5px dotted var(--rule); min-width: 24px;
-                      transform: translateY(-3px); }
-  .scheme-row .marks { font-family: "DejaVu Sans Mono", ui-monospace, monospace;
-                       font-size: 13.5px; flex: 0 0 auto; }
-
-  table.register { width: 100%; border-collapse: collapse; font-size: 14.5px; }
-  table.register th { text-align: left; font-size: 10.5px; letter-spacing: .18em;
-                      text-transform: uppercase; color: var(--faded); font-weight: 700;
-                      padding: 4px 10px 8px 0; border-bottom: 1.5px solid var(--ink); }
-  table.register td { padding: 9px 10px 9px 0; border-bottom: 1px dotted var(--rule);
-                      vertical-align: baseline; }
-  table.register td.num { font-family: "DejaVu Sans Mono", ui-monospace, monospace;
-                          font-size: 13.5px; }
-
-  .working { font-style: italic; color: var(--faded); }
-  .working .d { animation: blink 1.4s infinite; }
-  .working .d:nth-child(2) { animation-delay: .2s; }
-  .working .d:nth-child(3) { animation-delay: .4s; }
-  @keyframes blink { 0%, 60%, 100% { opacity: .15; } 30% { opacity: 1; } }
-  @media (prefers-reduced-motion: reduce) { .working .d { animation: none; } }
-
-  .colophon { max-width: 980px; margin: 6px auto 40px; padding: 14px 20px 0;
-              border-top: 1px solid var(--rule); color: var(--faded);
-              font-size: 12.5px; font-style: italic; }
-  .row { display: flex; gap: 28px; flex-wrap: wrap; }
-  .row > div { flex: 1; min-width: 170px; }
-  @media (max-width: 640px) { .sheet { padding-left: 30px; } .sheet::before { display: none; } }
+  summary { cursor: pointer; font-weight: 600; }
+  .q-text { color: #555; margin: 6px 0 8px; }
+  .criterion { margin: 4px 0 4px 16px; font-size: 14px; }
+  .criterion code { color: #555; }
+  footer { margin: 44px 0 30px; padding-top: 14px; border-top: 1px solid #ddd;
+           color: #666; font-size: 13px; }
 </style>
 </head>
 <body>
+<div class="wrap">
 <header>
-  <div class="masthead">
-    <h1>The Question<span class="amp">-</span>Paper Registry</h1>
-    <nav><a href="/grade">Check an answer sheet</a><a href="/examiner">Examiner tools</a></nav>
-  </div>
+  <h1>Contribute a question paper</h1>
+  <p>Upload a board question paper. We read every question and write the marking
+     scheme, so anyone with the same paper can have their answer sheet checked
+     instantly. No account needed.</p>
+  <nav><a href="/grade">Check an answer sheet</a><a href="/examiner">Examiner tools</a></nav>
 </header>
-<p class="lede">Upload a board question paper — scanned pages or photographs. Every question is
-   read and entered into the register; marking schemes are reused where a question is already
-   known from another set, and written afresh for the new ones. <b>The next student with this
-   paper gets their sheet marked instantly.</b> No account, no key — processing runs on our
-   own systems.</p>
-<main>
 
-  <section class="sheet" id="upload-card">
-    <div class="sec-head"><span class="sec">Section A</span>
-      <h2>Contribute a question paper</h2></div>
-    <div class="row">
-      <div><label for="board">Board</label>
-        <input type="text" id="board" value="CBSE"></div>
-      <div><label for="class_level">Class</label>
-        <input type="text" id="class_level" placeholder="10 or 12"></div>
-      <div><label for="subject">Subject</label>
-        <input type="text" id="subject" placeholder="Science, English Core…"></div>
-    </div>
-    <div class="row">
-      <div><label for="exam_year">Year of examination</label>
-        <input type="number" id="exam_year" placeholder="2026"></div>
-      <div><label for="paper_code">Q.P. code / set — optional, we also read it off the paper</label>
-        <input type="text" id="paper_code" class="mono" placeholder="31/2/1"></div>
-    </div>
-    <label for="files">Pages of the question paper</label>
-    <input type="file" id="files" multiple accept=".png,.jpg,.jpeg,.webp,.gif,.pdf">
-    <br>
-    <button id="submit">Submit for registration</button>
-    <span id="submit-msg" class="muted"></span>
-    <p class="footnote">Kindly upload official board papers, or papers you have the right to
-       share. Duplicates are no trouble — sets already on the register are detected and
-       nothing is written twice.</p>
-  </section>
+<section id="upload-section">
+  <div class="cols">
+    <div><label for="board">Board</label>
+      <input type="text" id="board" value="CBSE"></div>
+    <div><label for="class_level">Class</label>
+      <input type="text" id="class_level" placeholder="10 or 12"></div>
+    <div><label for="subject">Subject</label>
+      <input type="text" id="subject" placeholder="Science"></div>
+  </div>
+  <div class="cols">
+    <div><label for="exam_year">Exam year</label>
+      <input type="number" id="exam_year" placeholder="2026"></div>
+    <div><label for="paper_code">Paper code (optional — it's usually printed on the paper)</label>
+      <input type="text" id="paper_code" placeholder="31/2/1"></div>
+  </div>
+  <label for="files">Pages (PNG, JPG or PDF)</label>
+  <input type="file" id="files" multiple accept=".png,.jpg,.jpeg,.webp,.gif,.pdf">
+  <br>
+  <button id="submit">Upload paper</button>
+  <span id="submit-msg" class="muted"></span>
+  <p class="small">Please only upload official board papers or papers you may share.
+     Duplicates are fine — papers we already have are detected and skipped.</p>
+</section>
 
-  <section class="sheet dim" id="result-card">
-    <div class="sec-head"><span class="sec">Section B</span>
-      <h2>Extraction &amp; marking scheme</h2></div>
-    <div id="result-body"><p class="muted">The extracted questions and their marking
-      schemes will appear here once your paper is processed.</p></div>
-  </section>
+<section id="result-section" hidden>
+  <h2>Result</h2>
+  <div id="result-body"></div>
+</section>
 
-  <section class="sheet" id="coverage-card">
-    <div class="sec-head"><span class="sec">Section C</span>
-      <h2>Coverage register</h2></div>
-    <div id="coverage-body"><p class="muted">Consulting the register…</p></div>
-  </section>
+<section>
+  <h2>Papers we already cover</h2>
+  <div id="coverage-body"><p class="muted">Loading…</p></div>
+</section>
 
-</main>
-<p class="colophon">Schemes written by machine are stamped AI-GENERATED and treated as
-   provisional until an examiner verifies them. Marks are computed, never guessed:
-   every criterion decision cites the paper itself.</p>
+<footer>Machine-written marking schemes are marked provisional until an examiner
+  verifies them. Every mark cites the scheme and the paper itself.</footer>
+</div>
 <script>
 const $ = (id) => document.getElementById(id);
 let pollTimer = null;
@@ -195,65 +101,58 @@ function esc(s) {
     c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 }
 
-const working = (text) =>
-  `<p class="working">${esc(text)}<span class="d">.</span><span class="d">.</span><span class="d">.</span></p>`;
-
 const STATUS_LINES = {
-  queued: "Waiting in the queue",
-  reading_paper: "Reading the paper — taking down every question",
-  generating_rubric: "Writing marking schemes for the new questions",
+  queued: "Waiting in the queue…",
+  reading_paper: "Reading the paper — extracting every question…",
+  generating_rubric: "Writing marking schemes for the new questions…",
 };
 
-const schemeStamp = (status) => status === "verified"
-  ? `<span class="stamp green">Verified scheme</span>`
-  : `<span class="stamp ink">AI-generated</span>`;
+const schemeLabel = (status) => status === "verified"
+  ? `<span class="ok">verified scheme</span>`
+  : `<span class="provisional">AI-generated scheme, provisional</span>`;
 
 async function loadCoverage() {
   try {
     const data = await (await fetch("/api/coverage")).json();
     const rows = (data.available || []).map(a => `
       <tr>
-        <td>${esc(a.board)}</td><td class="num">${esc(a.class_level)}</td>
+        <td>${esc(a.board)} Class ${esc(a.class_level)}</td>
         <td>${esc(a.subject)}, ${esc(a.year)}</td>
-        <td class="num">${a.set_variants.map(esc).join("&nbsp;·&nbsp;")}</td>
-        <td class="num">${a.question_count}</td>
-        <td>${schemeStamp(a.rubric_status)}</td>
+        <td><code>${a.set_variants.map(esc).join(", ")}</code></td>
+        <td>${a.question_count}</td>
+        <td>${schemeLabel(a.rubric_status)}</td>
       </tr>`);
     $("coverage-body").innerHTML = rows.length
-      ? `<table class="register">
-           <thead><tr><th>Board</th><th>Class</th><th>Subject &amp; year</th>
-             <th>Sets on record</th><th>Qs</th><th>Scheme</th></tr></thead>
-           <tbody>${rows.join("")}</tbody></table>`
-      : `<p class="muted">The register is empty — yours would be the first entry.</p>`;
+      ? `<table><thead><tr><th>Board</th><th>Subject</th><th>Sets</th>
+           <th>Questions</th><th>Scheme</th></tr></thead>
+         <tbody>${rows.join("")}</tbody></table>`
+      : `<p class="muted">Nothing yet — yours would be the first.</p>`;
   } catch {
-    $("coverage-body").innerHTML = `<p class="muted">The register could not be consulted.</p>`;
+    $("coverage-body").innerHTML = `<p class="muted">Couldn't load coverage.</p>`;
   }
 }
 
 function renderPaper(job, paper) {
-  const note = job.note
-    ? `<div class="registered-note"><span class="stamp green">Registered</span>
-       <span>${esc(job.note)}</span></div>` : "";
+  const note = job.note ? `<p class="ok">${esc(job.note)}</p>` : "";
   if (!paper) { $("result-body").innerHTML = note || ""; return; }
   const scheme = paper.rubric?.questions || [];
   const critFor = (qid) =>
     (scheme.find(q => q.id === qid)?.criteria || [])
-      .map(c => `<div class="scheme-row"><span class="cid">${esc(c.id)}</span>
-                 <span>${esc(c.description)}</span><span class="dots"></span>
-                 <span class="marks">${c.marks}</span></div>`).join("");
+      .map(c => `<div class="criterion"><code>${esc(c.id)}</code>
+                 ${esc(c.description)} — <b>${c.marks}</b></div>`).join("");
   const questions = paper.questions.map(q => `
     <details>
-      <summary>Q${esc(q.id)}. <span class="marks">— ${q.max_marks} marks${
-        q.section ? `, Section ${esc(q.section)}` : ""}</span></summary>
-      <p class="qtext">${esc(q.question_text)}</p>
-      ${critFor(q.id) || `<p class="muted">No scheme on record yet.</p>`}
+      <summary>Q${esc(q.id)} — ${q.max_marks} marks${
+        q.section ? `, Section ${esc(q.section)}` : ""}</summary>
+      <p class="q-text">${esc(q.question_text)}</p>
+      ${critFor(q.id) || `<p class="muted">No scheme yet.</p>`}
     </details>`).join("");
   $("result-body").innerHTML = `
     ${note}
-    <p class="paper-head"><b>${esc(paper.title)}</b> ${schemeStamp(paper.rubric_status)}</p>
-    <p class="paper-sub">${esc(paper.board)} · Class ${esc(paper.class_level)} ·
-       ${esc(paper.subject)} (${esc(paper.year)}) · Q.P. code
-       <span class="code">${esc(paper.paper_code)}</span></p>
+    <p><b>${esc(paper.title)}</b> — ${schemeLabel(paper.rubric_status)}<br>
+       <span class="muted">${esc(paper.board)}, Class ${esc(paper.class_level)},
+       ${esc(paper.subject)} (${esc(paper.year)}), paper code
+       <code>${esc(paper.paper_code)}</code></span></p>
     ${questions}`;
 }
 
@@ -271,22 +170,23 @@ async function poll(jobId) {
     clearInterval(pollTimer);
     $("submit-msg").textContent = "";
     $("result-body").innerHTML =
-      `<p class="error-box">Something went wrong: ${esc(job.error)}</p>
-       <p class="muted">You may try again — nothing was entered in the register.</p>`;
+      `<p class="error">Something went wrong: ${esc(job.error)}</p>
+       <p class="muted">You can try again — nothing was saved.</p>`;
     $("submit").disabled = false;
   } else {
-    $("result-body").innerHTML = working(STATUS_LINES[job.status] || job.status);
+    $("result-body").innerHTML =
+      `<p class="muted">${esc(STATUS_LINES[job.status] || job.status)}</p>`;
   }
 }
 
 $("submit").addEventListener("click", async () => {
   const files = $("files").files;
   const required = { board: "board", class_level: "class", subject: "subject",
-                     exam_year: "year of examination" };
+                     exam_year: "exam year" };
   for (const [id, label] of Object.entries(required)) {
     if (!$(id).value.trim()) { $("submit-msg").textContent = `Please fill in the ${label}.`; return; }
   }
-  if (!files.length) { $("submit-msg").textContent = "Please attach the paper's pages."; return; }
+  if (!files.length) { $("submit-msg").textContent = "Please choose the paper's pages."; return; }
 
   const form = new FormData();
   for (const f of files) form.append("files", f);
@@ -296,7 +196,7 @@ $("submit").addEventListener("click", async () => {
 
   $("submit").disabled = true;
   $("submit-msg").textContent = "Uploading…";
-  $("result-card").classList.remove("dim");
+  $("result-section").hidden = false;
   try {
     const res = await fetch("/api/contribute", { method: "POST", body: form });
     if (!res.ok) throw new Error((await res.json()).detail || res.statusText);
@@ -307,7 +207,7 @@ $("submit").addEventListener("click", async () => {
     poll(job_id);
   } catch (err) {
     $("submit-msg").textContent = "";
-    $("result-body").innerHTML = `<p class="error-box">${esc(err.message)}</p>`;
+    $("result-body").innerHTML = `<p class="error">${esc(err.message)}</p>`;
     $("submit").disabled = false;
   }
 });
@@ -315,7 +215,7 @@ $("submit").addEventListener("click", async () => {
 // Bookmarkable results: ?job=<id> resumes polling/rendering.
 const existing = new URLSearchParams(location.search).get("job");
 if (existing) {
-  $("result-card").classList.remove("dim");
+  $("result-section").hidden = false;
   pollTimer = setInterval(() => poll(existing), 3000);
   poll(existing);
 }
