@@ -55,6 +55,11 @@ MAX_CONCURRENT_JOBS = int(os.environ.get("MAX_CONCURRENT_JOBS", "2"))
 # Uploaded sheets and results are purged after this many days (0 = keep).
 RETENTION_DAYS = int(os.environ.get("RETENTION_DAYS", "30"))
 
+# PDF uploads are rasterized to page images at this resolution; one upload
+# may expand to at most MAX_PDF_PAGES pages (cost cap per submission).
+RASTER_DPI = int(os.environ.get("RASTER_DPI", "200"))
+MAX_PDF_PAGES = int(os.environ.get("MAX_PDF_PAGES", "40"))
+
 SUPPORTED_MEDIA_TYPES = {
     ".png": "image/png",
     ".jpg": "image/jpeg",

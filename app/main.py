@@ -15,8 +15,8 @@ from fastapi import (BackgroundTasks, Depends, FastAPI, File, Form,
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, ValidationError
 
-from . import (annotator, config, guard, ingest_pipeline, pipeline, storage,
-               student_pipeline)
+from . import (annotator, config, guard, ingest_pipeline, pipeline, rasterize,
+               storage, student_pipeline)
 from .config import MAX_UPLOAD_BYTES, SUPPORTED_MEDIA_TYPES
 from .models import HumanOverride, Paper, QuestionBank, Rubric, SheetMetadata
 
@@ -113,7 +113,12 @@ async def _read_uploads(files: list[UploadFile]) -> list[tuple[str, bytes]]:
         if len(data) > MAX_UPLOAD_BYTES:
             raise HTTPException(413, f"{upload.filename} exceeds the upload size limit")
         contents.append((upload.filename or f"page{len(contents)}{suffix}", data))
-    return contents
+    try:
+        # PDFs become page images here, once - every downstream stage
+        # (vision, OCR, annotation) then works on pixels.
+        return rasterize.expand_uploads(contents)
+    except rasterize.RasterizeError as exc:
+        raise HTTPException(400, str(exc)) from exc
 
 
 # ---------------------------------------------------------------------------

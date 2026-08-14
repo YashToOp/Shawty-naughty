@@ -58,7 +58,7 @@ It extracts the questions, dedupes against the subject-year bank, generates rubr
 1. **Upload** — an examiner defines a rubric once (questions, criteria, marks per criterion). Answer sheets are uploaded as images or PDFs.
 2. **Transcription** — Claude's vision reads the pages and produces a structured transcript: verbatim answers keyed by question id, `[illegible]` markers instead of guesses, legibility ratings, notes about crossed-out work or diagrams, and **pixel bounding boxes** for each answer region.
 3. **Evaluation** — each question is graded in a separate request against the rubric. The model must, for every criterion: award marks, state a rationale, and quote the exact words from the student's answer that earned the marks. Structured outputs guarantee the response always parses.
-4. **Annotation** — the evaluation is drawn back onto the student's own sheet: each answer gets a color-coded box (green = full marks, amber = partial, red = none) stamped with the grade (`Q1 · 3/5`) and tags for the criteria that cost marks (`✗ 1-b  ~ 1-c`). A closing summary card totals the paper and spells out what every tag means, so students can see exactly why they didn't get full marks. (PDF uploads get the summary card only — no pixel space to draw on.)
+4. **Annotation** — the evaluation is drawn back onto the student's own sheet: each answer gets a color-coded box (green = full marks, amber = partial, red = none) stamped with the grade (`Q1 · 3/5`) and tags for the criteria that cost marks (`✗ 1-b  ~ 1-c`). A closing summary card totals the paper and spells out what every tag means, so students can see exactly why they didn't get full marks. PDF uploads are rasterized to page images at upload (`RASTER_DPI`, capped at `MAX_PDF_PAGES`), so they get annotated like any scan.
 5. **Review** — the report shows totals, per-criterion breakdowns, evidence, and the annotated sheet. Questions with low confidence, illegible answers, or arithmetic corrections are flagged for human review. A reviewer can override any question's marks; overrides are stored with reviewer, reason, and timestamp, totals update, and the annotated sheet is redrawn with the reviewed marks.
 
 ## Design decisions
@@ -86,7 +86,7 @@ without touching prompts, rubric arithmetic, or the review workflow:
 | | `EVAL_PROVIDER` (judges answers, writes schemes) | `OCR_PROVIDER` (reads the pages) |
 |---|---|---|
 | **Claude stack** (default, calibration baseline) | `anthropic` — Claude via the Anthropic SDK | `claude` — Claude vision reads pages directly (images + PDFs) |
-| **Free stack** | `workers-ai` — open models on [Cloudflare Workers AI](https://developers.cloudflare.com/workers-ai/) (free tier: 10k neurons/day) | `google-vision` — [Google Cloud Vision OCR](https://cloud.google.com/vision) (free tier: 1000 pages/month) + one cheap text-only segmentation call (images only) |
+| **Free stack** | `workers-ai` — open models on [Cloudflare Workers AI](https://developers.cloudflare.com/workers-ai/) (free tier: 10k neurons/day) | `google-vision` — [Google Cloud Vision OCR](https://cloud.google.com/vision) (free tier: 1000 pages/month) + one cheap text-only segmentation call (PDFs arrive pre-rasterized) |
 
 On the free path, Vision returns raw text with per-word confidences and boxes;
 a small text model only decides *which lines belong to which question* — answer
@@ -221,7 +221,7 @@ sample_data/          example rubric + seeded papers (CBSE 12 English Core 2026)
 ## Roadmap
 
 - Batch grading of many sheets against one rubric (Message Batches API, −50% token cost)
-- Rasterize PDF uploads so they can be annotated like images
+- Optional-question groups ("answer any N of M") in report totals
 - Transcript editing in the UI before evaluation runs
 - Per-class analytics: criterion-level performance across a cohort
 - Rubric builder UI (currently JSON)
