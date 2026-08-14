@@ -4,10 +4,11 @@ import pytest
 @pytest.fixture(autouse=True)
 def isolated_data_dir(tmp_path, monkeypatch):
     """Point storage at a throwaway directory for every test."""
-    from app import config, storage
+    from app import config, guard, storage
 
     monkeypatch.setattr(config, "DATA_DIR", tmp_path)
     monkeypatch.setattr(storage, "DATA_DIR", tmp_path)
+    guard.reset()  # rate-limit counters must not leak across tests
     yield tmp_path
 
 

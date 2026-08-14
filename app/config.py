@@ -41,6 +41,20 @@ GOOGLE_VISION_API_KEY = os.environ.get("GOOGLE_VISION_API_KEY", "")
 # segmentation prompt and cap the answer's legibility at "partial" in code.
 OCR_CONFIDENCE_FLOOR = 0.6
 
+# ---------------------------------------------------------------------------
+# Public-exposure guardrails. Every upload triggers paid model calls, so the
+# public endpoints are throttled per client and capped globally per day, and
+# grading jobs run through a bounded gate instead of unbounded background
+# tasks. All knobs are env-tunable; 0 disables the corresponding check.
+# ---------------------------------------------------------------------------
+SUBMISSIONS_PER_HOUR_PER_IP = int(os.environ.get("SUBMISSIONS_PER_HOUR_PER_IP", "6"))
+CONTRIBUTIONS_PER_HOUR_PER_IP = int(os.environ.get("CONTRIBUTIONS_PER_HOUR_PER_IP", "10"))
+GLOBAL_JOBS_PER_DAY = int(os.environ.get("GLOBAL_JOBS_PER_DAY", "300"))
+MAX_CONCURRENT_JOBS = int(os.environ.get("MAX_CONCURRENT_JOBS", "2"))
+
+# Uploaded sheets and results are purged after this many days (0 = keep).
+RETENTION_DAYS = int(os.environ.get("RETENTION_DAYS", "30"))
+
 SUPPORTED_MEDIA_TYPES = {
     ".png": "image/png",
     ".jpg": "image/jpeg",

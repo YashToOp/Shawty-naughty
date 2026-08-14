@@ -6,14 +6,17 @@ Run with:  uvicorn app.main:app --reload
 import json
 import logging
 from contextlib import asynccontextmanager
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
 
-from fastapi import BackgroundTasks, FastAPI, File, Form, HTTPException, UploadFile
+from fastapi import (BackgroundTasks, Depends, FastAPI, File, Form,
+                     HTTPException, UploadFile)
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, ValidationError
 
-from . import annotator, ingest_pipeline, pipeline, storage, student_pipeline
+from . import (annotator, config, guard, ingest_pipeline, pipeline, storage,
+               student_pipeline)
 from .config import MAX_UPLOAD_BYTES, SUPPORTED_MEDIA_TYPES
 from .models import HumanOverride, Paper, QuestionBank, Rubric, SheetMetadata
 
@@ -53,6 +56,10 @@ def seed_sample_papers() -> None:
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     seed_sample_papers()
+    purged = storage.purge_expired(config.RETENTION_DAYS)
+    if purged:
+        logger.info("Purged %d job(s) past the %d-day retention window",
+                    purged, config.RETENTION_DAYS)
     yield
 
 
@@ -113,7 +120,8 @@ async def _read_uploads(files: list[UploadFile]) -> list[tuple[str, bytes]]:
 # Public paper contribution (the coverage-phase front door)
 # ---------------------------------------------------------------------------
 
-@app.post("/api/contribute", status_code=202)
+@app.post("/api/contribute", status_code=202,
+          dependencies=[Depends(guard.limit_contributions)])
 async def contribute_paper(
     background: BackgroundTasks,
     board: str = Form(...),
@@ -136,7 +144,7 @@ async def contribute_paper(
         paper_code=paper_code.strip() if paper_code else None,
     )
     storage.update_job(job)
-    background.add_task(ingest_pipeline.run_ingest_pipeline, job.id)
+    background.add_task(guard.run_gated, ingest_pipeline.run_ingest_pipeline, job.id)
     return {"job_id": job.id, "status": job.status}
 
 
@@ -153,7 +161,8 @@ def get_contribution(job_id: str):
 # Student self-service flow
 # ---------------------------------------------------------------------------
 
-@app.post("/api/student/submissions", status_code=202)
+@app.post("/api/student/submissions", status_code=202,
+          dependencies=[Depends(guard.limit_submissions)])
 async def create_student_submission(
     background: BackgroundTasks,
     files: list[UploadFile] = File(...),
@@ -164,8 +173,19 @@ async def create_student_submission(
     contents = await _read_uploads(files)
     job = storage.create_job(None, contents, kind="student")
     storage.update_job(job, strictness=strictness)
-    background.add_task(student_pipeline.run_student_pipeline, job.id)
+    background.add_task(guard.run_gated,
+                        student_pipeline.run_student_pipeline, job.id)
     return {"job_id": job.id, "status": job.status}
+
+
+@app.delete("/api/student/submissions/{job_id}")
+def delete_student_submission(job_id: str):
+    """Remove a submission and everything uploaded with it (student privacy)."""
+    job = storage.get_job(job_id)
+    if job is None or job.kind != "student":
+        raise HTTPException(404, "Submission not found")
+    storage.delete_job(job_id)
+    return {"deleted": job_id}
 
 
 @app.get("/api/student/submissions/{job_id}")
@@ -206,7 +226,8 @@ async def upload_question_paper(
 
     contents = await _read_uploads(files)
     storage.save_paper_uploads(job, contents)
-    background.add_task(student_pipeline.resume_with_uploaded_paper, job.id)
+    background.add_task(guard.run_gated,
+                        student_pipeline.resume_with_uploaded_paper, job.id)
     return {"job_id": job.id, "status": "reading_paper"}
 
 
@@ -315,11 +336,50 @@ def get_paper(paper_id: str) -> Paper:
     return paper
 
 
+class VerifyRequest(BaseModel):
+    reviewer: str
+
+
+@app.post("/api/banks/{bank_id}/verify")
+def verify_bank(bank_id: str, body: VerifyRequest) -> QuestionBank:
+    """An examiner vouches for a bank's marking schemes: ai_generated ->
+    verified, propagated to every paper already materialized from it."""
+    bank = storage.get_bank(bank_id)
+    if bank is None:
+        raise HTTPException(404, "Question bank not found")
+    bank.rubric_status = "verified"
+    bank.verified_by = body.reviewer
+    bank.verified_at = datetime.now(timezone.utc).isoformat()
+    storage.save_bank(bank)
+    for paper in storage.list_papers():
+        if paper.source_bank == bank.id and paper.rubric_status != "verified":
+            paper.rubric_status = "verified"
+            paper.verified_by = body.reviewer
+            paper.verified_at = bank.verified_at
+            storage.save_paper(paper)
+    return bank
+
+
+@app.post("/api/papers/{paper_id}/verify")
+def verify_paper(paper_id: str, body: VerifyRequest) -> Paper:
+    paper = storage.get_paper(paper_id)
+    if paper is None:
+        raise HTTPException(404, "Paper not found")
+    if paper.rubric is None:
+        raise HTTPException(409, "This paper has no marking scheme to verify")
+    paper.rubric_status = "verified"
+    paper.verified_by = body.reviewer
+    paper.verified_at = datetime.now(timezone.utc).isoformat()
+    storage.save_paper(paper)
+    return paper
+
+
 # ---------------------------------------------------------------------------
 # Examiner submissions
 # ---------------------------------------------------------------------------
 
-@app.post("/api/submissions", status_code=202)
+@app.post("/api/submissions", status_code=202,
+          dependencies=[Depends(guard.limit_submissions)])
 async def create_submission(
     background: BackgroundTasks,
     rubric_id: str = Form(...),
@@ -329,8 +389,16 @@ async def create_submission(
         raise HTTPException(404, "Rubric not found")
     contents = await _read_uploads(files)
     job = storage.create_job(rubric_id, contents)
-    background.add_task(pipeline.run_pipeline, job.id)
+    background.add_task(guard.run_gated, pipeline.run_pipeline, job.id)
     return {"job_id": job.id, "status": job.status}
+
+
+@app.delete("/api/submissions/{job_id}")
+def delete_submission(job_id: str):
+    if storage.get_job(job_id) is None:
+        raise HTTPException(404, "Submission not found")
+    storage.delete_job(job_id)
+    return {"deleted": job_id}
 
 
 @app.get("/api/submissions")

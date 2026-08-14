@@ -119,6 +119,8 @@ class Paper(BaseModel):
     rubric: Optional[Rubric] = None
     rubric_status: Literal["missing", "ai_generated", "verified"] = "missing"
     source_bank: Optional[str] = None  # set when materialized from a QuestionBank
+    verified_by: Optional[str] = None  # examiner who upgraded the scheme
+    verified_at: Optional[str] = None
     created_at: str = Field(
         default_factory=lambda: datetime.now(timezone.utc).isoformat()
     )
@@ -162,6 +164,8 @@ class QuestionBank(BaseModel):
     rubric_status: Literal["missing", "ai_generated", "verified"] = "missing"
     questions: list[BankQuestion]
     variants: list[SetVariant] = Field(default_factory=list)
+    verified_by: Optional[str] = None  # examiner who upgraded the scheme
+    verified_at: Optional[str] = None
     created_at: str = Field(
         default_factory=lambda: datetime.now(timezone.utc).isoformat()
     )

@@ -148,6 +148,14 @@ Ingest job statuses: `queued → reading_paper → [generating_rubric] → compl
 | `GET` | `/api/student/submissions/{id}` | Status + metadata + paper + transcript + report |
 | `POST` | `/api/student/submissions/{id}/paper` | Upload the question paper for an `awaiting_paper` submission |
 | `POST` | `/api/student/submissions/{id}/paper-code` | Correct a misread paper code and retry the registry lookup |
+| `DELETE` | `/api/student/submissions/{id}` | Remove a submission and everything uploaded with it |
+| `POST` | `/api/banks/{id}/verify` | Examiner vouches for a bank's schemes (`{reviewer}`) — propagates to its materialized papers |
+| `POST` | `/api/papers/{id}/verify` | Examiner vouches for one paper's scheme (`{reviewer}`) |
+
+Upload endpoints are throttled per client address and by a global daily cap
+(429 / 503 with a plain-language `detail`); grading jobs run through a bounded
+concurrency gate, and uploads are purged after `RETENTION_DAYS` (see
+`.env.example` for all knobs).
 | `GET` | `/api/papers` | Paper registry (board, subject, year, code, rubric status) |
 | `GET` | `/api/papers/{id}` | Full paper: questions + marking scheme |
 

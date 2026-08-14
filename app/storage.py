@@ -301,6 +301,43 @@ def update_job(job: Job, **fields) -> Job:
     return job
 
 
+def delete_job(job_id: str) -> bool:
+    """Remove a job and everything under it (uploads, transcripts, results).
+
+    The registry (papers, banks) is untouched - it holds no student data."""
+    import shutil
+
+    directory = _job_dir(job_id)
+    if not directory.exists():
+        return False
+    shutil.rmtree(directory)
+    return True
+
+
+def purge_expired(retention_days: int) -> int:
+    """Delete job directories older than the retention window (0 = keep all).
+
+    Age is judged by the job record's updated_at so an actively-polled job is
+    never purged mid-flight; unreadable records fall back to directory mtime."""
+    import shutil
+    from datetime import timedelta
+
+    if retention_days <= 0:
+        return 0
+    cutoff = datetime.now(timezone.utc) - timedelta(days=retention_days)
+    removed = 0
+    for job_file in _jobs_dir().glob("*/job.json"):
+        try:
+            stamp = Job.model_validate_json(job_file.read_text()).updated_at
+            age_ref = datetime.fromisoformat(stamp)
+        except Exception:
+            age_ref = datetime.fromtimestamp(job_file.stat().st_mtime, timezone.utc)
+        if age_ref < cutoff:
+            shutil.rmtree(job_file.parent, ignore_errors=True)
+            removed += 1
+    return removed
+
+
 def _write_job(job: Job) -> None:
     path = _job_dir(job.id) / "job.json"
     path.parent.mkdir(parents=True, exist_ok=True)
