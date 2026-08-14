@@ -24,7 +24,18 @@ EVAL_PROVIDER = os.environ.get("EVAL_PROVIDER", "anthropic")
 # How scanned pages become a transcript:
 #   "claude"        - Claude vision reads the pages directly (default)
 #   "google-vision" - Google Cloud Vision OCR + a text-only segmentation pass
+#   "cascade"       - PaddleOCR (free, local) first; Google Vision only for
+#                     pages that fail the confidence gate (see ocr_cascade.py)
 OCR_PROVIDER = os.environ.get("OCR_PROVIDER", "claude")
+
+# Cascade gate: a page is accepted from PaddleOCR alone when it recognised at
+# least CASCADE_MIN_CHARS characters at a mean confidence of at least
+# CASCADE_ACCEPT_CONFIDENCE; otherwise Google Vision re-reads that page and
+# the two reads are merged line by line (agreement above
+# CASCADE_AGREE_SIMILARITY corroborates; disagreement flags the line).
+CASCADE_ACCEPT_CONFIDENCE = float(os.environ.get("CASCADE_ACCEPT_CONFIDENCE", "0.88"))
+CASCADE_MIN_CHARS = int(os.environ.get("CASCADE_MIN_CHARS", "30"))
+CASCADE_AGREE_SIMILARITY = float(os.environ.get("CASCADE_AGREE_SIMILARITY", "0.85"))
 
 # Cloudflare Workers AI (used when EVAL_PROVIDER="workers-ai")
 CF_ACCOUNT_ID = os.environ.get("CF_ACCOUNT_ID", "")

@@ -96,6 +96,37 @@ code enforces" rule as the marking arithmetic). Low-confidence lines are
 flagged in the segmentation prompt and cap the answer at `partial`, which
 forces human review downstream.
 
+`OCR_PROVIDER=cascade` puts a free local engine in front of Vision, so the
+paid engine is bought only where the free one actually failed:
+
+```
+                    IMAGE
+                      │
+              Preprocessing              (EXIF rotation, grayscale, contrast)
+                      │
+              Page / region detection    (PaddleOCR's text detector)
+                      │
+                PaddleOCR                (free, self-hosted recognition)
+                      │
+             Confidence / quality        (mean confidence + recognised chars)
+                 /          \
+              HIGH           LOW
+               │              │
+            Accept       Google Vision   (that page only)
+                              │
+                       Compare results   (line-level match by geometry)
+                              │
+                       Resolve conflicts (agree → corroborate; disagree →
+                              │           keep better read, flag the line)
+                         Grading LLM     (shared segmentation → evaluation)
+```
+
+Printed pages (question papers, typed sheets) clear the gate at zero cost;
+messy handwriting falls through page by page. Conflict resolution is
+deterministic code, never another model call. PaddleOCR is an optional heavy
+dependency (`pip install paddleocr paddlepaddle`); without it the cascade
+degrades to the pure Vision path with a logged warning.
+
 Mixed stacks work too (`EVAL_PROVIDER=anthropic` + `OCR_PROVIDER=google-vision`
 keeps Claude's judgment while cutting vision-token cost). Compare stacks on the
 same sheet before trusting a cheaper one:

@@ -227,7 +227,12 @@ def _legibility(lines: list[OCRLine], answer_text: str) -> str:
 
 def transcribe(client, rubric: Rubric, file_paths: list[Path]) -> Transcript:
     """Drop-in for ocr.transcribe() on the google-vision OCR path."""
-    pages = _ocr_pages(file_paths)
+    return segment_transcript(client, rubric, _ocr_pages(file_paths))
+
+
+def segment_transcript(client, rubric: Rubric,
+                       pages: list[PageOCR]) -> Transcript:
+    """OCR'd pages (any engine) -> segmentation call -> Transcript."""
     all_lines, rendered = _numbered_lines(pages)
 
     prompt = (
@@ -290,7 +295,10 @@ def _full_text(pages: list[PageOCR]) -> str:
 
 def extract_metadata(client, first_page: Path) -> SheetMetadata:
     """Drop-in for metadata.extract() on the google-vision OCR path."""
-    pages = _ocr_pages([first_page])
+    return metadata_from_pages(client, _ocr_pages([first_page]))
+
+
+def metadata_from_pages(client, pages: list[PageOCR]) -> SheetMetadata:
     response = client.messages.parse(
         model=ANTHROPIC_MODEL,
         max_tokens=2000,
@@ -316,7 +324,11 @@ def extract_questions(client, paper_files: list[Path]) -> ExtractedQuestionPaper
     """Drop-in for paper_ingest.extract_questions() on the google-vision path.
 
     Question papers are printed, so plain OCR text is a reliable input."""
-    pages = _ocr_pages(paper_files)
+    return questions_from_pages(client, _ocr_pages(paper_files))
+
+
+def questions_from_pages(client,
+                         pages: list[PageOCR]) -> ExtractedQuestionPaper:
     response = client.messages.parse(
         model=ANTHROPIC_MODEL,
         max_tokens=MAX_OUTPUT_TOKENS,

@@ -17,15 +17,16 @@ grading.
 
 import logging
 
-from . import config, metadata, paper_ingest, pipeline, storage, vision_ocr
+from . import config, metadata, paper_ingest, pipeline, storage
 from .models import Job, Paper
 
 logger = logging.getLogger(__name__)
 
 
 def _extract_metadata(client, first_page):
-    if config.OCR_PROVIDER == "google-vision":
-        return vision_ocr.extract_metadata(client, first_page)
+    reader = pipeline._OCR_MODULES.get(config.OCR_PROVIDER)
+    if reader is not None:
+        return reader.extract_metadata(client, first_page)
     return metadata.extract(client, first_page)
 
 
