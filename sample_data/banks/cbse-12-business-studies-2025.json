@@ -1,0 +1,645 @@
+{
+  "id": null,
+  "board": "CBSE",
+  "class_level": "12",
+  "subject": "Business Studies",
+  "year": 2025,
+  "title": "Business Studies — Class 12 (2025)",
+  "instructions": "34 compulsory questions, 80 marks, 3 hours. Q1-20 MCQ (1 mark), Q21-24 short answer (3 marks, 50-75 words), Q25-30 (4 marks, ~150 words), Q31-34 long answer (6 marks, ~200 words). Internal either/or choices in several questions. Year inferred from the P/Q/R/S series cohort - correct via registry edit if contributors say otherwise.",
+  "rubric_status": "ai_generated",
+  "questions": [
+    {
+      "id": "B01",
+      "section": null,
+      "topic": null,
+      "question_text": "MCQ: Case: Ritika compared brands, models and prices of washing machines across stores, asked questions freely and chose the best option in her budget. The consumer right exercised is (Right to be heard / assured / consumer education / seek redressal).",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B01-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B02",
+      "section": null,
+      "topic": null,
+      "question_text": "MCQ: Case: a consultant replaced workers' rule-of-thumb methods with one standard method developed through work-study, and productivity tripled. Identify the principle of scientific management applied (Science not rule of thumb / Harmony not discord / Cooperation not individualism / Development of each person).",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B02-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B03",
+      "section": null,
+      "topic": null,
+      "question_text": "MCQ: Statements on consumer protection: (I) consumers should form consumer associations; (II) the Consumer Protection Act provides a two-tier redressal machinery. Judge true/false combination.",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B03-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B04",
+      "section": null,
+      "topic": null,
+      "question_text": "MCQ: From the given picture, identify the element of the communication process (Feedback / Media / Noise / Decoding). (VI alternative: the element that converts the message into communication symbols - Encoding.)",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B04-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B05",
+      "section": null,
+      "topic": null,
+      "question_text": "MCQ: Assertion-Reason: (A) many enlightened firms have set up their own consumer service and grievance cells; (R) the consumer has a right to file a complaint and be heard. Choose the correct evaluation.",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B05-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B06",
+      "section": null,
+      "topic": null,
+      "question_text": "MCQ: Case: Sudha read the details on her hair-colour box, took out the tube and developer, and threw the box away. The level of packaging thrown away is (Primary / Transportation / Secondary / General).",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B06-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B07",
+      "section": null,
+      "topic": null,
+      "question_text": "MCQ: Assertion-Reason: (A) money market instruments are more liquid than capital market securities; (R) money market instruments are traded on stock exchanges. Choose the correct evaluation.",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B07-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B08",
+      "section": null,
+      "topic": null,
+      "question_text": "MCQ: Case: Ravi checked the hallmark on jewellery but asked for the weight on a slip of paper to avoid GST instead of a cash memo. Which consumer responsibility was not fulfilled?",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B08-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B09",
+      "section": null,
+      "topic": null,
+      "question_text": "MCQ: Case: a software team finished a Rs 12,00,000 six-month project on time but spent Rs 2,00,000 extra by outsourcing. The team is (Efficient and effective / Efficient not effective / Effective not efficient / Neither).",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B09-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B10",
+      "section": null,
+      "topic": null,
+      "question_text": "MCQ: Case: to launch heaters on time, top, production and operational-level managers all coordinated with their subordinates. The feature of coordination discussed is (deliberate function / responsibility of all managers / continuous process / ensures unity of action).",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B10-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B11",
+      "section": null,
+      "topic": null,
+      "question_text": "MCQ: 'Business environment keeps changing - technology, consumer preferences, new competitors.' The feature highlighted is (Totality of external forces / Complexity / Dynamic nature / Relativity).",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B11-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B12",
+      "section": null,
+      "topic": null,
+      "question_text": "MCQ: A position when a company cannot meet fixed financial charges (interest, preference dividend, repayment) is called (Trading on equity / Financial risk / Business risk / Operating risk).",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B12-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B13",
+      "section": null,
+      "topic": null,
+      "question_text": "MCQ: Identify the INCORRECT statement about the importance of planning (provides directions / eliminates uncertainty by looking ahead / facilitates decision making / promotes innovative ideas).",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B13-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B14",
+      "section": null,
+      "topic": null,
+      "question_text": "MCQ: Arrange the steps of the organising process in correct order (identification and division of work; departmentalisation; assignment of duties; establishing authority and reporting relationships).",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B14-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B15",
+      "section": null,
+      "topic": null,
+      "question_text": "MCQ: Identify the feature of planning stating that its purpose is to meet future events effectively (involves decision making / is futuristic / is a mental exercise / focuses on achieving objectives).",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B15-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B16",
+      "section": null,
+      "topic": null,
+      "question_text": "MCQ: Match Fayol's principles (Discipline, Unity of direction, Order, Unity of command) with their explanations and choose the correct combination.",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B16-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B17",
+      "section": null,
+      "topic": null,
+      "question_text": "MCQ: The step of the controlling process which reveals the deviation between actual performance and desired results is (setting standards / analysing deviations / corrective action / comparing actual performance with standards).",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B17-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B18",
+      "section": null,
+      "topic": null,
+      "question_text": "MCQ: 'Provisions of the Companies Act place restrictions on dividend payouts.' The factor affecting dividend decision is (Access to capital market / Contractual constraints / Legal constraints / Stock market reaction).",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B18-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B19",
+      "section": null,
+      "topic": null,
+      "question_text": "MCQ: Statements on controlling: (I) control should focus on key result areas; (II) only significant deviations beyond permissible limits should reach management. Judge true/false combination.",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B19-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B20",
+      "section": null,
+      "topic": null,
+      "question_text": "MCQ: Which of the following is NOT an organisational barrier to communication (Status / Organisational facilities / Lack of proper incentives / Rules and regulations)?",
+      "max_marks": 1.0,
+      "criteria": [
+        {
+          "id": "B20-a",
+          "description": "Correct option selected",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B21",
+      "section": null,
+      "topic": null,
+      "question_text": "Case: after an internal audit found pilferage, late-coming and weak performance, CEO Verma introduced surprise stock checks, automated inventory tracking, biometric attendance and advance performance standards, and results improved. (i) Identify and state the management function performed; (ii) state two points of its importance not in the para. (50-75 words)",
+      "max_marks": 3.0,
+      "criteria": [
+        {
+          "id": "B21-a",
+          "description": "Correctly identifies and states the function (controlling - comparing performance against standards and correcting deviations)",
+          "marks": 1.0
+        },
+        {
+          "id": "B21-b",
+          "description": "Two valid points of importance beyond the para (accomplishing goals, judging accuracy of standards, efficient use of resources, employee motivation, order and discipline, facilitating coordination), 1 mark each",
+          "marks": 2.0
+        }
+      ]
+    },
+    {
+      "id": "B22",
+      "section": null,
+      "topic": null,
+      "question_text": "Case: 'Soal Footwear Ltd.' diversifies from shoes into clothing, bags and accessories under one brand. (i) Suggest with reason the suitable organisational structure; (ii) state two advantages of it. (50-75 words)",
+      "max_marks": 3.0,
+      "criteria": [
+        {
+          "id": "B22-a",
+          "description": "Suggests divisional structure with a valid reason (multiple product lines)",
+          "marks": 1.0
+        },
+        {
+          "id": "B22-b",
+          "description": "Two advantages stated (product specialisation, accountability for divisional results, faster decision-making, growth/expansion ease), 1 mark each",
+          "marks": 2.0
+        }
+      ]
+    },
+    {
+      "id": "B23",
+      "section": null,
+      "topic": null,
+      "question_text": "Either (a) state any three measures to improve communication effectiveness, or (b) state any three features of leadership. (50-75 words)",
+      "max_marks": 3.0,
+      "criteria": [
+        {
+          "id": "B23-a",
+          "description": "First valid measure/feature",
+          "marks": 1.0
+        },
+        {
+          "id": "B23-b",
+          "description": "Second valid measure/feature",
+          "marks": 1.0
+        },
+        {
+          "id": "B23-c",
+          "description": "Third valid measure/feature",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B24",
+      "section": null,
+      "topic": null,
+      "question_text": "Either (a) state any three functions of middle-level management, or (b) state any three features of 'Demonetisation'. (50-75 words)",
+      "max_marks": 3.0,
+      "criteria": [
+        {
+          "id": "B24-a",
+          "description": "First valid function/feature",
+          "marks": 1.0
+        },
+        {
+          "id": "B24-b",
+          "description": "Second valid function/feature",
+          "marks": 1.0
+        },
+        {
+          "id": "B24-c",
+          "description": "Third valid function/feature",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B25",
+      "section": null,
+      "topic": null,
+      "question_text": "Case: marketing manager Arjun is drowning in routine work; the CEO advises letting subordinates take up routine tasks, aiding his time management and their recognition and initiative. (i) Identify the concept; (ii) state three points of its importance. (~150 words)",
+      "max_marks": 4.0,
+      "criteria": [
+        {
+          "id": "B25-a",
+          "description": "Correctly identifies delegation of authority",
+          "marks": 1.0
+        },
+        {
+          "id": "B25-b",
+          "description": "Three points of importance (effective management, employee development, motivation, growth, basis of management hierarchy, better coordination), 1 mark each",
+          "marks": 3.0
+        }
+      ]
+    },
+    {
+      "id": "B26",
+      "section": null,
+      "topic": null,
+      "question_text": "Either (a) state any four merits of the internal source of recruitment, or (b) state any four benefits of training to employees. (~150 words)",
+      "max_marks": 4.0,
+      "criteria": [
+        {
+          "id": "B26-a",
+          "description": "First valid merit/benefit",
+          "marks": 1.0
+        },
+        {
+          "id": "B26-b",
+          "description": "Second valid merit/benefit",
+          "marks": 1.0
+        },
+        {
+          "id": "B26-c",
+          "description": "Third valid merit/benefit",
+          "marks": 1.0
+        },
+        {
+          "id": "B26-d",
+          "description": "Fourth valid merit/benefit",
+          "marks": 1.0
+        }
+      ]
+    },
+    {
+      "id": "B27",
+      "section": null,
+      "topic": null,
+      "question_text": "Either (a) explain planning establishes standards for controlling, and planning reduces overlapping and wasteful activities (2+2); or (b) explain the types of plans: objective, and method (2+2). (~150 words)",
+      "max_marks": 4.0,
+      "criteria": [
+        {
+          "id": "B27-a",
+          "description": "First point/type explained correctly",
+          "marks": 2.0
+        },
+        {
+          "id": "B27-b",
+          "description": "Second point/type explained correctly",
+          "marks": 2.0
+        }
+      ]
+    },
+    {
+      "id": "B28",
+      "section": null,
+      "topic": null,
+      "question_text": "Case: Rajiv applies management principles in a software company and a supermarket chain, knowing applicability differs with context and that principles are not readymade solutions but broad guidelines. Identify and explain the two points on the nature of management principles. (~150 words)",
+      "max_marks": 4.0,
+      "criteria": [
+        {
+          "id": "B28-a",
+          "description": "Universal applicability identified and explained with reference to the case",
+          "marks": 2.0
+        },
+        {
+          "id": "B28-b",
+          "description": "Principles as general guidelines (not readymade solutions) identified and explained",
+          "marks": 2.0
+        }
+      ]
+    },
+    {
+      "id": "B29",
+      "section": null,
+      "topic": null,
+      "question_text": "Case: for the 'EcoPac' launch the CEO set goals and means (management of work), got work done through people (management of people), and put a production process in place (management of operations). Identify and explain the characteristic of management discussed. (~150 words)",
+      "max_marks": 4.0,
+      "criteria": [
+        {
+          "id": "B29-a",
+          "description": "Identifies management as multidimensional",
+          "marks": 1.0
+        },
+        {
+          "id": "B29-b",
+          "description": "Explains the three dimensions - management of work, of people, of operations - with reference to the case, 1 mark each",
+          "marks": 3.0
+        }
+      ]
+    },
+    {
+      "id": "B30",
+      "section": null,
+      "topic": null,
+      "question_text": "Case: 'Eco Care' conducted market research on customer needs, worked on product design, branded the bottle 'Eco-Sip', and packaged it in recyclable cardboard with printed details (labelling). State the four marketing functions carried out. (~150 words)",
+      "max_marks": 4.0,
+      "criteria": [
+        {
+          "id": "B30-a",
+          "description": "Each of the four functions correctly stated (gathering and analysing market information; product designing and development; branding; packaging and labelling), 1 mark each",
+          "marks": 4.0
+        }
+      ]
+    },
+    {
+      "id": "B31",
+      "section": null,
+      "topic": null,
+      "question_text": "Case: 'Koka Manufacturing Ltd.', a large-scale electronics manufacturer facing fast obsolescence, leases machinery instead of buying. Identify and explain four factors affecting its fixed capital requirements. (~200 words)",
+      "max_marks": 6.0,
+      "criteria": [
+        {
+          "id": "B31-a",
+          "description": "First factor identified and explained (e.g. nature/scale of business)",
+          "marks": 1.5
+        },
+        {
+          "id": "B31-b",
+          "description": "Second factor (technology upgradation/obsolescence)",
+          "marks": 1.5
+        },
+        {
+          "id": "B31-c",
+          "description": "Third factor (choice of technique / capital intensity)",
+          "marks": 1.5
+        },
+        {
+          "id": "B31-d",
+          "description": "Fourth factor (financing alternatives - leasing reduces fixed capital needs / growth prospects)",
+          "marks": 1.5
+        }
+      ]
+    },
+    {
+      "id": "B32",
+      "section": null,
+      "topic": null,
+      "question_text": "Either (a) explain the staffing-process steps: estimating manpower requirements, selection, placement and orientation; or (b) explain the non-financial incentives: status, organisational climate, job security. (~200 words)",
+      "max_marks": 6.0,
+      "criteria": [
+        {
+          "id": "B32-a",
+          "description": "First step/incentive explained correctly",
+          "marks": 2.0
+        },
+        {
+          "id": "B32-b",
+          "description": "Second step/incentive explained correctly",
+          "marks": 2.0
+        },
+        {
+          "id": "B32-c",
+          "description": "Third step/incentive explained correctly",
+          "marks": 2.0
+        }
+      ]
+    },
+    {
+      "id": "B33",
+      "section": null,
+      "topic": null,
+      "question_text": "Case: Aabha tells Ria the stock market offers easy disinvestment and reinvestment (liquidity), regulated legal-framework trading (safety of transactions), controlled speculation, and public education promoting wider share ownership. Quoting lines, identify and explain the four functions of the stock exchange highlighted. (~200 words)",
+      "max_marks": 6.0,
+      "criteria": [
+        {
+          "id": "B33-a",
+          "description": "Providing liquidity and marketability identified with quote and explained",
+          "marks": 1.5
+        },
+        {
+          "id": "B33-b",
+          "description": "Ensuring safety of transactions identified with quote and explained",
+          "marks": 1.5
+        },
+        {
+          "id": "B33-c",
+          "description": "Providing scope for healthy speculation identified with quote and explained",
+          "marks": 1.5
+        },
+        {
+          "id": "B33-d",
+          "description": "Spreading the equity cult / promoting share ownership identified with quote and explained",
+          "marks": 1.5
+        }
+      ]
+    },
+    {
+      "id": "B34",
+      "section": null,
+      "topic": null,
+      "question_text": "Either (a) explain the marketing-mix elements: product, price, promotion; or (b) explain the physical-distribution components: order processing, warehousing, inventory control. (~200 words)",
+      "max_marks": 6.0,
+      "criteria": [
+        {
+          "id": "B34-a",
+          "description": "First element/component explained correctly",
+          "marks": 2.0
+        },
+        {
+          "id": "B34-b",
+          "description": "Second element/component explained correctly",
+          "marks": 2.0
+        },
+        {
+          "id": "B34-c",
+          "description": "Third element/component explained correctly",
+          "marks": 2.0
+        }
+      ]
+    }
+  ],
+  "variants": [
+    {
+      "paper_code": "66/1/1",
+      "question_map": {
+        "1": "B01",
+        "2": "B02",
+        "3": "B03",
+        "4": "B04",
+        "5": "B05",
+        "6": "B06",
+        "7": "B07",
+        "8": "B08",
+        "9": "B09",
+        "10": "B10",
+        "11": "B11",
+        "12": "B12",
+        "13": "B13",
+        "14": "B14",
+        "15": "B15",
+        "16": "B16",
+        "17": "B17",
+        "18": "B18",
+        "19": "B19",
+        "20": "B20",
+        "21": "B21",
+        "22": "B22",
+        "23": "B23",
+        "24": "B24",
+        "25": "B25",
+        "26": "B26",
+        "27": "B27",
+        "28": "B28",
+        "29": "B29",
+        "30": "B30",
+        "31": "B31",
+        "32": "B32",
+        "33": "B33",
+        "34": "B34"
+      }
+    }
+  ],
+  "created_at": "2026-08-14T19:08:55.559080+00:00"
+}
