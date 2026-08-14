@@ -1,8 +1,43 @@
-# Answer Sheet Evaluator
+# 📝 Answer Sheet Evaluator — AI exam grading with receipts
 
-Upload scanned answer sheets → OCR them into a faithful transcript → evaluate every answer against a marking scheme, with verbatim evidence, per-criterion rationale, confidence flags, and a human-override workflow.
+**Upload a scanned answer sheet → get it marked in minutes, with the reason for every mark.**
+OCR reads the handwriting, an LLM grades each answer against a real marking scheme
+(CBSE-style or your own rubric), and the result is drawn back onto the student's own
+sheet — color-coded boxes, per-criterion tags, and verbatim quotes as evidence.
 
-The goal is grading that is **cheaper** than fully manual marking, **more consistent** than rushed human marking, and **fully transparent** — every mark can be traced to a rubric criterion and a quote from the student's own answer.
+![tests](https://github.com/YashToOp/Shawty-naughty/actions/workflows/tests.yml/badge.svg)
+![python](https://img.shields.io/badge/python-3.11+-blue)
+![license](https://img.shields.io/badge/license-MIT-green)
+![PRs](https://img.shields.io/badge/PRs-welcome-orange)
+
+<p align="center">
+  <img src="docs/images/annotated-sheet.png" width="46%" alt="Annotated answer sheet: highlight washes, grade cards, criterion dots">
+  <img src="docs/images/summary-card.png" width="46%" alt="Result summary: score donut, per-question mark bars, lost criteria with rationales">
+</p>
+
+## Why
+
+Board-exam evaluation (CBSE, state boards, UPSC-style) is slow, expensive, and opaque:
+an evaluator marks 20–25 answer books a day, students get a single number with **zero
+feedback**, and re-evaluation costs money per question. This project attacks all three:
+
+| | Human evaluation today | This system |
+|---|---|---|
+| Cost per paper | ₹20–30 paid per copy (₹35–50 loaded) | **~₹7–15 all-in** on the recommended stack |
+| Turnaround | weeks at board scale | minutes |
+| Feedback | one total, no reasons | per-criterion marks, verbatim evidence, annotated sheet |
+| Consistency | varies by evaluator and mood | same rubric + disposition every time; arithmetic in code |
+| Audit trail | none | transcript, evaluation, and overrides all stored side by side |
+
+**Trust is the design center, not an afterthought:**
+- Marks are proposed by the model but **clamped and recomputed in code** — criterion
+  marks are bounded by the rubric, totals are sums, and any correction flags the
+  question for human review.
+- The transcriber must never guess: illegible writing becomes `[illegible]` and forces
+  a review flag, not a silent wrong grade.
+- Marking **strictness is a dial** (board-lenient / balanced / competitive-strict),
+  disclosed on every result; identity-blind throughout.
+- AI-written marking schemes are stamped **provisional until an examiner verifies** them.
 
 Three doors share one registry and grading pipeline:
 
@@ -249,6 +284,13 @@ tests/                unit tests with a mocked Anthropic client
 sample_data/          example rubric + seeded papers (CBSE 12 English Core 2026)
 ```
 
+## Contributing
+
+The fastest way to help is **coverage**: the public page at `/` takes a question
+paper (photos or PDF) and ingests it into the shared bank — schemes are written
+once and reused by every student with that paper. Code PRs welcome too; run
+`pytest` (everything is mocked, no API key needed) before opening one.
+
 ## Roadmap
 
 - Batch grading of many sheets against one rubric (Message Batches API, −50% token cost)
@@ -257,3 +299,9 @@ sample_data/          example rubric + seeded papers (CBSE 12 English Core 2026)
 - Per-class analytics: criterion-level performance across a cohort
 - Rubric builder UI (currently JSON)
 - Authentication and multi-examiner roles
+
+## License
+
+MIT — see [LICENSE](LICENSE). Question-paper content ingested into banks is stored
+as condensed descriptions with original marking criteria, never as facsimiles of
+board papers.
