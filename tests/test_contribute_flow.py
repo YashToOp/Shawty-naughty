@@ -141,5 +141,6 @@ def test_contribution_validation():
 
 def test_public_pages_routed():
     with TestClient(app) as http:
-        assert "Contribute" in http.get("/").text  # coverage page is the front door
+        assert "Reliable checking" in http.get("/").text     # landing story
+        assert "Contribute" in http.get("/contribute").text  # coverage page
         assert "answer sheet" in http.get("/grade").text.lower()

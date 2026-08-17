@@ -39,9 +39,11 @@ feedback**, and re-evaluation costs money per question. This project attacks all
   disclosed on every result; identity-blind throughout.
 - AI-written marking schemes are stamped **provisional until an examiner verifies** them.
 
-Three doors share one registry and grading pipeline:
+The landing page (`/`) is a scroll-driven story of the pipeline — the page, the ink,
+the scan, the recognition doubt, the rubric, the marked return — ending at the doors
+below. Three doors share one registry and grading pipeline:
 
-- **Public paper contribution** (`/`) — the front door during the coverage phase. Anyone uploads a question paper with its board/class/subject/year; the platform extracts every question, dedupes against the subject-year bank, writes marking schemes only for genuinely new questions (on the server's own provider keys — contributors need no account), and registers the set. The page shows the extracted questions + schemes and live coverage.
+- **Public paper contribution** (`/contribute`) — the workhorse during the coverage phase. Anyone uploads a question paper with its board/class/subject/year; the platform extracts every question, dedupes against the subject-year bank, writes marking schemes only for genuinely new questions (on the server's own provider keys — contributors need no account), and registers the set. The page shows the extracted questions + schemes and live coverage.
 - **Student self-service** (`/grade`) — a student uploads their own sheet and gets a graded, annotated result. The system reads the front page for exam metadata, finds the question paper in the registry, and writes the marking scheme itself when no institutional guidelines exist. Ships pre-seeded with a **CBSE Class 12 English Core 2026** paper.
 - **Examiner tools** (`/examiner`) — an examiner picks a rubric, uploads sheets, reviews flagged questions, and applies audited overrides.
 

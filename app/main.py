@@ -498,8 +498,14 @@ def _refresh_annotations(job_id: str, report) -> None:
 # ---------------------------------------------------------------------------
 
 @app.get("/", include_in_schema=False)
+def landing_page():
+    """Scroll-driven story of the pipeline; the doors are at the end of it."""
+    return FileResponse(STATIC_DIR / "landing.html")
+
+
+@app.get("/contribute", include_in_schema=False)
 def contribute_page():
-    """Public front door during the coverage phase: contribute papers."""
+    """Public paper contribution: the coverage-phase workhorse."""
     return FileResponse(STATIC_DIR / "contribute.html")
 
 
