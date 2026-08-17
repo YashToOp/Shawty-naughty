@@ -408,7 +408,9 @@ def delete_submission(job_id: str):
 
 @app.get("/api/submissions")
 def list_submissions():
-    return storage.list_jobs()
+    # Paper contributions are jobs too, but they aren't gradable submissions —
+    # the examiner's table should only show sheets that produce a report.
+    return [j for j in storage.list_jobs() if j.kind != "ingest"]
 
 
 @app.get("/api/submissions/{job_id}")
